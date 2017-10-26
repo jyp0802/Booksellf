@@ -17,6 +17,7 @@ html, body {
 }
 
 .search-box {
-	vertical-align: middle;
+	/*vertical-align: middle;*/
 	padding-top: 10px;
+	text-align: center;
 }
