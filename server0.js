@@ -21,6 +21,10 @@ app.get('/wall', function(req, res) {
 	res.render('wall_e.html');
 });
 
+app.get('/login', function(req, res) {
+	res.render('login.html');
+})
+
 /* 서버를 port 8081로 실행 */
 var server = app.listen(8080, function() {
 	console.log("Server running at http://127.0.0.1:8080");
