@@ -1,12 +1,23 @@
 html, body {
 	background-color: #f4f4f4;
+	margin: 0px 0px 0px 0px;
+}
+
+.nav-bar {
+	display: flex;
 }
 
 .theLogo {
-	display: inline-block;
+	/*display: inline-block;*/
  	/*vertical-align: middle;*/
 	width: 170px;
-	margin: 10px 30px 10px 30px;
+	margin: 10px 30px 10px 60px;
+}
+
+.topright {
+	text-align: right;
+	margin: 35px 60px 5px 60px;
+
 }
 
 .top-menu {
@@ -17,7 +28,17 @@ html, body {
 }
 
 .search-box {
-	/*vertical-align: middle;*/
-	padding-top: 10px;
 	text-align: center;
+}
+
+.sidebar {
+	background-color: #dedede;
+	width: 200px;
+	height: 400px;
+	margin: 0px 10px 0px 50px;
+	padding-top: 20px;
+}
+
+.lst {
+	margin-top: 0px;
 }
