@@ -2,28 +2,44 @@
 <html>
 <head>
 	<title>Log in Page</title>
-	<h3>Login page</h3>
+	<link rel="stylesheet" type="text/css" href="login.css">
 </head>
 <body>
-	<div class="login">
-		<p>ID</p>
-		<input type="text" name="username">
-		<p>Password</p>
-		<input type="text" name="pw">
-		<br>
-		<button>Login</button>
+	<div align="center">
+			<a href="/login"><img src="BooksellfLogoWhite.png" class="WhiteLogo"></a>
 	</div>
-	<div class="signin">
-		<p>type Username</p>
-		<input type="text" name="s-username">
-		<p>type password</p>
-		<input type="text" name="s-pw">
-		<p>check password</p>
-		<input type="text" name="s-pwcheck">
-		<p>type your kaist email</p>
-		<input type="text" name="email"> @kaist.ac.kr
-		<br>
-		<button>Create ID</button>
+	<div class="outerbox">	
+		<div class="middlebox">
+			<p1>Log In</p1>
+			<div class="innerbox">
+				<form action="/login_post" method="post">
+					<p>ID</p>
+					<input type="text" name="email">
+					<p>Password</p>
+					<input type="password" name="pw">
+					<br>
+					<input type="submit" class="bluebutton" value="Login">
+				</form>
+			</div>
+		</div>
+		<div class="middlebox">
+			<p1>Sign Up</p1>
+			<div class="innerbox">
+				<form action="/register_post" method="post">
+					<p>type Username</p>
+					<input type="text" name="reg_name">
+					<p>type password</p>
+					<input type="text" name="reg_pw">
+					<p>check password</p>
+					<input type="text" name="reg_pwcheck">
+					<p>type your kaist email</p>
+					<input type="text" name="reg_email"> @kaist.ac.kr
+					<br>
+					<input type="submit" class="bluebutton" value="Create ID">
+				</form>
+			</div>
+		</div>
+		</div>
 	</div>
 </body>
 </html>
