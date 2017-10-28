@@ -9,7 +9,7 @@ html, body {
 }
 
 .theLogo {
-	width: 170px;
+	width: 200px;
 	margin: 10px 60px 10px 60px;
 }
 
@@ -29,11 +29,16 @@ html, body {
 	width: 100%;
 	background-color: #4577e5;
 	height: 40px;
-	vertical-align: middle;
 }
 
 .search-box {
 	text-align: center;
+}
+
+.search-input {
+	width: 50%;
+	height: 15px;
+	margin-top: 13px;
 }
 
 .sidebar {
