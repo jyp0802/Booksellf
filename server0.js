@@ -1,6 +1,15 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const user = {
+	name: 'user_name',
+	email: 'user_email',
+	password: 'user_pw',
+	id: 1
+}
+
 var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host	: "localhost",
@@ -10,6 +19,8 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
+
+
 
 app.use(express.static('static'));
 app.use(express.static(__dirname + '/public'));
@@ -21,26 +32,30 @@ app.engine('html', require('ejs').renderFile);
 
 /* http://127.0.0.1:8081/에 대한 요청 처리 */
 app.get('/', function (req, res) {
-	res.render('login.html')
+	res.render('login.html');
+});
+/* http://127.0.0.1:8081/home에 대한 요청 처리 */
+app.get('/home', function (req, res) {
+	res.render('index.html');
 });
 
-/* http://127.0.0.8081/up 에 대한 요청 처리 */
+/* http://127.0.0.8081/mypage 에 대한 요청 처리 */
 app.get('/mypage', function(req, res) {
 	res.render('mypage.html');
 });
 
-/* http://127.0.0.8081/wall 에 대한 요청 처리 */
+/* http://127.0.0.8081/reserve 에 대한 요청 처리 */
 app.get('/reserve', function(req, res) {
 	res.render('reserve.html');
 });
 
 app.get('/upload', function(req, res) {
 	res.render('upload.html');
-})
+});
 
 app.get('/login', function(req, res) {
 	res.render('login.html');
-})
+});
 
 app.post('/register_post', function(req, res) {
 	var name = req.body.reg_name;
