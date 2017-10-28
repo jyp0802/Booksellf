@@ -1,5 +1,5 @@
 html, body {
-	background-color: #f4f4f4;
+	background-color: #fafafa;
 	margin: 0px 0px 0px 0px;
 }
 
@@ -42,13 +42,6 @@ html, body {
 }
 
 .sidebar {
-	background-color: #dedede;
 	width: 200px;
-	height: 400px;
 	margin: 0px 10px 0px 50px;
-	padding-top: 20px;
-}
-
-.lst {
-	margin-top: 0px;
 }
