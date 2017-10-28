@@ -3,17 +3,18 @@
 <head>
 	<title>Log in Page</title>
 	<link rel="stylesheet" type="text/css" href="login.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 </head>
 <body>
 	<div align="center">
-			<a href="/login"><img src="BooksellfLogoWhite.png" class="WhiteLogo"></a>
+			<a href="/"><img src="BooksellfLogoWhite.png" class="WhiteLogo"></a>
 	</div>
 	<div class="outerbox">	
 		<div class="middlebox">
 			<p1>Log In</p1>
 			<div class="innerbox">
 				<form action="/login_post" method="post">
-					<p>ID</p>
+					<p>KAIST email</p>
 					<input type="text" name="email">
 					<p>Password</p>
 					<input type="password" name="pw">
@@ -26,15 +27,14 @@
 			<p1>Sign Up</p1>
 			<div class="innerbox">
 				<form action="/register_post" method="post">
-					<p>type Username</p>
+					<p>Name</p>
 					<input type="text" name="reg_name">
-					<p>type password</p>
+					<p>Password</p>
 					<input type="text" name="reg_pw">
-					<p>check password</p>
+					<p>Check password</p>
 					<input type="text" name="reg_pwcheck">
-					<p>type your kaist email</p>
-					<input type="text" name="reg_email"> @kaist.ac.kr
-					<br>
+					<p>KAIST email</p>
+					<input type="text" name="reg_email">
 					<input type="submit" class="bluebutton" value="Create ID">
 				</form>
 			</div>

@@ -16,11 +16,13 @@ html, body {
 	overflow: hidden;
 	margin: auto;
 	border-radius: 6px;
-	padding: 15px 30px 30px 30px;
+	padding: 30px;
 }
 
 .middlebox {
-	font: 15px Calibri, sans-serif;
+	/*font: 15px Calibri, sans-serif;*/
+	font-family: 'Roboto';
+	font-size: 15px;
 	text-align: center;
 	color: #666666;
 	margin-bottom: 10px;
@@ -32,33 +34,36 @@ html, body {
 .innerbox {
 	overflow: hidden;
 	width:300px;
-	margin: auto;
+	margin: 10px auto;
 	text-align: left;
 }
+
 
 .bluebutton {
 	background-color: #4577e5;
 	color: white;
-	padding: 8px 77px;
-	margin-left: 15%;
+	padding: 8px 0px 8px 0px;
+	margin-top: 45px;
 	border: none;
 	border-radius: 1px;
 }
 
 p1 {
-	font-size: 15px;
-	font-weight: bolder;
+	font-size: 18px;
+	/*font-weight: bolder;*/
+	color: #666666;
 }
 
 p {
 	font-size: 13px;
 	margin-bottom: 1px;
 	margin-left: 15%;
+	color: #666666;
 }
 
 input {
 	width: 200px;
-	padding: 5px 5px;
+	padding: 2px 2px;
 	border-color: #AAAAAA;
 	border-width: 0.8px;
 	border-radius: 1px;
