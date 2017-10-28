@@ -1,0 +1,38 @@
+.bigbox {
+	/*border-color: #AAAAAA;*/
+	border: 1px solid #CCCCCC;
+	width: 800px;
+	margin: 30px auto;
+	display: flex;
+}
+
+.divTable {
+	display: table;
+	width: 90%;
+	margin: auto;
+}
+
+.headRow {
+	display: table-row;
+}
+
+.divRow {
+	display: table-row;
+}
+
+.divCell {
+	display: table-cell;
+	border: 1px solid #DDDDDD;
+}
+
+.col1 {
+	width: 20%;
+}
+
+.col2 {
+	width: 30%;
+}
+
+.col3 {
+	width: 40%;
+}
