@@ -13,14 +13,18 @@ app.get('/', function (req, res) {
 });
 
 /* http://127.0.0.8081/up 에 대한 요청 처리 */
-app.get('/up', function(req, res) {
-	res.render('up.html');
+app.get('/mypage', function(req, res) {
+	res.render('mypage.html');
 });
 
 /* http://127.0.0.8081/wall 에 대한 요청 처리 */
-app.get('/wall', function(req, res) {
-	res.render('wall_e.html');
+app.get('/reserve', function(req, res) {
+	res.render('reserve.html');
 });
+
+app.get('/upload', function(req, res) {
+	res.render('upload.html');
+})
 
 app.get('/login', function(req, res) {
 	res.render('login.html');
