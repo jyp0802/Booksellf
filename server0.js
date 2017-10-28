@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
 	host	: "localhost",
 	user	: "root",
 	password	: "rootpassword",
-	database	: "testing"
+	database	: "booksellf_db"
 });
 
 connection.connect();
@@ -21,7 +21,7 @@ app.engine('html', require('ejs').renderFile);
 
 /* http://127.0.0.1:8081/에 대한 요청 처리 */
 app.get('/', function (req, res) {
-	res.render('index.html')
+	res.render('login.html')
 });
 
 /* http://127.0.0.8081/up 에 대한 요청 처리 */
@@ -47,11 +47,17 @@ app.post('/register_post', function(req, res) {
 	var pw = req.body.reg_pw;
 	var pwcheck = req.body.reg_pwcheck;
 	var email = req.body.reg_email;
-	connection.query("INSERT into users values(?,?,?)", [email,name,pw], function(err, rows, fields) {
+	if (pw==pwcheck) {
+		connection.query("INSERT into Users (email, name, password) values(?,?,?)", [email,name,pw], function(err, rows, fields) {
 		if (err) throw err;
 		res.render('index.html');
-	})
+		})
+	}
+	else {
+		res.send("<h1>Password is not the same</h1>"); 	
+	}
 })
+
 
 /* 서버를 port 8081로 실행 */
 var server = app.listen(8080, function() {
