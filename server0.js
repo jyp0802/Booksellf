@@ -58,6 +58,19 @@ app.post('/register_post', function(req, res) {
 	}
 })
 
+app.post('/login_post', function(req, res) {
+	var email = req.body.email;
+	var pw = req.body.pw;
+	connection.query("SELECT password from Users where email = ?", [email], function(err, rows, fields) {
+		if (err) throw err;
+		if (rows.length == 0)
+			res.send("<h1>User does not exist!</h1>");
+		else if (rows[0].password == pw)
+			res.render('index.html');
+		else
+			res.send("<h1>Wrong password!</h1>");
+	})
+})
 
 /* 서버를 port 8081로 실행 */
 var server = app.listen(8080, function() {
