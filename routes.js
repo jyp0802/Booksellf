@@ -1,0 +1,52 @@
+// app/routes.js
+module.exports = function(app, passport) {
+
+	app.get('/', isLoggedIn, function(req, res) {
+		res.render('index.html');
+	});
+
+	app.get('/login', function(req, res) {
+		res.render('login.html');
+	});
+
+	app.post('/login', passport.authenticate('local-login', {
+            successRedirect : '/', // redirect to the secure profile section
+            failureRedirect : '/', // redirect back to the signup page if there is an error
+		})
+	);
+
+
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect : '/', // redirect to the secure profile section
+		failureRedirect : '/', // redirect back to the signup page if there is an error
+		})
+	);
+
+	app.get('/logout', function(req, res) {
+		req.logout();
+		res.redirect('/');
+	});
+
+	app.get('/mypage', isLoggedIn, function(req, res) {
+		res.render('mypage.ejs', {user : req.user});
+	});
+
+	app.get('/reserve', function(req, res) {
+		res.render('reserve.html');
+	});
+
+	app.get('/upload', function(req, res) {
+		res.render('upload.html');
+	});
+};
+
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
+
+	// if user is authenticated in the session, carry on
+	if (req.isAuthenticated())
+		return next();
+
+	// if they aren't redirect them to the home page
+	res.redirect('/login');
+}
