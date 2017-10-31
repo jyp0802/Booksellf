@@ -1,4 +1,23 @@
 // app/routes.js
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'jyp0802@gmail.com',
+    pass: 'Jyp3825!goo'
+  }
+});
+
+var mailOptions = {
+  from: 'jyp0802@gmail.com',
+  to: '',
+  subject: 'Email verification for Booksellf [Do Not Reply]',
+  text: 'Your KAIST email verfication code is '
+};
+
+
+
 module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
@@ -38,6 +57,12 @@ module.exports = function(app, passport) {
 	app.get('/upload', function(req, res) {
 		res.render('upload.html');
 	});
+
+	app.get('/verify_email', function(req, res) {
+		console.log("hello");
+		res.redirect('/');
+	});
+
 };
 
 // route middleware to make sure

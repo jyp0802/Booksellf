@@ -38,6 +38,13 @@ html, body {
 	text-align: left;
 }
 
+.innerbox a {
+	font-size: 12px;
+	margin-top: 2px;
+	float: right;
+	margin-right: 50px;
+	color: #888888;
+}
 
 .bluebutton {
 	background-color: #4577e5;
