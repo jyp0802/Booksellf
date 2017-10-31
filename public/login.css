@@ -63,6 +63,21 @@ html, body {
 	color: #993333;
 }
 
+.verify_email {
+	margin-right: 50px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	float: right;
+}
+
+.verification {
+	margin-top: 4px;
+	font-size: 12px;
+	margin-bottom: 1px;
+	margin-left: 15%;
+	color: #339955;
+}
+
 p1 {
 	font-size: 18px;
 	/*font-weight: bolder;*/

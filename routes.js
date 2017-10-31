@@ -2,18 +2,18 @@
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'jyp0802@gmail.com',
-    pass: 'Jyp3825!goo'
-  }
+	service: 'hotmail',
+	auth: {
+		user: 'jyp0802@hotmail.com',
+		pass: 'Jyp3825!hot'
+	}
 });
 
 var mailOptions = {
-  from: 'jyp0802@gmail.com',
-  to: '',
-  subject: 'Email verification for Booksellf [Do Not Reply]',
-  text: 'Your KAIST email verfication code is '
+	from: 'jyp0802@hotmail.com',
+	to: '',
+	subject: 'Email verification for Booksellf [Do Not Reply]',
+	text: 'Your KAIST email verfication code is ['
 };
 
 
@@ -35,8 +35,8 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/', // redirect to the secure profile section
-            failureRedirect : '/', // redirect back to the signup page if there is an error
+						successRedirect : '/', // redirect to the secure profile section
+						failureRedirect : '/', // redirect back to the signup page if there is an error
 		})
 	);
 
@@ -64,9 +64,24 @@ module.exports = function(app, passport) {
 		res.render('upload.html');
 	});
 
-	app.get('/verify_email', function(req, res) {
-		console.log("hello");
-		res.redirect('/');
+	app.post('/verify_email', function(req, res) {
+		var recipient = req.body.email + "@kaist.ac.kr";
+		var code = Math.floor((Math.random() * 999999) + 100000);
+
+		var mail = mailOptions;
+		mail.to = recipient;
+		mail.text += code + ']';
+
+		transporter.sendMail(mailOptions, function(error, info){
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
+
+		var responseMsg = {'status' : 'ok', 'email' : recipient};
+		res.json(responseMsg);
 	});
 
 };

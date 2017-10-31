@@ -36,12 +36,37 @@
 					<section class="messages"><%= signup_message %></section>
 					<p>KAIST email</p>
 					<input type="text" name="reg_email" placeholder="@kaist.ac.kr" required="required">
-					<br>
-					<a href="/verify_email">Verify email</a>
+					<div class="verification"></div>
 					<p>Verification number</p>
-					<input type="text" name="reg_check" required="required">
+					<input type="text" name="reg_check">
 					<input type="submit" class="bluebutton" value="Create ID">
 				</form>
+				<br>
+				<button class="verify_email">Send verification code</button>
+
+				<script>
+					document.querySelector('.verify_email').addEventListener('click', function() {
+						var email = document.getElementsByName('reg_email')[0].value;
+						sendAjax("http://localhost:8080/verify_email", email);
+					})
+
+					function sendAjax (url, data) {
+						var data = {'email' : data};
+						data = JSON.stringify(data);
+
+						var xhr = new XMLHttpRequest();
+						xhr.open('POST', url);
+						xhr.setRequestHeader('Content-Type', "application/JSON");
+						xhr.send(data);
+
+						xhr.addEventListener('load', function() {
+							var result = JSON.parse(xhr.responseText);
+							if (result.status !== "ok") return;
+							document.querySelector('.verification').innerHTML = "verification code sent to " + result.email;
+						})
+					}
+
+				</script>
 			</div>
 		</div>
 		</div>
