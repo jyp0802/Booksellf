@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Log in Page</title>
+	<link rel="stylesheet" type="text/css" href="login.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+</head>
+<body>
+	<div align="center">
+			<a href="/"><img src="BooksellfLogoWhite.png" class="WhiteLogo"></a>
+	</div>
+	<div class="outerbox">	
+		<div class="middlebox">
+			<p1>Log In</p1>
+			<div class="innerbox">
+				<form action="/login" method="post">
+					<p>KAIST email</p>
+					<input type="text" name="email" placeholder="@kaist.ac.kr" required="required">
+					<section class="messages"><%= login_message %></section>
+					<p>Password</p>
+					<input type="password" name="pw" required="required">
+					<input type="submit" class="bluebutton" value="Login">
+				</form>
+			</div>
+		</div>
+		<div class="middlebox">
+			<p1>Sign Up</p1>
+			<div class="innerbox">
+				<form action="/signup" method="post">
+					<p>Name</p>
+					<input type="text" name="reg_name" required="required">
+					<p>Password</p>
+					<input type="password" name="reg_pw" required="required">
+					<p>Check password</p>
+					<input type="password" name="reg_pwcheck" required="required">
+					<section class="messages"><%= signup_message %></section>
+					<p>KAIST email</p>
+					<input type="text" name="reg_email" placeholder="@kaist.ac.kr" required="required">
+					<br>
+					<a href="/verify_email">Verify email</a>
+					<p>Verification number</p>
+					<input type="text" name="reg_check" required="required">
+					<input type="submit" class="bluebutton" value="Create ID">
+				</form>
+			</div>
+		</div>
+		</div>
+	</div>
+</body>
+</html>

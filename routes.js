@@ -25,7 +25,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/login', function(req, res) {
-		res.render('login.html');
+		var l_msg;
+		var s_msg;
+		var loginMessage = req.flash('loginMessage');
+		var signupMessage = req.flash('signupMessage');
+		if (loginMessage) l_msg = loginMessage;
+		if (signupMessage) s_msg = signupMessage;
+		res.render('login.ejs', {login_message : l_msg, signup_message : s_msg});
 	});
 
 	app.post('/login', passport.authenticate('local-login', {

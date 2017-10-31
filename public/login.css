@@ -55,6 +55,14 @@ html, body {
 	border-radius: 1px;
 }
 
+.messages {
+	margin-top: 4px;
+	font-size: 16px;
+	margin-bottom: 1px;
+	margin-left: 15%;
+	color: #993333;
+}
+
 p1 {
 	font-size: 18px;
 	/*font-weight: bolder;*/
