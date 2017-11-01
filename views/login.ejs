@@ -26,7 +26,7 @@
 		<div class="middlebox">
 			<p1>Sign Up</p1>
 			<div class="innerbox">
-				<form action="/signup" method="post">
+				<form id="registerform" class="registerform" action="/signup" method="post">
 					<p>Name</p>
 					<input type="text" name="reg_name" required="required">
 					<p>Password</p>
@@ -36,16 +36,36 @@
 					<section class="messages"><%= signup_message %></section>
 					<p>KAIST email</p>
 					<input type="text" name="reg_email" placeholder="@kaist.ac.kr" required="required">
+					<input type="button" id="verify_email_button" class="verify_email_button" value="Send verification code">
 					<div class="verification"></div>
 					<p>Verification number</p>
-					<input type="text" name="reg_check">
-					<input type="submit" class="bluebutton" value="Create ID">
+					<input type="number" name="reg_check">
+					<input type="button" id="submit_button" class="bluebutton" value="Create ID">
 				</form>
-				<br>
-				<button class="verify_email">Send verification code</button>
 
 				<script>
-					document.querySelector('.verify_email').addEventListener('click', function() {
+					document.querySelector('#submit_button').addEventListener('click', function() {
+						var f = document.getElementById('registerform');
+						var c = document.getElementsByName('reg_check')[0].value;
+						if(!f.checkValidity()) {
+					    window.alert("Please fill in all fields");
+					    return;
+						}
+						if(!c) {
+					    window.alert("Please fill in the verification code");
+					    return;
+						}
+						else {
+							f.submit();
+					  }
+					})
+					
+					document.querySelector('.verify_email_button').addEventListener('click', function() {
+						var f = document.getElementById('registerform');
+						if(!f.checkValidity()) {
+					    window.alert("Please fill in all fields");
+					    return;
+					  }
 						var email = document.getElementsByName('reg_email')[0].value;
 						sendAjax("http://localhost:8080/verify_email", email);
 					})
@@ -62,7 +82,8 @@
 						xhr.addEventListener('load', function() {
 							var result = JSON.parse(xhr.responseText);
 							if (result.status !== "ok") return;
-							document.querySelector('.verification').innerHTML = "verification code sent to " + result.email;
+
+							document.querySelector('.verification').innerHTML = "Verification code sent to " + result.email;
 						})
 					}
 
