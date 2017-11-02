@@ -19,6 +19,8 @@ var connection = mysql.createConnection(dbconfig.connection);
 
 connection.query('USE ' + dbconfig.database);
 
+var books = require('google-books-search');
+
 module.exports = function(app, passport) {
 
 	app.get('/', /*isLoggedIn,*/ function(req, res) {
@@ -56,6 +58,10 @@ module.exports = function(app, passport) {
 
 	app.get('/upload', /*isLoggedIn,*/ function(req, res) {
 		res.render('upload.ejs');
+	});
+
+	app.post('/upload_books', function(req, res) {
+
 	});
 
 	app.post('/verify_email', function(req, res) {
