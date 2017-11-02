@@ -62,3 +62,8 @@ html, body {
 	display: inline-block;
 	margin: 5px 5px 5px 5px;
 }
+
+.book_image {
+	width: 200px;
+	height: 200px;
+}
