@@ -1,0 +1,9 @@
+.outerbox {
+	font-family: 'Nanum Gothic', serif;
+	/*border-color: #AAAAAA;*/
+	border: 1px solid #CCCCCC;
+	width: 900px;
+	margin: 30px auto;
+	font-size: 15px;
+	padding: 30px 0px;
+}
