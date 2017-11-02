@@ -55,7 +55,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/upload', /*isLoggedIn,*/ function(req, res) {
-		res.render('upload.html');
+		res.render('upload.ejs');
 	});
 
 	app.post('/verify_email', function(req, res) {
