@@ -21,7 +21,7 @@ connection.query('USE ' + dbconfig.database);
 
 module.exports = function(app, passport) {
 
-	app.get('/', isLoggedIn, function(req, res) {
+	app.get('/', /*isLoggedIn,*/ function(req, res) {
 		res.render('index.ejs');
 	});
 
@@ -44,7 +44,7 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
-	app.get('/mypage', isLoggedIn, function(req, res) {
+	app.get('/mypage', /*isLoggedIn,*/ function(req, res) {
 		res.render('mypage.ejs', {user : req.user});
 	});
 
@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', isLoggedIn, function(req, res) {
+	app.get('/upload', /*isLoggedIn,*/ function(req, res) {
 		res.render('upload.html');
 	});
 
