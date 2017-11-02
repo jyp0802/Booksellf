@@ -34,13 +34,13 @@
 			<div class="headRow">도서 등록하기</div>
 			<div class="divRow">
 				<div class="divCell col1">ISBN</div>
-				<div class="divCell col2"><input type="text" name="isbn"></div>
+				<div class="divCell col2"><input type="text" name="isbn" required="required"></div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">분류</div>
 				<div class="divCell col2">
-					<select value="department">
-						<option>학과</option>
+					<select name="department" required="required">
+						<option>없음</option>
 						<option>물리학과</option>
 						<option>수리과학과</option>
 						<option>화학과</option>
@@ -57,7 +57,7 @@
 						<option>기계공학과</option>
 						<option>항공우주공학과</option>
 					</select>
-					<select value="subject">
+					<select name="subject" required="required">
 						<option>과목</option>
 						<option>1</option>
 						<option>2</option>
@@ -77,29 +77,35 @@
 				<div class="divCell col1">상태</div>
 				<div class="divCell col2">
 					<div class="statusDiv">
-						<img src="book_icon_1.png"><br><input type="radio" value="최상" name="status"><br>최상
+						<img src="book_icon_1.png"><br><input type="radio" value="최상" name="status" required="required"><br>최상
 					</div>
 					<div class="statusDiv">
 						<input type="radio" value="상" name="status"><br>상
 					</div>
 					<div class="statusDiv">
-						<img src="book_icon_2.png"><br><input type="radio" value="중" name="status"><br>중
+						<img src="book_icon_2.png"><br><input type="radio" value="중" name="status" required="required"><br>중
 					</div>
 					<div class="statusDiv">
 						<input type="radio" value="하" name="status"><br>하
 					</div>
 					<div class="statusDiv">
-						<img src="book_icon_3.png"><br><input type="radio" value="최하" name="status"><br>최하
+						<img src="book_icon_3.png"><br><input type="radio" value="최하" name="status" required="required"><br>최하
 					</div>
 				</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
-				<div class="divCell col2">필기 흔적 <input type="radio" value="있음" name="필기 흔적">있음 <input type="radio" value="없음" name="필기 흔적">없음</div>
+				<div class="divCell col2">
+					필기 흔적 <input type="radio" value="있음" name="written" required="required">
+					있음 <input type="radio" value="없음" name="written" required="required">
+					없음</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
-				<div class="divCell col2">찢어짐 <input type="radio" value="있음" name="찢어짐">있음 <input type="radio" value="없음" name="찢어짐">없음</div>
+				<div class="divCell col2">
+					찢어짐 <input type="radio" value="있음" name="ripped" required="required">
+					있음 <input type="radio" value="없음" name="ripped" required="required">
+					없음</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
@@ -111,7 +117,7 @@
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">판매 희망 가격(원)</div>
-				<div class="divCell col2"><input type="text" name="price"></div>
+				<div class="divCell col2"><input type="text" name="price" required="required"></div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">요청 사항</div>

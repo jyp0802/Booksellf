@@ -20,10 +20,15 @@ var connection = mysql.createConnection(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
 
 var books = require('google-books-search');
+var book_options = {
+		field: 'isbn',
+		offset: 0,
+		limit: 1
+};
 
 module.exports = function(app, passport) {
 
-	app.get('/', /*isLoggedIn,*/ function(req, res) {
+	app.get('/', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
 			res.render('index.ejs', {booklist : rows});
 		})
@@ -56,12 +61,33 @@ module.exports = function(app, passport) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', /*isLoggedIn,*/ function(req, res) {
+	app.get('/upload', isLoggedIn, function(req, res) {
 		res.render('upload.ejs');
 	});
 
-	app.post('/upload_books', function(req, res) {
-
+	app.post('/register_book', isLoggedIn, function(req, res) {
+		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
+			if (!error) {
+				var insert_fields = "(uid, uname, title, isbn, price, book_state, book_written, book_ripped, photo)";
+				var status, written, ripped;
+				written = req.body.written == "있음" ? true : false;
+				ripped = req.body.ripped == "있음" ? true : false;
+				if (req.body.status == "최상") status = 5;
+				if (req.body.status == "상") status = 4;
+				if (req.body.status == "중") status = 3;
+				if (req.body.status == "하") status = 2;
+				if (req.body.status == "최하") status = 1;
+				connection.query("INSERT into RegisteredBooks (uid, uname, title, isbn, price, book_state, book_written, book_ripped, photo) values (?,?,?,?,?,?,?,?,?)",
+					[req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail], function(err, rows) {
+						if (err)
+							console.log(err);
+						res.redirect('/');
+					});
+			} else {
+				console.log(error);
+				res.redirect('/');
+			}
+		});
 	});
 
 	app.post('/verify_email', function(req, res) {
@@ -69,29 +95,29 @@ module.exports = function(app, passport) {
 		var recipient = req.body.email;
 
 		connection.query("SELECT * FROM users WHERE email = ?", [recipient], function(err, rows) {
-      if (err)
-        res.json({'status' : 'bad', 'message' : 'error'});
-      else if (rows.length)
-        res.json({'status' : 'bad', 'message' : 'An account already exists for that email.'});
-      else {
-      	connection.query("SELECT * FROM tempusers WHERE email = ?", [recipient], function(err, rows) {
-      		if (err) {
-	          res.json({'status' : 'bad', 'message' : 'error'});
-	          return;
-      		}
+			if (err)
+				res.json({'status' : 'bad', 'message' : 'error'});
+			else if (rows.length)
+				res.json({'status' : 'bad', 'message' : 'An account already exists for that email.'});
+			else {
+				connection.query("SELECT * FROM tempusers WHERE email = ?", [recipient], function(err, rows) {
+					if (err) {
+						res.json({'status' : 'bad', 'message' : 'error'});
+						return;
+					}
 					var code = Math.floor((Math.random() * 999999) + 100000);
 					var querytext;
-	     		if (rows.length)
-	          querytext = "UPDATE tempusers SET code = ? WHERE email = ?";
-	        else
-	        	querytext = "INSERT into tempusers (code, email) values (?,?)";
+					if (rows.length)
+						querytext = "UPDATE tempusers SET code = ? WHERE email = ?";
+					else
+						querytext = "INSERT into tempusers (code, email) values (?,?)";
 
-	        connection.query(querytext, [code, recipient], function(err, rows) {
-	        	if (err) {
-		          res.json({'status' : 'bad', 'message' : 'error'});
-		          return;
-	      		}
-	      		recipient += "@kaist.ac.kr";
+					connection.query(querytext, [code, recipient], function(err, rows) {
+						if (err) {
+							res.json({'status' : 'bad', 'message' : 'error'});
+							return;
+						}
+						recipient += "@kaist.ac.kr";
 
 						console.log("hello " + recipient);
 						var mail = {
