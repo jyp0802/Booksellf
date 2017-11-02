@@ -22,7 +22,7 @@ connection.query('USE ' + dbconfig.database);
 module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
-		res.render('index.html');
+		res.render('index.ejs');
 	});
 
 	app.get('/login', function(req, res) {
@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', function(req, res) {
+	app.get('/upload', isLoggedIn, function(req, res) {
 		res.render('upload.html');
 	});
 
