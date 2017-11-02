@@ -46,15 +46,12 @@
 		</div>
 	</div>
 	<div class="book-disp">
+		<% for (x in booklist) { %>
 		<div class="items">
+			<p><%= booklist[x] %></p>
 			<!-- <img src="/bookeg.jpg"> -->
 		</div>
-		<div class="items">
-			<!-- <img src="/bookeg.jpg"> -->
-		</div>
-		<div class="items">
-			<!-- <img src="/bookeg.jpg"> -->
-		</div>
+		<% } %>
 	</div>
 </body>
 </html>
