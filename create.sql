@@ -21,6 +21,8 @@ CREATE TABLE TempUsers (
 
 CREATE TABLE RegisteredBooks (
   uid int not null,
+  uname varchar(255) not null, 
+  title varchar(255) not null,
   isbn varchar(255) not null,
   price int not null,
   major varchar(255),
