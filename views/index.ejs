@@ -48,7 +48,9 @@
 	<div class="book-disp">
 		<% for (x in booklist) { %>
 		<div class="items">
-			<p><%= booklist[x] %></p>
+			<p><%= booklist[x].uname %></p>
+			<p><%= booklist[x].price %></p>
+			<p><%= booklist[x].title %></p>
 			<!-- <img src="/bookeg.jpg"> -->
 		</div>
 		<% } %>
