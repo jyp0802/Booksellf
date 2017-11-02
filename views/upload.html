@@ -4,6 +4,7 @@
 	<title>upload</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="upload.css">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 </head>
 <body>
 	<div class="nav-bar">
@@ -24,43 +25,94 @@
 	</div>
 	<div class="bigbox">
 		<div class="divTable">
-			<div class="headRow">Title</div>
+			<div class="headRow">도서 등록하기</div>
 			<div class="divRow">
 				<div class="divCell col1">ISBN</div>
-				<div class="divCell col2">2</div>
-				<div class="divCell col3">3</div>
+				<div class="divCell col2"><input type="text" name="isbn"></div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">a</div>
-				<div class="divCell col2">b</div>
-				<div class="divCell col3">c</div>
+				<div class="divCell col1">분류</div>
+				<div class="divCell col2">
+					<select value="department">
+						<option>학과</option>
+						<option>물리학과</option>
+						<option>수리과학과</option>
+						<option>화학과</option>
+						<option>생명과학과</option>
+						<option>전산학부</option>
+						<option>전기및전자공학부</option>
+						<option>건설및환경공학과</option>
+						<option>바이오및뇌공학과</option>
+						<option>산업디자인학과</option>
+						<option>산업및시스템공학과</option>
+						<option>생명화학공학과</option>
+						<option>원자력및양자공학과</option>
+						<option>신소재공학과</option>
+						<option>기계공학과</option>
+						<option>항공우주공학과</option>
+					</select>
+					<select value="subject">
+						<option>과목</option>
+						<option>1</option>
+						<option>2</option>
+					</select>
+				</div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">a</div>
-				<div class="divCell col2">b</div>
-				<div class="divCell col3">c</div>
+				<div class="divCell col1">사진 첨부</div>
+				<div class="divCell col2"><input type="file" name="photo">
+					<!-- <form action="/action_page.php">
+						<input type="file" name="pic" accept="image/*">
+						<input type="submit">
+					</form> -->
+				</div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">a</div>
-				<div class="divCell col2">b</div>
-				<div class="divCell col3">c</div>
+				<div class="divCell col1">상태</div>
+				<div class="divCell col2">
+					<div class="statusDiv">
+						<img src="book_icon_1.png"><br><input type="radio" value="최상" name="status"><br>최상
+					</div>
+					<div class="statusDiv">
+						<input type="radio" value="상" name="status"><br>상
+					</div>
+					<div class="statusDiv">
+						<img src="book_icon_2.png"><br><input type="radio" value="중" name="status"><br>중
+					</div>
+					<div class="statusDiv">
+						<input type="radio" value="하" name="status"><br>하
+					</div>
+					<div class="statusDiv">
+						<img src="book_icon_3.png"><br><input type="radio" value="최하" name="status"><br>최하
+					</div>
+				</div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">a</div>
-				<div class="divCell col2">b</div>
-				<div class="divCell col3">c</div>
+				<div class="divCell col1"></div>
+				<div class="divCell col2">필기 흔적 <input type="radio" value="있음" name="notes">있음 <input type="radio" value="없음" name="필기 흔적">없음</div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">a</div>
-				<div class="divCell col2">b</div>
-				<div class="divCell col3">c</div>
+				<div class="divCell col1"></div>
+				<div class="divCell col2">찢어짐 <input type="radio" value="있음" name="찢어짐">있음 <input type="radio" value="없음" name="찢어짐">없음</div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">a</div>
-				<div class="divCell col2">b</div>
-				<div class="divCell col3">c</div>
+				<div class="divCell col1"></div>
+				<div class="divCell col2">특이사항 <input type="text" name="특이사항"></div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">연락처</div>
+				<div class="divCell col2"><input type="text" name="phoneNumber"></div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">판매 희망 가격(원)</div>
+				<div class="divCell col2"><input type="text" name="price"></div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">요청 사항</div>
+				<div class="divCell col2"><input type="text" name="request"></div>
 			</div>
 		</div>
+		<button class="reg_button">등록하기</button>
 	</div>
 </body>
 </html>
