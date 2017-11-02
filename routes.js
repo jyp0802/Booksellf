@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', function(req, res) {
+	app.get('/upload', isLoggedIn, function(req, res) {
 		res.render('upload.html');
 	});
 
