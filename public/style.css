@@ -19,7 +19,7 @@ html, body {
 
 .topright {
 	text-align: right;
-	width: 225px;
+	width: 400px;
 	margin: 35px 60px 5px 60px;
 }
 /* --------------------^^-------------------- */
@@ -38,7 +38,12 @@ html, body {
 
 .search-input {
 	width: 50%;
-	height: 15px;
+	height: 20px;
+}
+
+.search-but {
+	height: 21px;
+	padding: 0px 6px 0px 6px;
 }
 
 .sidebar {
