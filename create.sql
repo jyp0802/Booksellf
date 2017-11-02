@@ -1,5 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS TempUsers;
 DROP TABLE IF EXISTS RegisteredBooks;
 DROP TABLE IF EXISTS BookInformation;
 SET FOREIGN_KEY_CHECKS=1;
@@ -10,6 +11,12 @@ CREATE TABLE Users (
   email varchar(255) not null, 
   password varchar(255) not null,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE TempUsers (
+  email varchar(255) not null, 
+  code int not null,
+  PRIMARY KEY (email)
 );
 
 CREATE TABLE RegisteredBooks (

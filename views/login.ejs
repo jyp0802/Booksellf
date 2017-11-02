@@ -16,9 +16,9 @@
 				<form action="/login" method="post">
 					<p>KAIST email</p>
 					<input type="text" name="email" placeholder="@kaist.ac.kr" required="required">
-					<section class="messages"><%= login_message %></section>
 					<p>Password</p>
 					<input type="password" name="pw" required="required">
+					<section class="messages"><%= login_message %></section>
 					<input type="submit" class="bluebutton" value="Login">
 				</form>
 			</div>
@@ -33,13 +33,14 @@
 					<input type="password" name="reg_pw" required="required">
 					<p>Check password</p>
 					<input type="password" name="reg_pwcheck" required="required">
-					<section class="messages"><%= signup_message %></section>
+					<div class="passwordcheck"></div>
 					<p>KAIST email</p>
 					<input type="text" name="reg_email" placeholder="@kaist.ac.kr" required="required">
 					<input type="button" id="verify_email_button" class="verify_email_button" value="Send verification code">
 					<div class="verification"></div>
 					<p>Verification number</p>
-					<input type="number" name="reg_check">
+					<input type="text" name="reg_check">
+					<section class="messages"><%= signup_message %></section>
 					<input type="button" id="submit_button" class="bluebutton" value="Create ID">
 				</form>
 
@@ -47,6 +48,8 @@
 					document.querySelector('#submit_button').addEventListener('click', function() {
 						var f = document.getElementById('registerform');
 						var c = document.getElementsByName('reg_check')[0].value;
+						var p1 = document.getElementsByName('reg_pw')[0].value;
+						var p2 = document.getElementsByName('reg_pwcheck')[0].value;
 						if(!f.checkValidity()) {
 					    window.alert("Please fill in all fields");
 					    return;
@@ -55,6 +58,10 @@
 					    window.alert("Please fill in the verification code");
 					    return;
 						}
+						if(p1 != p2) {
+							document.querySelector('.passwordcheck').innerHTML = "Passwords do not match!";
+							return;
+						}
 						else {
 							f.submit();
 					  }
@@ -62,11 +69,12 @@
 					
 					document.querySelector('.verify_email_button').addEventListener('click', function() {
 						var f = document.getElementById('registerform');
-						if(!f.checkValidity()) {
-					    window.alert("Please fill in all fields");
+						var email = document.getElementsByName('reg_email')[0].value;
+
+						if(!email) {
+					    window.alert("Please write a KAIST email");
 					    return;
 					  }
-						var email = document.getElementsByName('reg_email')[0].value;
 						sendAjax("http://localhost:8080/verify_email", email);
 					})
 
@@ -81,9 +89,10 @@
 
 						xhr.addEventListener('load', function() {
 							var result = JSON.parse(xhr.responseText);
-							if (result.status !== "ok") return;
-
-							document.querySelector('.verification').innerHTML = "Verification code sent to " + result.email;
+							if (result.status === "bad")
+								document.querySelector('.verification').innerHTML = result.message;
+							else
+								document.querySelector('.verification').innerHTML = "Verification code sent to " + result.email;
 						})
 					}
 

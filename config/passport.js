@@ -40,7 +40,6 @@ module.exports = function(passport) {
     passport.use(
         'local-signup',
         new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
             usernameField : 'reg_email',
             passwordField : 'reg_pw',
             passReqToCallback : true // allows us to pass back the entire request to the callback
@@ -53,25 +52,38 @@ module.exports = function(passport) {
                     return done(err);
                 if (rows.length)
                     return done(null, false, req.flash('signupMessage', 'An account already exists for that email.'));
-                if (password != req.body.reg_pwcheck)
-                    return done(null, false, req.flash('signupMessage', 'Passwords do not match'));
                 else {
-                    var name = req.body.reg_name;
-                    var newUserMysql = {
-                        username: username,
-                        password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
-                    };
-
-                    var insertQuery = "INSERT INTO users (email, name, password) values (?,?,?)";
-                    connection.query(insertQuery,[newUserMysql.username, name, newUserMysql.password], function(err, rows) {
-                        newUserMysql.id = rows.insertId;
-                        newUserMysql.name = name;
-                        return done(null, newUserMysql);
-                    });
+                    connection.query("SELECT * FROM tempusers WHERE email = ?",[username], function(err, rows) {
+                        if (err)
+                            return done(err);
+                        if (!rows.length)
+                            return done(null, false, req.flash('signupMessage', 'You have not sent the verification code yet!'));
+                        else {
+                            if (rows[0].code != req.body.reg_check)
+                                return done(null, false, req.flash('signupMessage', 'Wrong verification code!'));
+                            else {
+                                var name = req.body.reg_name;
+                                var newUserMysql = {
+                                    username: username,
+                                    password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
+                                };
+                                var deleteQuery = "DELETE FROM tempusers WHERE email = ?";
+                                var insertQuery = "INSERT INTO users (email, name, password) values (?,?,?)";
+                                connection.query(deleteQuery, [username], function(err1, rows1) {
+                                    connection.query(insertQuery, [newUserMysql.username, name, newUserMysql.password], function(err, rows) {
+                                        newUserMysql.id = rows.insertId;
+                                        newUserMysql.name = name;
+                                        return done(null, newUserMysql);
+                                    });
+                                });
+                            }
+                        }
+                    });                    
                 }
             });
         })
     );
+
 
     // =========================================================================
     // LOCAL LOGIN =============================================================
@@ -82,7 +94,6 @@ module.exports = function(passport) {
     passport.use(
         'local-login',
         new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
             usernameField : 'email',
             passwordField : 'pw',
             passReqToCallback : true // allows us to pass back the entire request to the callback

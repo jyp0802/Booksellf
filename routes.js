@@ -13,6 +13,12 @@ var defaultFrom = 'jyp0802@hotmail.com';
 var defaultSubject = 'Email verification for Booksellf [Do Not Reply]'
 var defaultText = 'Your KAIST email verfication code is [';
 
+var mysql = require('mysql');
+var dbconfig = require('./config/database');
+var connection = mysql.createConnection(dbconfig.connection);
+
+connection.query('USE ' + dbconfig.database);
+
 module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
@@ -51,28 +57,57 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/verify_email', function(req, res) {
-		var recipient = req.body.email + "@kaist.ac.kr";
-		var code = Math.floor((Math.random() * 999999) + 100000);
 
-		console.log("hello " + recipient);
-		var mail = {
-			from: defaultFrom,
-			to: recipient,
-			subject: defaultSubject,
-			text: defaultText + code + ']'
-		}
+		var recipient = req.body.email;
 
-		transporter.sendMail(mail, function(error, info){
-			if (error) {
-				console.log(error);
-			} else {
-				console.log('Email sent: ' + info.response);
+		connection.query("SELECT * FROM users WHERE email = ?", [recipient], function(err, rows) {
+      if (err)
+        res.json({'status' : 'bad', 'message' : 'error'});
+      else if (rows.length)
+        res.json({'status' : 'bad', 'message' : 'An account already exists for that email.'});
+      else {
+      	connection.query("SELECT * FROM tempusers WHERE email = ?", [recipient], function(err, rows) {
+      		if (err) {
+	          res.json({'status' : 'bad', 'message' : 'error'});
+	          return;
+      		}
+					var code = Math.floor((Math.random() * 999999) + 100000);
+					var querytext;
+	     		if (rows.length)
+	          querytext = "UPDATE tempusers SET code = ? WHERE email = ?";
+	        else
+	        	querytext = "INSERT into tempusers (code, email) values (?,?)";
+
+	        connection.query(querytext, [code, recipient], function(err, rows) {
+	        	if (err) {
+		          res.json({'status' : 'bad', 'message' : 'error'});
+		          return;
+	      		}
+	      		recipient += "@kaist.ac.kr";
+
+						console.log("hello " + recipient);
+						var mail = {
+							from: defaultFrom,
+							to: recipient,
+							subject: defaultSubject,
+							text: defaultText + code + ']'
+						}
+
+						transporter.sendMail(mail, function(error, info){
+							if (error)
+								console.log(error);
+							else
+								console.log('Email sent: ' + info.response);
+						});
+
+						var responseMsg = {'status' : 'ok', 'email' : recipient};
+						res.json(responseMsg);
+					})
+				})
 			}
-		});
-
-		var responseMsg = {'status' : 'ok', 'email' : recipient};
-		res.json(responseMsg);
+		})
 	});
+
 
 };
 
