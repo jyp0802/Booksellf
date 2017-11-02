@@ -47,12 +47,5 @@ CREATE TABLE BookInformation (
   image varchar(3000),
   rating smallint,
   language varchar(255),
-  PRIMARY KEY (isbn),
-  FOREIGN KEY (isbn) REFERENCES RegisteredBooks(isbn)
+  PRIMARY KEY (isbn)
 );
-
-
-INSERT INTO Users VALUES (1, "saelyne", "lyne@kaist.ac.kr", 1234);
-
-INSERT INTO RegisteredBooks VALUES (1, 12345567, 15000, "computer", "network", 5, true, false, "nothing", 01094923829, "contact", "url…");
-
