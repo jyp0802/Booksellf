@@ -50,3 +50,8 @@ html, body {
 	width: 200px;
 	margin: 0px 10px 0px 50px;
 }
+
+.book-disp {
+	background-color: #f1f1f1;
+	margin: 30px 30px 30px 280px;
+}
