@@ -22,7 +22,9 @@ connection.query('USE ' + dbconfig.database);
 module.exports = function(app, passport) {
 
 	app.get('/', /*isLoggedIn,*/ function(req, res) {
-		res.render('index.ejs', {booklist : ["Saab", "Volvo", "BMW"]});
+		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
+			res.render('index.ejs', {booklist : rows});
+		})
 	});
 
 	app.get('/login', function(req, res) {
