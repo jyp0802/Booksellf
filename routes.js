@@ -77,7 +77,7 @@ module.exports = function(app, passport) {
 				if (req.body.status == "중") status = 3;
 				if (req.body.status == "하") status = 2;
 				if (req.body.status == "최하") status = 1;
-				connection.query("INSERT into RegisteredBooks (uid, uname, title, isbn, price, book_state, book_written, book_ripped, photo) values (?,?,?,?,?,?,?,?,?)",
+				connection.query("INSERT into RegisteredBooks " + insert_fields + " values (?,?,?,?,?,?,?,?,?)",
 					[req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail], function(err, rows) {
 						if (err)
 							console.log(err);
