@@ -23,6 +23,7 @@ CREATE TABLE RegisteredBooks (
   uid int not null,
   uname varchar(255) not null, 
   title varchar(255) not null,
+  author varchar(255) not null,
   isbn varchar(255) not null,
   price int not null,
   department varchar(255),
