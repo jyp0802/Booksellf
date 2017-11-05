@@ -91,10 +91,10 @@ module.exports = function(app, passport) {
 				if (req.body.status == "하") status = 2;
 				if (req.body.status == "최하") status = 1;
 
-				var insert_field_string = "uid, uname, title, isbn, price, book_state, book_written, book_ripped, thumbnail";
+				var insert_field_string = "uid, uname, title, author, isbn, price, book_state, book_written, book_ripped, thumbnail";
 				//var insert_field_items = [req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
-				var insert_field_items = [1, "David", results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
-				var insert_variable = "?,?,?,?,?,?,?,?,?";
+				var insert_field_items = [1, "David", results[0].title, results[0].authors, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 
 				var department = req.body.department;
 				var subject = req.body.subject;
@@ -117,6 +117,14 @@ module.exports = function(app, passport) {
 						console.log(err);
 					res.redirect('/');
 				});
+
+				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, results[0].authors, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
+				connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
+				});
+
+
 			} else {
 				console.log(error);
 				res.redirect('/');
