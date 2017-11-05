@@ -53,8 +53,10 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
-	app.get('/mypage', /*isLoggedIn,*/ function(req, res) {
-		res.render('mypage.ejs', {user : req.user});
+	app.get('/mypage', isLoggedIn, function(req, res) {
+		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id] function(err, rows) {
+			res.render('mypage.ejs', {user : req.user, booklist : rows});
+		})
 	});
 
 	app.get('/reserve', function(req, res) {
