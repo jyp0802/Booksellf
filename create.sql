@@ -20,6 +20,7 @@ CREATE TABLE TempUsers (
 );
 
 CREATE TABLE RegisteredBooks (
+  bookid int not null auto_increment,
   uid int not null,
   uname varchar(255) not null, 
   title varchar(255) not null,
@@ -36,6 +37,7 @@ CREATE TABLE RegisteredBooks (
   contact varchar(25),
   memo  varchar(3000),
   thumbnail varchar(3000),
+  PRIMARY KEY (bookid),
   FOREIGN KEY (uid) REFERENCES Users(id) ON DELETE CASCADE
 );
 
