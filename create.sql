@@ -25,15 +25,16 @@ CREATE TABLE RegisteredBooks (
   title varchar(255) not null,
   isbn varchar(255) not null,
   price int not null,
-  major varchar(255),
+  department varchar(255),
   subject varchar(255),
+  book_photo LONGBLOB,
   book_state smallint not null,
   book_written boolean not null,
   book_ripped boolean not null,
   book_special varchar(3000),
-  phone varchar(25),
+  contact varchar(25),
   memo  varchar(3000),
-  photo varchar(3000),
+  thumbnail varchar(3000),
   FOREIGN KEY (uid) REFERENCES Users(id) ON DELETE CASCADE
 );
 

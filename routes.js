@@ -28,7 +28,7 @@ var book_options = {
 
 module.exports = function(app, passport) {
 
-	app.get('/', isLoggedIn, function(req, res) {
+	app.get('/', /*isLoggedIn,*/ function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
 			res.render('index.ejs', {booklist : rows});
 		})
@@ -61,14 +61,13 @@ module.exports = function(app, passport) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', isLoggedIn, function(req, res) {
+	app.get('/upload', /*isLoggedIn,*/ function(req, res) {
 		res.render('upload.ejs');
 	});
 
-	app.post('/register_book', isLoggedIn, function(req, res) {
+	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error) {
-				var insert_fields = "(uid, uname, title, isbn, price, book_state, book_written, book_ripped, photo)";
 				var status, written, ripped;
 				written = req.body.written == "있음" ? true : false;
 				ripped = req.body.ripped == "있음" ? true : false;
@@ -77,12 +76,33 @@ module.exports = function(app, passport) {
 				if (req.body.status == "중") status = 3;
 				if (req.body.status == "하") status = 2;
 				if (req.body.status == "최하") status = 1;
-				connection.query("INSERT into RegisteredBooks " + insert_fields + " values (?,?,?,?,?,?,?,?,?)",
-					[req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail], function(err, rows) {
-						if (err)
-							console.log(err);
-						res.redirect('/');
-					});
+
+				var insert_field_string = "uid, uname, title, isbn, price, book_state, book_written, book_ripped, thumbnail";
+				//var insert_field_items = [req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				var insert_field_items = [1, "David", results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				var insert_variable = "?,?,?,?,?,?,?,?,?";
+
+				var department = req.body.department;
+				var subject = req.body.subject;
+				var book_photo = req.body.book_photo;
+				var book_special = req.body.book_special;
+				var contact = req.body.contact;
+				var memo = req.body.memo;
+				var extra_field_string = ["department", "subject", "book_photo", "book_special", "contact", "memo"];
+				var extra_field_items = [department, subject, book_photo, book_special, contact, memo];
+				for (var i=0; i<extra_field_items.length; i++) {
+					console.log(extra_field_string[i] + " " + extra_field_items[i])
+					if (extra_field_items[i] != "") {
+						insert_field_items.push(extra_field_items[i]);
+						insert_field_string += (", " + extra_field_string[i]);
+						insert_variable += ",?"
+					}
+				}
+				connection.query("INSERT into RegisteredBooks (" + insert_field_string + ") values (" + insert_variable + ")", insert_field_items, function(err, rows) {
+					if (err)
+						console.log(err);
+					res.redirect('/');
+				});
 			} else {
 				console.log(error);
 				res.redirect('/');

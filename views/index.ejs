@@ -17,15 +17,15 @@
 		</div>
 	</div>
 	<div class="top-menu">
-		<div class="search-box">
-			<select>
+		<form class="search-box" action="/search" method="post">
+			<select name="search_type">
 				<option value="title">Title</option>
 				<option value="author">Author</option>
 				<option value="subject">Subject</option>
 			</select>
-			<input type="text" name="search" placeholder="Search..." class="search-input">
-			<button class="search-but">Search!</button>
-		</div>
+			<input type="text" name="search_word" placeholder="Search..." class="search-input">
+			<input type="submit" class="search-but" value="Search!">
+		</form>
 	</div>
 	<div class="sidebar">
 		<div class="w3-sidebar w3-light-grey w3-bar-block">
@@ -51,7 +51,7 @@
 			<p><%= booklist[x].uname %></p>
 			<p><%= booklist[x].price %></p>
 			<p><%= booklist[x].title %></p>
-			<img src="<%= booklist[x].photo %>" class="book_image">
+			<img src="<%= booklist[x].thumbnail %>" class="book_image">
 			<!-- <img src="/bookeg.jpg"> -->
 		</div>
 		<% } %>
