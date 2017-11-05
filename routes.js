@@ -91,7 +91,20 @@ module.exports = function(app, passport) {
 
 				var insert_field_string = "uid, uname, title, author, isbn, price, book_state, book_written, book_ripped, thumbnail";
 				//var insert_field_items = [req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
-				var insert_field_items = [1, "David", results[0].title, results[0].authors, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				var author = "";
+				if (results[0].authors.length>1){
+					for (var i=0; i<results[0].authors.length; i++){
+						if (i==results[0].authors.length-1) {
+							author += results[0].authors[i];
+							break;
+						}
+						author += results[0].authors[i]+", ";
+					}
+				}
+				else{
+					author = results[0].authors;
+				}
+				var insert_field_items = [1, "David", results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 
 				var department = req.body.department;
@@ -116,7 +129,7 @@ module.exports = function(app, passport) {
 				});
 
 				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
-				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, results[0].authors, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
 				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
 				connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
 				});
@@ -171,7 +184,6 @@ module.exports = function(app, passport) {
 						}
 						recipient += "@kaist.ac.kr";
 
-						console.log("hello " + recipient);
 						var mail = {
 							from: defaultFrom,
 							to: recipient,
