@@ -20,13 +20,6 @@
 	</div>
 	<div class="top-menu">
 		<div class="search-box">
-<!-- 			<select>
-				<option value="title">Title</option>
-				<option value="author">Author</option>
-				<option value="subject">Subject</option>
-			</select>
-			<input type="text" name="search" placeholder="Search..." class="search-input">
-			<button class="search-but">Search!</button> -->
 		</div>
 	</div>
 
@@ -37,7 +30,7 @@
 				<table>
 					<tr>
 						<td>이름</td>
-						<td><%= user.id %></td>
+						<td><%= user.name %></td>
 					</tr>
 					<tr>
 						<td>KAIST email</td>
@@ -50,7 +43,19 @@
 				</table>
 			</div>
 			<div class="innerbox">내가 등록한 책
-
+				<div>
+					<% for (x in booklist) { %>
+					<div class="items" id="col">
+						<img src="<%= booklist[x].thumbnail %>" class="book_image">
+						<div class="book_info">
+							<a href="/details?bookid=<%= booklist[x].bookid %>" id="b_title"><%= booklist[x].title %></a>
+							<p><%= booklist[x].uname %></p>
+							<p><%= booklist[x].author %> 저</p>
+							<p id="b_price"><%= booklist[x].price %>원</p>
+						</div>
+					</div>
+					<% } %>
+				</div>
 			</div>
 			<div class="innerbox">내가 찜한 책</div>
 		</div>
