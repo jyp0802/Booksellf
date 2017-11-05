@@ -27,30 +27,46 @@
 		</div>
 		<div class="other-half">
 			<div class="divTable">
-				<div class="headRow">책제목</div>
+				<div class="book-title"><%= book_i.title %></div>
+				<div class="book-author"><%= book_r.author %></div>
 				<div class="divRow">
 					<div class="divCell col1"> 가격 </div>
-					<div class="divCell col2"> 1234</div>
+					<div class="divCell col2"><%= book_r.price %>원</div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 과목명 </div>
-					<div class="divCell col2"> 아아아아</div>
+					<div class="divCell col2"><%= book_r.subject %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 품목 정보 </div>
-					<div class="divCell col2"> 1234</div>
+					<div class="divCell col2">
+						<div class="infoTable">
+							<div class="divRow">
+								<div class="divCell col3"> 출간일 </div>
+								<div class="divCell col4"><%= book_i.publishedDate %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 페이지 수 </div>
+								<div class="divCell col4"><%= book_i.pageCount %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 출간일 </div>
+								<div class="divCell col4"><%= book_i.isbn %></div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 상태 </div>
-					<div class="divCell col2"> 1234</div>
+					<div class="divCell col2"><%= book_r.book_state %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 판매자 </div>
-					<div class="divCell col2"> 1234</div>
+					<div class="divCell col2"><%= book_r.uname %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 연락처 </div>
-					<div class="divCell col2"> 1234</div>
+					<div class="divCell col2"><%= book_r.contact %></div>
 				</div>
 			</div>
 		</div>
