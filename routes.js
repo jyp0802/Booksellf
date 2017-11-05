@@ -65,6 +65,10 @@ module.exports = function(app, passport) {
 		res.render('upload.ejs');
 	});
 
+	app.get('/book_detail', function(req, res) {
+		res.render('detail.ejs');
+	})
+
 	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error) {

@@ -40,7 +40,7 @@ app.engine('html', require('ejs').renderFile);
 
 require('./routes.js')(app, passport);
 
-/* 서버를 port 8081로 실행 */
+/* 서버를 port 8080로 실행 */
 var server = app.listen(8080, function() {
 	console.log("Server running at http://127.0.0.1:8080");
 });
