@@ -70,9 +70,17 @@ html, body {
 	padding: 19px;
 }
 
+.book_info {
+	/*background-color: red;*/
+	width: 123px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .book_image {
-	width: 120px;
-	height: 160px;
+	width: 110px;
+	height: 155px;
 }
 
 #col {
@@ -86,7 +94,7 @@ p {
 }
 
 #b_title {
-	font-size: 20px;
+	font-size: 17px;
 }
 
 #b_price {
