@@ -54,7 +54,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/mypage', isLoggedIn, function(req, res) {
-		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id] function(err, rows) {
+		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err, rows) {
 			res.render('mypage.ejs', {user : req.user, booklist : rows});
 		})
 	});
