@@ -28,15 +28,15 @@
 }
 
 .book-title {
-	display: table-row;
 	font-size: 20px;
+	padding: 0px 20px 5px 30px;
 }
 
 .book-author {
-	display: table-row;
 	font-size: 13px;
 	height: 50px;
 	color: DarkGrey;
+	padding: 0px 20px 0px 30px;
 }
 
 .divRow {
