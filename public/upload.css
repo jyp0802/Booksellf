@@ -55,6 +55,14 @@ option:checked {
 	width: 75%;
 }
 
+.check_isbn_button {
+	background-color: #caddff;
+	padding: 4px 4px;
+	margin-top: 8px;
+	border: none;
+	border-radius: 1px;
+	margin: auto;
+}
 
 .reg_button {
 	background-color: #caddff;

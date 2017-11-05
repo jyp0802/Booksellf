@@ -34,7 +34,42 @@
 			<div class="headRow">도서 등록하기</div>
 			<div class="divRow">
 				<div class="divCell col1">ISBN</div>
-				<div class="divCell col2"><input type="text" name="isbn" required="required"></div>
+				<div class="divCell col2">
+					<input type="text" name="isbn" required="required">
+					<input type="button" class="check_isbn_button" id="check_isbn_button" value="Check ISBN">
+					<div class="divCell col2 bookTitle"></div>
+				</div>
+
+				<script>
+					document.querySelector('.check_isbn_button').addEventListener('click', function() {
+						var isbn = document.getElementsByName('isbn')[0].value;
+						if(!isbn) {
+					    window.alert("Please insert an ISBN value");
+					    return;
+					  }
+						sendAjax("http://localhost:8080/check_isbn", isbn);
+					})
+
+					function sendAjax (url, data) {
+						var data = {'isbn' : data};
+						data = JSON.stringify(data);
+
+						var xhr = new XMLHttpRequest();
+						xhr.open('POST', url);
+						xhr.setRequestHeader('Content-Type', "application/JSON");
+						xhr.send(data);
+
+						xhr.addEventListener('load', function() {
+							var result = JSON.parse(xhr.responseText);
+							if (result.status === "bad")
+								document.querySelector('.bookTitle').innerHTML = result.message;
+							else
+								document.querySelector('.bookTitle').innerHTML = "Book title: " + result.title;
+						})
+					}
+
+				</script>
+				
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">분류</div>

@@ -68,8 +68,6 @@ module.exports = function(app, passport) {
 	app.post('/search', function(req, res){
 		var word = req.body.search_word;
 		var type = req.body.search_type;
-		console.log (word);
-		console.log (type);
 		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
 			res.render('index.ejs', {booklist : rows});
 		})
@@ -105,7 +103,6 @@ module.exports = function(app, passport) {
 				var extra_field_string = ["department", "subject", "book_photo", "book_special", "contact", "memo"];
 				var extra_field_items = [department, subject, book_photo, book_special, contact, memo];
 				for (var i=0; i<extra_field_items.length; i++) {
-					console.log(extra_field_string[i] + " " + extra_field_items[i])
 					if (extra_field_items[i] != "") {
 						insert_field_items.push(extra_field_items[i]);
 						insert_field_string += (", " + extra_field_string[i]);
@@ -129,6 +126,19 @@ module.exports = function(app, passport) {
 				console.log(error);
 				res.redirect('/');
 			}
+		});
+	});
+
+	app.post('/check_isbn', function(req, res) {
+		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
+			if (!error) {
+				if (results.length == 0)
+					res.json({'status' : 'bad', 'message' : "No books found with ISBN: " + req.body.isbn });
+				else
+					res.json({'status' : 'ok', 'title' : results[0].title});
+			}
+			else
+				res.json({'status' : 'bad', 'message' : 'error'});
 		});
 	});
 

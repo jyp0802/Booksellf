@@ -4,6 +4,7 @@
 	<title>Welcome to Booksellf!</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 </head>
 <body>
 	<div class="nav-bar">
@@ -47,11 +48,12 @@
 	</div>
 	<div class="book-disp">
 		<% for (x in booklist) { %>
-		<div class="items">
-			<p><%= booklist[x].uname %></p>
-			<p><%= booklist[x].price %></p>
-			<p><%= booklist[x].title %></p>
+		<div class="items" id="col">
 			<img src="<%= booklist[x].thumbnail %>" class="book_image">
+			<p id="b_title"><%= booklist[x].title %></p>
+			<p><%= booklist[x].uname %> 저</p>
+			<p id="b_price"><%= booklist[x].price %>원</p>
+			
 			<!-- <img src="/bookeg.jpg"> -->
 		</div>
 		<% } %>
