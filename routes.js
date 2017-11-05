@@ -65,6 +65,16 @@ module.exports = function(app, passport) {
 		res.render('upload.ejs');
 	});
 
+	app.post('/search', function(req, res){
+		var word = req.body.search_word;
+		var type = req.body.search_type;
+		console.log (word);
+		console.log (type);
+		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
+			res.render('index.ejs', {booklist : rows});
+		})
+	})
+
 	app.get('/book_detail', function(req, res) {
 		res.render('detail.ejs');
 	})
