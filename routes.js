@@ -71,11 +71,15 @@ module.exports = function(app, passport) {
 		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
 			res.render('index.ejs', {booklist : rows});
 		})
-	})
+	});
 
 	app.get('/book_detail', function(req, res) {
-		res.render('detail.ejs');
-	})
+		connection.query("SELECT * FROM RegisteredBooks", function(err1, rows1) {
+			connection.query("SELECT * FROM BookInformation", function(err2, rows2) {
+				res.render('detail.ejs', {book_r : rows1[0], book_i : rows2[0]});
+			})
+		})
+	});
 
 	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
