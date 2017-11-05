@@ -73,9 +73,9 @@ module.exports = function(app, passport) {
 		})
 	});
 
-	app.get('/book_detail', function(req, res) {
-		connection.query("SELECT * FROM RegisteredBooks", function(err1, rows1) {
-			connection.query("SELECT * FROM BookInformation", function(err2, rows2) {
+	app.get('/details', function(req, res) {
+		connection.query("SELECT * FROM RegisteredBooks where bookid = ?", [req.query.bookid], function(err1, rows1) {
+			connection.query("SELECT * FROM BookInformation where isbn = ?", [rows1[0].isbn], function(err2, rows2) {
 				res.render('detail.ejs', {book_r : rows1[0], book_i : rows2[0]});
 			})
 		})
