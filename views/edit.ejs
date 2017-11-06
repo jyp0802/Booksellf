@@ -101,15 +101,15 @@
 			<div class="divRow">
 				<div class="divCell col1"></div>
 				<div class="divCell col2">
-					필기 흔적 <input type="radio" id="wt" value="있음" name="written" required="required">
-					있음 <input type="radio" id="wf" value="없음" name="written" required="required">
+					필기 흔적 <input type="radio" id="w1" value="있음" name="written" required="required">
+					있음 <input type="radio" id="w0" value="없음" name="written" required="required">
 					없음</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
 				<div class="divCell col2">
-					찢어짐 <input type="radio" id="rt" value="있음" name="ripped" required="required">
-					있음 <input type="radio" id="rf" value="없음" name="ripped" required="required">
+					찢어짐 <input type="radio" id="r1" value="있음" name="ripped" required="required">
+					있음 <input type="radio" id="r0" value="없음" name="ripped" required="required">
 					없음</div>
 			</div>
 			<div class="divRow">
@@ -137,16 +137,8 @@
 			document.getElementById("priceI").defaultValue = "<%= book_r.price %>";
 			document.getElementById("memoI").defaultValue = "<%= book_r.memo %>";
 
-			if (<%= book_r.book_ripped %>)
-				document.getElementById("rt").checked = true;
-			else
-				document.getElementById("rf").checked = true;
-
-			if (<%= book_r.book_written %>)
-				document.getElementById("wt").checked = true;
-			else
-				document.getElementById("wf").checked = true;
-
+			document.getElementById("r<%= book_r.book_ripped %>").checked = true;
+			document.getElementById("w<%= book_r.book_written %>").checked = true;
 			document.getElementById("s<%= book_r.book_status %>").checked = true;
 		</script>
 	</form>
