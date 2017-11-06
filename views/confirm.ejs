@@ -36,6 +36,14 @@
 		<p id="here">삭제되었습니다.</p>
 		<% } else if (t == 'df') { %>
 		<p id="here">삭제 할 수 없습니다.</p>
+		<% } else if (t == 'e') { %>
+		<p id="here">수정되었습니다.</p>
+		<form action="/details">
+			<input type="hidden" name="bookid" value="<%= bookid %>"/>
+			<input type="submit" class="confirm_button" value="수정한 책 보러가기"/>
+		</form>
+		<% } else if (t == 'ef') { %>
+		<p id="here">수정 할 수 없습니다.</p>
 		<% } %>
 		<form action="/">
 			<input type="submit" class="confirm_button" value="메인 페이지로"/>

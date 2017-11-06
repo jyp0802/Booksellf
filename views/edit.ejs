@@ -29,7 +29,8 @@
 		</div>
 	</div>
 
-	<form class="bigbox" action="/register_book" method="post">
+	<form class="bigbox" action="/edit" method="post">
+		<input type="hidden" name="bookid" value="<%= book_r.bookid %>"/>
 		<div class="divTable">
 			<div class="headRow">도서 수정하기</div>
 			<div class="divRow">

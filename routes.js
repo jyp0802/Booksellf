@@ -28,7 +28,7 @@ var book_options = {
 
 module.exports = function(app, passport) {
 
-	app.get('/', /*isLoggedIn,*/ function(req, res) {
+	app.get('/', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
 			res.render('index.ejs', {booklist : rows});
 		})
@@ -48,7 +48,7 @@ module.exports = function(app, passport) {
 
 	app.post('/signup', passport.authenticate('local-signup', { successRedirect : '/', failureRedirect : '/' }));
 
-	app.get('/logout', function(req, res) {
+	app.get('/logout', isLoggedIn, function(req, res) {
 		req.logout();
 		res.redirect('/');
 	});
@@ -59,15 +59,15 @@ module.exports = function(app, passport) {
 		})
 	});
 
-	app.get('/reserve', function(req, res) {
+	app.get('/reserve', isLoggedIn, function(req, res) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', /*isLoggedIn,*/ function(req, res) {
+	app.get('/upload', isLoggedIn, function(req, res) {
 		res.render('upload.ejs');
 	});
 
-	app.post('/search', function(req, res){
+	app.post('/search', isLoggedIn, function(req, res){
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
@@ -75,14 +75,14 @@ module.exports = function(app, passport) {
 		})
 	});
 
-	app.get('/department', function(req,res){
+	app.get('/department', isLoggedIn, function(req,res){
 		var dep = req.query.d;
 		connection.query("SELECT * FROM RegisteredBooks WHERE department = '"+dep+"'", function(err, rows) {
 			res.render('index.ejs', {booklist : rows});
 		})
 	});
 
-	app.get('/details', function(req, res) {
+	app.get('/details', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks where bookid = ?", [req.query.bookid], function(err1, rows1) {
 			if (rows1.length == 0)
 				res.send("<h2>Book not found</h2>");
@@ -92,14 +92,14 @@ module.exports = function(app, passport) {
 		})
 	});
 
-	app.get('/editbook', function(req, res) {
+	app.get('/editbook', isLoggedIn, function(req, res) {
 		var bid = req.query.bookid
 		connection.query("SELECT * FROM RegisteredBooks WHERE bookid = " + bid, function(err, rows) {
 			res.render('edit.ejs', {book_r : rows[0]});
 		})
 	});
 
-	app.get('/delete', function(req, res) {
+	app.get('/delete', isLoggedIn, function(req, res) {
 		connection.query("DELETE FROM RegisteredBooks where bookid = ? and uid = ?", [req.query.bookid, req.user.id], function(err, rows) {
 			if (!rows)
 				res.redirect('/confirm?t=df');
@@ -108,11 +108,33 @@ module.exports = function(app, passport) {
 		})
 	});
 
-	app.get('/confirm', function(req, res){
+	app.get('/confirm', isLoggedIn, function(req, res){
 		res.render('confirm.ejs', { t : req.query.t, bookid : req.query.bid });
 	})
 
-	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
+	app.post('/edit', isLoggedIn, function(req, res) {
+		var bookid = req.body.bookid;
+		var status, written, ripped;
+		written = req.body.written == "있음" ? true : false;
+		ripped = req.body.ripped == "있음" ? true : false;
+		if (req.body.status == "최상") status = 5;
+		if (req.body.status == "상") status = 4;
+		if (req.body.status == "중") status = 3;
+		if (req.body.status == "하") status = 2;
+		if (req.body.status == "최하") status = 1;
+		var update_query = "UPDATE RegisteredBooks SET department=?, subject=?, book_photo=?, book_status=?, book_written=?, book_ripped=?, book_special=?, contact=?, price=?, memo=? where bookid = ?";
+		var update_input = [req.body.department, req.body.subject, req.body.book_photo, status, written, ripped, req.body.book_special, req.body.contact, req.body.price, req.body.memo, bookid];
+		connection.query(update_query, update_input, function(err, rows) {
+			if (err) {
+				console.log(err);
+				res.redirect('/confirm?t=ef');
+			}
+			else
+				res.redirect('/confirm?t=e&bid=' + bookid);
+		})
+	})
+
+	app.post('/register_book', isLoggedIn, function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error && results.length > 0) {
 				var status, written, ripped;
@@ -125,7 +147,6 @@ module.exports = function(app, passport) {
 				if (req.body.status == "최하") status = 1;
 
 				var insert_field_string = "uid, uname, title, author, isbn, price, book_status, book_written, book_ripped, thumbnail";
-				//var insert_field_items = [req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
 				var author = "";
 				if (results[0].authors.length>1){
 					for (var i=0; i<results[0].authors.length; i++){
@@ -139,7 +160,8 @@ module.exports = function(app, passport) {
 				else{
 					author = results[0].authors;
 				}
-				var insert_field_items = [1, "David", results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				//var insert_field_items = [1, "David", results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 
 				var department = req.body.department;
@@ -158,9 +180,12 @@ module.exports = function(app, passport) {
 					}
 				}
 				connection.query("INSERT into RegisteredBooks (" + insert_field_string + ") values (" + insert_variable + ")", insert_field_items, function(err, rows) {
-					if (err)
+					if (err) {
 						console.log(err);
-					res.redirect('/confirm?t=u&bid=' + rows.insertId);
+						res.redirect('/confirm?t=uf');
+					}
+					else
+						res.redirect('/confirm?t=u&bid=' + rows.insertId);
 				});
 
 				connection.query("SELECT * from BookInformation where isbn = ?", [req.body.isbn], function(err, rows) {
