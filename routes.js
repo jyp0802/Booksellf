@@ -2,14 +2,14 @@
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
-	service: 'hotmail',
+	service: 'Yandex',
 	auth: {
-		user: 'jyp0802@hotmail.com',
-		pass: 'Jyp3825!hot'
+		user: 'booksellf@yandex.com',
+		pass: 'booksellfpassword'
 	}
 });
 
-var defaultFrom = 'jyp0802@hotmail.com';
+var defaultFrom = 'booksellf@yandex.com';
 var defaultSubject = 'Email verification for Booksellf [Do Not Reply]'
 var defaultText = 'Your KAIST email verfication code is [';
 
