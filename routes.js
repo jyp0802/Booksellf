@@ -85,6 +85,10 @@ module.exports = function(app, passport) {
 		})
 	});
 
+	app.get('/confirm', function(req, res){
+		res.render('confirm.html');
+	})
+
 	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error) {
@@ -136,10 +140,15 @@ module.exports = function(app, passport) {
 					res.redirect('/');
 				});
 
-				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
-				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
-				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
+				//var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+				//var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+				//var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
+				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, pageCount, image, rating, language";
+				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?";
 				connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
+					if (err)
+						console.log(err);
 				});
 
 

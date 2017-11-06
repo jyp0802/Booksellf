@@ -47,7 +47,7 @@ CREATE TABLE BookInformation (
   subtitle varchar(255),
   author varchar(255) not null,
   publisher varchar(255),
-  publishedDate date,
+  publishedDate varchar(25),
   description varchar(3000),
   pageCount int,
   image varchar(3000),
