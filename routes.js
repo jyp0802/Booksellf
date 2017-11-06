@@ -75,6 +75,13 @@ module.exports = function(app, passport) {
 		})
 	});
 
+	app.get('/department', function(req,res){
+		var dep = req.query.d;
+		connection.query("SELECT * FROM RegisteredBooks WHERE department = '"+dep+"'", function(err, rows) {
+			res.render('index.ejs', {booklist : rows});
+		})
+	});
+
 	app.get('/details', function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks where bookid = ?", [req.query.bookid], function(err1, rows1) {
 			if (rows1.length == 0)
