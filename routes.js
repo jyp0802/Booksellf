@@ -86,7 +86,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/confirm', function(req, res){
-		res.render('confirm.html');
+		res.render('confirm.ejs');
 	})
 
 	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
@@ -137,15 +137,12 @@ module.exports = function(app, passport) {
 				connection.query("INSERT into RegisteredBooks (" + insert_field_string + ") values (" + insert_variable + ")", insert_field_items, function(err, rows) {
 					if (err)
 						console.log(err);
-					res.redirect('/');
+					res.redirect('/confirm');
 				});
 
-				//var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
-				//var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
-				//var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
-				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, pageCount, image, rating, language";
-				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
-				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?";
+				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
 				connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
 					if (err)
 						console.log(err);
