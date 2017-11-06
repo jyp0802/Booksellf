@@ -92,18 +92,28 @@ module.exports = function(app, passport) {
 		})
 	});
 
+	app.get('/delete', function(req, res) {
+		connection.query("DELETE FROM RegisteredBooks where bookid = ? and uid = ?", [req.query.bookid, req.user.id], function(err, rows) {
+			if (!rows)
+				res.redirect('/confirm?t=df');
+			else
+				res.redirect('/confirm?t=d');
+		})
+	});
+
 	app.get('/editbook', function(req, res) {
 		console.log(req.query.bookid);
 		res.render('confirm.ejs');
 	});
 
 	app.get('/confirm', function(req, res){
-		res.render('confirm.ejs');
+		console.log("HELLO -> " + req.query.t);
+		res.render('confirm.ejs', { t : req.query.t, bookid : req.query.bid });
 	})
 
 	app.post('/register_book', /*isLoggedIn,*/ function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
-			if (!error) {
+			if (!error && results.length > 0) {
 				var status, written, ripped;
 				written = req.body.written == "있음" ? true : false;
 				ripped = req.body.ripped == "있음" ? true : false;
@@ -149,21 +159,26 @@ module.exports = function(app, passport) {
 				connection.query("INSERT into RegisteredBooks (" + insert_field_string + ") values (" + insert_variable + ")", insert_field_items, function(err, rows) {
 					if (err)
 						console.log(err);
-					res.redirect('/confirm');
+					res.redirect('/confirm?t=u&bid=' + rows.insertId);
 				});
 
-				var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
-				var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
-				var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
-				connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
+				connection.query("SELECT * from BookInformation where isbn = ?", [req.body.isbn], function(err, rows) {
 					if (err)
 						console.log(err);
+					else if (rows.length == 0) {
+						var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+						var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+						var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
+						connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
+							if (err)
+								console.log(err);
+						});
+					}
 				});
-
 
 			} else {
 				console.log(error);
-				res.redirect('/');
+				res.redirect('/confirm?t=uf');
 			}
 		});
 	});

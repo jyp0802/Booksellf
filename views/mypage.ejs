@@ -57,6 +57,10 @@
 							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
 						  <input type="submit" value="수정하기"/>
 						</form>
+						<form action="/delete">
+							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
+						  <input type="submit" value="삭제하기"/>
+						</form>
 					</div>
 					<% } %>
 				</div>

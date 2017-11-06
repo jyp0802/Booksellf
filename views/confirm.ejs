@@ -24,9 +24,22 @@
 	</div>
 
 	<div class="outer">
+		<% if (t == 'u') { %>
 		<p id="here">등록이 완료되었습니다.</p>
-		<input type="submit" class="confirm_button" value="메인 페이지로"></input>
-		<input type="submit" class="confirm_button" value="등록한 책 보러가기"></input>		
+		<form action="/details">
+			<input type="hidden" name="bookid" value="<%= bookid %>"/>
+			<input type="submit" class="confirm_button" value="등록한 책 보러가기"/>
+		</form>
+		<% } else if (t == 'uf') { %>
+		<p id="here">등록을 할 수 없습니다.</p>
+		<% } else if (t == 'd') { %>
+		<p id="here">삭제되었습니다.</p>
+		<% } else if (t == 'df') { %>
+		<p id="here">삭제 할 수 없습니다.</p>
+		<% } %>
+		<form action="/">
+			<input type="submit" class="confirm_button" value="메인 페이지로"/>
+		</form>
 	</div>
 
 </body>
