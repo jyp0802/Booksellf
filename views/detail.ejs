@@ -31,26 +31,30 @@
 			<div class="book-author"><%= book_r.author %></div>
 			<div class="divTable">
 				<div class="divRow">
+					<div class="divCell col1"> 판매자 </div>
+					<div class="divCell col2"><%= book_r.uname %></div>
+				</div>
+				<div class="divRow">
 					<div class="divCell col1"> 가격 </div>
 					<div class="divCell col2"><%= book_r.price %>원</div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 과목명 </div>
-					<div class="divCell col2"><%= book_r.subject %></div>
+					<div class="divCell col2"><%= book_r.department %> <%= book_r.subject %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 상태 </div>
 					<div class="divCell col2">
 						<% if (book_r.book_state == 1) { %>
-							매우 나쁨ㅠㅠ
+							최하
 						<% } else if (book_r.book_state == 2) { %>
-							나쁨ㅠ
+							하
 						<% } else if (book_r.book_state == 3) { %>
-							중간 :|
+							중간
 						<% } else if (book_r.book_state == 4) { %>
-							좋음ㅎ
+							상
 						<% } else { %>
-							매우 좋음ㅎㅎ
+							최상
 						<% } %>
 					</div>
 				</div>
@@ -83,7 +87,11 @@
 					<div class="divCell col2"><%= book_r.memo %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 품목 정보 </div>
+					<div class="divCell col1"> 연락처 </div>
+					<div class="divCell col2"><%= book_r.contact %></div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 책 정보 </div>
 					<div class="divCell col2">
 						<div class="infoTable">
 							<div class="divRow">
@@ -112,14 +120,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="divRow">
-					<div class="divCell col1"> 판매자 </div>
-					<div class="divCell col2"><%= book_r.uname %></div>
-				</div>
-				<div class="divRow">
-					<div class="divCell col1"> 연락처 </div>
-					<div class="divCell col2"><%= book_r.contact %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 책 설명 </div>
