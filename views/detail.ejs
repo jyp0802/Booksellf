@@ -27,6 +27,7 @@
 		</div>
 		<div class="other-half">
 			<div class="book-title"><%= book_i.title %></div>
+			<div class="book-subtitle"><%= book_i.subtitle %></div>
 			<div class="book-author"><%= book_r.author %></div>
 			<div class="divTable">
 				<div class="divRow">
@@ -36,6 +37,50 @@
 				<div class="divRow">
 					<div class="divCell col1"> 과목명 </div>
 					<div class="divCell col2"><%= book_r.subject %></div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 상태 </div>
+					<div class="divCell col2">
+						<% if (book_r.book_state == 1) { %>
+							매우 나쁨ㅠㅠ
+						<% } else if (book_r.book_state == 2) { %>
+							나쁨ㅠ
+						<% } else if (book_r.book_state == 3) { %>
+							중간 :|
+						<% } else if (book_r.book_state == 4) { %>
+							좋음ㅎ
+						<% } else { %>
+							매우 좋음ㅎㅎ
+						<% } %>
+					</div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 필기 흔적 </div>
+					<div class="divCell col2">
+						<% if (book_r.book_written) { %>
+							있음
+						<% } else { %>
+							없음
+						<% } %>
+					</div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 찢어짐 </div>
+					<div class="divCell col2">
+						<% if (book_r.book_ripped) { %>
+							있음
+						<% } else { %>
+							없음
+						<% } %>
+					</div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 특이사항 </div>
+					<div class="divCell col2"><%= book_r.book_special %></div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 메모 </div>
+					<div class="divCell col2"><%= book_r.memo %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 품목 정보 </div>
@@ -50,15 +95,23 @@
 								<div class="divCell col4"><%= book_i.pageCount %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> 출간일 </div>
+								<div class="divCell col3"> 출판사 </div>
+								<div class="divCell col4"><%= book_i.publisher %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 언어 </div>
+								<div class="divCell col4"><%= book_i.language %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 평점 </div>
+								<div class="divCell col4"><%= book_i.rating %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> ISBN </div>
 								<div class="divCell col4"><%= book_i.isbn %></div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="divRow">
-					<div class="divCell col1"> 상태 </div>
-					<div class="divCell col2"><%= book_r.book_state %></div>
 				</div>
 				<div class="divRow">
 					<div class="divCell col1"> 판매자 </div>
@@ -67,6 +120,10 @@
 				<div class="divRow">
 					<div class="divCell col1"> 연락처 </div>
 					<div class="divCell col2"><%= book_r.contact %></div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 책 설명 </div>
+					<div class="divCell col2"><%= book_i.description %></div>
 				</div>
 			</div>
 		</div>
