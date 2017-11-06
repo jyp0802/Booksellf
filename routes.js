@@ -92,6 +92,11 @@ module.exports = function(app, passport) {
 		})
 	});
 
+	app.get('/editbook', function(req, res) {
+		console.log(req.query.bookid);
+		res.render('confirm.ejs');
+	});
+
 	app.get('/confirm', function(req, res){
 		res.render('confirm.ejs');
 	})

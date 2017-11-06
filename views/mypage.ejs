@@ -53,6 +53,10 @@
 							<p><%= booklist[x].author %> 저</p>
 							<p id="b_price"><%= booklist[x].price %>원</p>
 						</div>
+						<form action="/editbook">
+							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
+						  <input type="submit" value="수정하기"/>
+						</form>
 					</div>
 					<% } %>
 				</div>
