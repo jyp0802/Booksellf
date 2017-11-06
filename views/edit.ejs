@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>upload</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="upload.css">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+</head>
+<body>
+	<div class="nav-bar">
+		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
+		<div class="for-spacing"></div>
+		<div class="topright">
+			<a href="/login">login</a> |
+			<a href="/mypage">my page</a> |
+			<a href="/upload">upload</a> |
+			<a href="/reserve">reserve</a>
+		</div>
+	</div>
+	<div class="top-menu">
+		<div class="search-box">
+			<select>
+				<option value="title">Title</option>
+				<option value="author">Author</option>
+				<option value="subject">Subject</option>
+			</select>
+			<input type="text" name="search" placeholder="Search..." class="search-input">
+			<button class="search-but">Search!</button>
+		</div>
+	</div>
+
+	<form class="bigbox" action="/register_book" method="post">
+		<div class="divTable">
+			<div class="headRow">도서 수정하기</div>
+			<div class="divRow">
+				<div class="divCell col1">ISBN</div>
+				<div class="divCell col2">
+					<input type="text" name="isbn" id="isbnI" required="required">
+					<script> document.getElementById("isbnI").defaultValue = <%= book_r.isbn %>; </script>
+					<input type="button" class="check_isbn_button" id="check_isbn_button" value="Check ISBN">
+					<div class="divCell col2 bookTitle"></div>
+				</div>
+
+				<script>
+					document.querySelector('.check_isbn_button').addEventListener('click', function() {
+						var isbn = document.getElementsByName('isbn')[0].value;
+						if(!isbn) {
+					    window.alert("Please insert an ISBN value");
+					    return;
+					  }
+						sendAjax("http://localhost:8080/check_isbn", isbn);
+					})
+
+					function sendAjax (url, data) {
+						var data = {'isbn' : data};
+						data = JSON.stringify(data);
+
+						var xhr = new XMLHttpRequest();
+						xhr.open('POST', url);
+						xhr.setRequestHeader('Content-Type', "application/JSON");
+						xhr.send(data);
+
+						xhr.addEventListener('load', function() {
+							var result = JSON.parse(xhr.responseText);
+							if (result.status === "bad")
+								document.querySelector('.bookTitle').innerHTML = result.message;
+							else
+								document.querySelector('.bookTitle').innerHTML = "Book title: " + result.title;
+						})
+					}
+
+				</script>
+				
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">분류</div>
+				<div class="divCell col2">
+					<select name="department" required="required">
+						<option>없음</option>
+						<option>물리학과</option>
+						<option>수리과학과</option>
+						<option>화학과</option>
+						<option>생명과학과</option>
+						<option>전산학부</option>
+						<option>전기및전자공학부</option>
+						<option>건설및환경공학과</option>
+						<option>바이오및뇌공학과</option>
+						<option>산업디자인학과</option>
+						<option>산업및시스템공학과</option>
+						<option>생명화학공학과</option>
+						<option>원자력및양자공학과</option>
+						<option>신소재공학과</option>
+						<option>기계공학과</option>
+						<option>항공우주공학과</option>
+					</select>
+					<select name="subject" required="required">
+						<option>없음</option>
+						<option>1</option>
+						<option>2</option>
+					</select>
+				</div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">사진 첨부</div>
+				<div class="divCell col2"><input type="file" name="book_photo">
+					<!-- <form action="/action_page.php">
+						<input type="file" name="pic" accept="image/*">
+						<input type="submit">
+					</form> -->
+				</div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">상태</div>
+				<div class="divCell col2">
+					<div class="statusDiv">
+						<img src="book_icon_1.png"><br><input type="radio" value="최상" name="status" required="required"><br>최상
+					</div>
+					<div class="statusDiv">
+						<input type="radio" value="상" name="status"><br>상
+					</div>
+					<div class="statusDiv">
+						<img src="book_icon_2.png"><br><input type="radio" value="중" name="status" required="required"><br>중
+					</div>
+					<div class="statusDiv">
+						<input type="radio" value="하" name="status"><br>하
+					</div>
+					<div class="statusDiv">
+						<img src="book_icon_3.png"><br><input type="radio" value="최하" name="status" required="required"><br>최하
+					</div>
+				</div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1"></div>
+				<div class="divCell col2">
+					필기 흔적 <input type="radio" value="있음" name="written" required="required">
+					있음 <input type="radio" value="없음" name="written" required="required">
+					없음</div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1"></div>
+				<div class="divCell col2">
+					찢어짐 <input type="radio" value="있음" name="ripped" required="required">
+					있음 <input type="radio" value="없음" name="ripped" required="required">
+					없음</div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1"></div>
+				<div class="divCell col2">특이사항 <input type="text" id="specialI" name="book_special"> <script> document.getElementById("specialI").defaultValue = <%= book_r.book_special %>; </script> </div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">연락처</div>
+				<div class="divCell col2"><input type="text" id="contactI" name="contact"><script> document.getElementById("contactI").defaultValue = <%= book_r.contact %>; </script></div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">판매 희망 가격(원)</div>
+				<div class="divCell col2"><input type="text" id="priceI" name="price" required="required"><script> document.getElementById("priceI").defaultValue = <%= book_r.price %>; </script></div>
+			</div>
+			<div class="divRow">
+				<div class="divCell col1">요청 사항</div>
+				<div class="divCell col2"><input type="text" id="memoI" name="memo"><script> document.getElementById("memoI").defaultValue = <%= book_r.memo %>; </script></div>
+			</div>
+		</div>
+		<input type="submit" class="reg_button" value="수정하기">
+	</form>
+</body>
+</html>

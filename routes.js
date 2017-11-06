@@ -92,6 +92,14 @@ module.exports = function(app, passport) {
 		})
 	});
 
+	app.get('/editbook', function(req, res) {
+		var bid = req.query.bookid;
+		console.log(req.query.bookid);
+		connection.query("SELECT * FROM RegisteredBooks WHERE bookid = " + bid, function(err, rows) {
+			res.render('edit.ejs', {book_r : rows[0]});
+		})
+	});
+
 	app.get('/delete', function(req, res) {
 		connection.query("DELETE FROM RegisteredBooks where bookid = ? and uid = ?", [req.query.bookid, req.user.id], function(err, rows) {
 			if (!rows)
