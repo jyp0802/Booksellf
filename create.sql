@@ -30,7 +30,7 @@ CREATE TABLE RegisteredBooks (
   department varchar(255),
   subject varchar(255),
   book_photo LONGBLOB,
-  book_state smallint not null,
+  book_status smallint not null,
   book_written boolean not null,
   book_ripped boolean not null,
   book_special varchar(3000),

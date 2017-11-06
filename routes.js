@@ -93,8 +93,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/editbook', function(req, res) {
-		var bid = req.query.bookid;
-		console.log(req.query.bookid);
+		var bid = req.query.bookid
 		connection.query("SELECT * FROM RegisteredBooks WHERE bookid = " + bid, function(err, rows) {
 			res.render('edit.ejs', {book_r : rows[0]});
 		})
@@ -109,13 +108,7 @@ module.exports = function(app, passport) {
 		})
 	});
 
-	app.get('/editbook', function(req, res) {
-		console.log(req.query.bookid);
-		res.render('confirm.ejs');
-	});
-
 	app.get('/confirm', function(req, res){
-		console.log("HELLO -> " + req.query.t);
 		res.render('confirm.ejs', { t : req.query.t, bookid : req.query.bid });
 	})
 
@@ -131,7 +124,7 @@ module.exports = function(app, passport) {
 				if (req.body.status == "하") status = 2;
 				if (req.body.status == "최하") status = 1;
 
-				var insert_field_string = "uid, uname, title, author, isbn, price, book_state, book_written, book_ripped, thumbnail";
+				var insert_field_string = "uid, uname, title, author, isbn, price, book_status, book_written, book_ripped, thumbnail";
 				//var insert_field_items = [req.user.id, req.user.name, results[0].title, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
 				var author = "";
 				if (results[0].authors.length>1){

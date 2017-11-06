@@ -35,42 +35,8 @@
 			<div class="divRow">
 				<div class="divCell col1">ISBN</div>
 				<div class="divCell col2">
-					<input type="text" name="isbn" id="isbnI" required="required">
-					<script> document.getElementById("isbnI").defaultValue = <%= book_r.isbn %>; </script>
-					<input type="button" class="check_isbn_button" id="check_isbn_button" value="Check ISBN">
-					<div class="divCell col2 bookTitle"></div>
+					<input type="text" name="isbn" id="isbnI" required="required" readonly>
 				</div>
-
-				<script>
-					document.querySelector('.check_isbn_button').addEventListener('click', function() {
-						var isbn = document.getElementsByName('isbn')[0].value;
-						if(!isbn) {
-					    window.alert("Please insert an ISBN value");
-					    return;
-					  }
-						sendAjax("http://localhost:8080/check_isbn", isbn);
-					})
-
-					function sendAjax (url, data) {
-						var data = {'isbn' : data};
-						data = JSON.stringify(data);
-
-						var xhr = new XMLHttpRequest();
-						xhr.open('POST', url);
-						xhr.setRequestHeader('Content-Type', "application/JSON");
-						xhr.send(data);
-
-						xhr.addEventListener('load', function() {
-							var result = JSON.parse(xhr.responseText);
-							if (result.status === "bad")
-								document.querySelector('.bookTitle').innerHTML = result.message;
-							else
-								document.querySelector('.bookTitle').innerHTML = "Book title: " + result.title;
-						})
-					}
-
-				</script>
-				
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">분류</div>
@@ -113,54 +79,76 @@
 				<div class="divCell col1">상태</div>
 				<div class="divCell col2">
 					<div class="statusDiv">
-						<img src="book_icon_1.png"><br><input type="radio" value="최상" name="status" required="required"><br>최상
+						<img src="book_icon_1.png"><br>
+						<input type="radio" id="s5" value="최상" name="status" required="required"><br>최상
 					</div>
 					<div class="statusDiv">
-						<input type="radio" value="상" name="status"><br>상
+						<input type="radio" id="s4" value="상" name="status"><br>상
 					</div>
 					<div class="statusDiv">
-						<img src="book_icon_2.png"><br><input type="radio" value="중" name="status" required="required"><br>중
+						<img src="book_icon_2.png"><br>
+						<input type="radio" id="s3" value="중" name="status" required="required"><br>중
 					</div>
 					<div class="statusDiv">
-						<input type="radio" value="하" name="status"><br>하
+						<input type="radio" id="s2" value="하" name="status"><br>하
 					</div>
 					<div class="statusDiv">
-						<img src="book_icon_3.png"><br><input type="radio" value="최하" name="status" required="required"><br>최하
+						<img src="book_icon_3.png"><br>
+						<input type="radio" id="s1" value="최하" name="status" required="required"><br>최하
 					</div>
 				</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
 				<div class="divCell col2">
-					필기 흔적 <input type="radio" value="있음" name="written" required="required">
-					있음 <input type="radio" value="없음" name="written" required="required">
+					필기 흔적 <input type="radio" id="wt" value="있음" name="written" required="required">
+					있음 <input type="radio" id="wf" value="없음" name="written" required="required">
 					없음</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
 				<div class="divCell col2">
-					찢어짐 <input type="radio" value="있음" name="ripped" required="required">
-					있음 <input type="radio" value="없음" name="ripped" required="required">
+					찢어짐 <input type="radio" id="rt" value="있음" name="ripped" required="required">
+					있음 <input type="radio" id="rf" value="없음" name="ripped" required="required">
 					없음</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
-				<div class="divCell col2">특이사항 <input type="text" id="specialI" name="book_special"> <script> document.getElementById("specialI").defaultValue = <%= book_r.book_special %>; </script> </div>
+				<div class="divCell col2">특이사항 <input type="text" id="specialI" name="book_special"></div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">연락처</div>
-				<div class="divCell col2"><input type="text" id="contactI" name="contact"><script> document.getElementById("contactI").defaultValue = <%= book_r.contact %>; </script></div>
+				<div class="divCell col2"><input type="text" id="contactI" name="contact"></div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">판매 희망 가격(원)</div>
-				<div class="divCell col2"><input type="text" id="priceI" name="price" required="required"><script> document.getElementById("priceI").defaultValue = <%= book_r.price %>; </script></div>
+				<div class="divCell col2"><input type="text" id="priceI" name="price" required="required"></div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1">요청 사항</div>
-				<div class="divCell col2"><input type="text" id="memoI" name="memo"><script> document.getElementById("memoI").defaultValue = <%= book_r.memo %>; </script></div>
+				<div class="divCell col2"><input type="text" id="memoI" name="memo"></div>
 			</div>
 		</div>
 		<input type="submit" class="reg_button" value="수정하기">
+		<script>
+			document.getElementById("isbnI").defaultValue = "<%= book_r.isbn %>";
+			document.getElementById("specialI").defaultValue = "<%= book_r.book_special %>";
+			document.getElementById("contactI").defaultValue = "<%= book_r.contact %>";
+			document.getElementById("priceI").defaultValue = "<%= book_r.price %>";
+			document.getElementById("memoI").defaultValue = "<%= book_r.memo %>";
+
+			if (<%= book_r.book_ripped %>)
+				document.getElementById("rt").checked = true;
+			else
+				document.getElementById("rf").checked = true;
+
+			if (<%= book_r.book_written %>)
+				document.getElementById("wt").checked = true;
+			else
+				document.getElementById("wf").checked = true;
+
+			document.getElementById("s<%= book_r.book_status %>").checked = true;
+		</script>
 	</form>
 </body>
 </html>
