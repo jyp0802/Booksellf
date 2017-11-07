@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>upload done</title>
+	<title>Confirmation</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="confirm.css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 </head>
 <body>
-
 	<div class="nav-bar">
-		<a href="/"><imgs rc="BooksellfLogo.png" class="theLogo"></a>
+		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
 		<div class="for-spacing"></div>
 		<div class="topright">
 			<a href="/login">login</a> |
@@ -44,6 +43,8 @@
 		</form>
 		<% } else if (t == 'ef') { %>
 		<p id="here">수정 할 수 없습니다.</p>
+		<% } else if (t == 'f') { %>
+		<p id="here">없는 책입니다.</p>
 		<% } %>
 		<form action="/">
 			<input type="submit" class="confirm_button" value="메인 페이지로"/>

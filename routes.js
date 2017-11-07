@@ -85,23 +85,28 @@ module.exports = function(app, passport) {
 	app.get('/details', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks where bookid = ?", [req.query.bookid], function(err1, rows1) {
 			if (rows1.length == 0)
-				res.send("<h2>Book not found</h2>");
-			connection.query("SELECT * FROM BookInformation where isbn = ?", [rows1[0].isbn], function(err2, rows2) {
-				res.render('detail.ejs', {book_r : rows1[0], book_i : rows2[0]});
-			})
+				res.redirect('/confirm?t=f');
+			else {
+				connection.query("SELECT * FROM BookInformation where isbn = ?", [rows1[0].isbn], function(err2, rows2) {
+					res.render('detail.ejs', {book_r : rows1[0], book_i : rows2[0]});
+				})
+			}
 		})
 	});
 
 	app.get('/editbook', isLoggedIn, function(req, res) {
 		var bid = req.query.bookid
-		connection.query("SELECT * FROM RegisteredBooks WHERE bookid = " + bid, function(err, rows) {
-			res.render('edit.ejs', {book_r : rows[0]});
+		connection.query("SELECT * FROM RegisteredBooks WHERE bookid = ? and uid = ?", [bid, req.user.id], function(err, rows) {
+			if (rows.length == 0)
+				res.redirect('/confirm?t=ef');
+			else
+				res.render('edit.ejs', {book_r : rows[0]});
 		})
 	});
 
 	app.get('/delete', isLoggedIn, function(req, res) {
 		connection.query("DELETE FROM RegisteredBooks where bookid = ? and uid = ?", [req.query.bookid, req.user.id], function(err, rows) {
-			if (!rows)
+			if (rows['affectedRows'] == 0)
 				res.redirect('/confirm?t=df');
 			else
 				res.redirect('/confirm?t=d');
