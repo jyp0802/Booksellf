@@ -30,7 +30,7 @@ module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
-			res.render('index.ejs', {booklist : rows});
+			res.render('index.ejs', {booklist : rows, search : false});
 		})
 	});
 
@@ -71,14 +71,14 @@ module.exports = function(app, passport) {
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
-			res.render('index.ejs', {booklist : rows});
+			res.render('index.ejs', {booklist : rows, search : true, word : word, type : type});
 		})
 	});
 
 	app.get('/department', isLoggedIn, function(req,res){
 		var dep = req.query.d;
 		connection.query("SELECT * FROM RegisteredBooks WHERE department = '"+dep+"'", function(err, rows) {
-			res.render('index.ejs', {booklist : rows});
+			res.render('index.ejs', {booklist : rows, search : false});
 		})
 	});
 

@@ -11,20 +11,27 @@
 		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
 		<div class="for-spacing"></div>
 		<div class="topright">
-			<a href="/logout">log out</a> |
-			<a href="/mypage">my page</a> |
-			<a href="/upload">upload</a> |
+			<a href="/login">Log Out</a> |
+			<a href="/mypage">My Page</a> |
+			<a href="/upload">Upload</a>
 			<!-- <a href="/reserve">reserve</a> -->
 		</div>
 	</div>
 	<div class="top-menu">
 		<form class="search-box" action="/search" method="post">
 			<select name="search_type">
-				<option value="title">Title</option>
-				<option value="author">Author</option>
-				<option value="subject">Subject</option>
+				<option id="s_title" value="title">Title</option>
+				<option id="s_author" value="author">Author</option>
+				<option id="s_subject" value="subject">Subject</option>
 			</select>
+			<% if (search) { %>
+			<script>
+				document.getElementById("s_<%= type %>").selected = true;
+			</script>
+			<input type="text" name="search_word" value="<%= word %>" class="search-input">
+			<% } else { %>
 			<input type="text" name="search_word" placeholder="Search..." class="search-input">
+			<% } %>
 			<input type="submit" class="search-but" value="Search!">
 		</form>
 	</div>
@@ -50,16 +57,21 @@
 	<div class="book-disp">
 		<% for (x in booklist) { %>
 		<div class="items" id="col">
+			<% if (booklist[x].thumbnail != null) { %>
 			<img src="<%= booklist[x].thumbnail %>" class="book_image">
+			<% } else { %>
+			<img src="/no_book.png" class="book_image">
+			<% } %>
 			<div class="book_info">
 				<a href="/details?bookid=<%= booklist[x].bookid %>" id="b_title"><%= booklist[x].title %></a>
 				<p><%= booklist[x].uname %></p>
 				<p><%= booklist[x].author %> 저</p>
 				<p id="b_price"><%= booklist[x].price %>원</p>
 			</div>
-			
-			<!-- <img src="/bookeg.jpg"> -->
 		</div>
+		<% } %>
+		<% if (booklist.length == 0) { %>
+		<h3>등록 된 책이 없습니다</h3>
 		<% } %>
 	</div>
 </body>

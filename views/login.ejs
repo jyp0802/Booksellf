@@ -15,7 +15,7 @@
 			<div class="innerbox">
 				<form action="/login" method="post">
 					<p>KAIST email</p>
-					<input type="text" name="email" placeholder="@kaist.ac.kr" required="required">
+					<input type="text" class="emailinput" name="email" required="required"> @kaist.ac.kr
 					<p>Password</p>
 					<input type="password" name="pw" required="required">
 					<section class="messages"><%= login_message %></section>
@@ -35,7 +35,7 @@
 					<input type="password" name="reg_pwcheck" required="required">
 					<div class="passwordcheck"></div>
 					<p>KAIST email</p>
-					<input type="text" name="reg_email" placeholder="@kaist.ac.kr" required="required">
+					<input type="text" class="emailinput" name="reg_email" required="required"> @kaist.ac.kr
 					<input type="button" id="verify_email_button" class="verify_email_button" value="Send verification code">
 					<div class="verification"></div>
 					<p>Verification number</p>

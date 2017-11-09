@@ -55,6 +55,16 @@ html, body {
 	border-radius: 1px;
 }
 
+.emailinput {
+	width: 100px;
+	padding: 2px 2px;
+	border-color: #AAAAAA;
+	border-width: 0.8px;
+	border-radius: 1px;
+	margin-left: 15%;
+}
+
+
 .verify_email_button {
 	background-color: #66aaff;
 	color: white;
@@ -106,6 +116,15 @@ p {
 	margin-bottom: 1px;
 	margin-left: 15%;
 	color: #666666;
+}
+
+input {
+	width: 200px;
+	padding: 2px 2px;
+	border-color: #AAAAAA;
+	border-width: 0.8px;
+	border-radius: 1px;
+	margin-left: 15%;
 }
 
 input {

@@ -12,10 +12,10 @@
 		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
 		<div class="for-spacing"></div>
 		<div class="topright">
-			<a href="/login">log out</a> |
-			<a href="/mypage">my page</a> |
-			<a href="/upload">upload</a> |
-			<!-- <!-- <a href="/reserve">reserve</a> --> -->
+			<a href="/login">Log Out</a> |
+			<a href="/mypage">My Page</a> |
+			<a href="/upload">Upload</a>
+			<!-- <a href="/reserve">reserve</a> -->
 		</div>
 	</div>
 	<div class="top-menu">
@@ -23,7 +23,11 @@
 
 	<div class="bigbox">
 		<div class="img-half">
+			<% if (book_r.thumbnail != null) { %>
 			<img src="<%= book_r.thumbnail %>" class="thumbnail">
+			<% } else { %>
+			<img src="/no_book.png" class="thumbnail">
+			<% } %>
 			<!-- <button class="reg_button">찜하기</button> -->
 		</div>
 		<div class="other-half">
