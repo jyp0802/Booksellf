@@ -63,8 +63,8 @@ module.exports = function(app, passport) {
 		res.render('reserve.html');
 	});
 
-	app.get('/upload', isLoggedIn, function(req, res) {
-		res.render('upload.ejs');
+	app.get('/registerbook', isLoggedIn, function(req, res) {
+		res.render('registerbook.ejs');
 	});
 
 	app.post('/search', isLoggedIn, function(req, res){
@@ -187,10 +187,10 @@ module.exports = function(app, passport) {
 				connection.query("INSERT into RegisteredBooks (" + insert_field_string + ") values (" + insert_variable + ")", insert_field_items, function(err, rows) {
 					if (err) {
 						console.log(err);
-						res.redirect('/confirm?t=uf');
+						res.redirect('/confirm?t=rf');
 					}
 					else
-						res.redirect('/confirm?t=u&bid=' + rows.insertId);
+						res.redirect('/confirm?t=r&bid=' + rows.insertId);
 				});
 
 				connection.query("SELECT * from BookInformation where isbn = ?", [req.body.isbn], function(err, rows) {
@@ -209,7 +209,7 @@ module.exports = function(app, passport) {
 
 			} else {
 				console.log(error);
-				res.redirect('/confirm?t=uf');
+				res.redirect('/confirm?t=rf');
 			}
 		});
 	});
