@@ -1,0 +1,11 @@
+Basic Manual (for running the website locally)
+
+1. Download the folder "Booksellf" and extract
+2. cd into the main folder (root folder) and run "npm install"
+3. Open 'database.js' inside the '/config' folder
+4. Change the 'user' and 'password' values to your local values
+5. Run the 'create.sql' file on the local mysql
+6. Inside the 'root folder' run "node server0.js"
+7. Open a web browser and go to localhost:8080
+	(*MUST be localhost:8080 not 127.0.0.1:8080)
+8. Use the website
