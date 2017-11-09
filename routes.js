@@ -242,7 +242,7 @@ module.exports = function(app, passport) {
 						res.json({'status' : 'bad', 'message' : 'error'});
 						return;
 					}
-					var code = Math.floor((Math.random() * 999999) + 100000);
+					var code = Math.floor((Math.random() * 899999) + 100000);
 					var querytext;
 					if (rows.length)
 						querytext = "UPDATE tempusers SET code = ? WHERE email = ?";
