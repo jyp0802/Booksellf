@@ -1,7 +1,7 @@
 Basic Manual (for running the website locally)
 
 1. Download the folder "Booksellf" and extract
-2. cd into the main folder (root folder) and run "npm install"
+2. cd into the main folder ("Booksellf") and run "npm install"
 3. Open 'database.js' inside the '/config' folder
 4. Change the 'user' and 'password' values to your local values
 5. Run the 'create.sql' file on the local mysql
