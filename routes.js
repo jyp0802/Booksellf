@@ -49,7 +49,7 @@ module.exports = function(app, passport) {
 	app.post('/signup', passport.authenticate('local-signup', { successRedirect : '/', failureRedirect : '/' }));
 
 	app.get('/logout', isLoggedIn, function(req, res) {
-		req.logout();
+		req.logOut();
 		res.redirect('/');
 	});
 
