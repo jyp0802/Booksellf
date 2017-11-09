@@ -142,6 +142,8 @@ module.exports = function(app, passport) {
 	app.post('/register_book', isLoggedIn, function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error && results.length > 0) {
+				//console.log(results[0].industryIdentifiers[1].identifier); 이거를 제일 먼저 바꾸자
+
 				var status, written, ripped;
 				written = req.body.written == "있음" ? true : false;
 				ripped = req.body.ripped == "있음" ? true : false;
