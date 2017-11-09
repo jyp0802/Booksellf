@@ -15,7 +15,7 @@
 			<a href="/login">log out</a> |
 			<a href="/mypage">my page</a> |
 			<a href="/upload">upload</a> |
-			<a href="/reserve">reserve</a>
+			<!-- <a href="/reserve">reserve</a> -->
 		</div>
 	</div>
 	<div class="top-menu">
@@ -35,7 +35,7 @@
 						<td><%= user.email %>@kaist.ac.kr</td>
 					</tr>
 					<tr>
-						<td>뭘 더 넣지</td>
+						<!-- <td>뭘 더 넣지</td> -->
 						<td>ㅇㅅㅇ</td>
 					</tr>
 				</table>
@@ -57,14 +57,25 @@
 						</form>
 						<form action="/delete">
 							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
-						  <input type="submit" value="삭제하기"/>
+						  <input type="submit" value="삭제하기" onclick="deleteConfirm()" />
 						</form>
 					</div>
 					<% } %>
 				</div>
 			</div>
-			<div class="innerbox">내가 찜한 책</div>
+			<!-- <div class="innerbox">내가 찜한 책</div> -->
 		</div>
 	</div>
+
+	<script >
+		function deleteConfirm(event) {
+			// if (confirm("Click OK if you really want to delete.")) {
+			// 	event.stopPropagation();
+			// }
+			// else {
+			// 	event.preventDefault();
+			// }
+		}
+	</script>
 </body>
 </html>
