@@ -168,7 +168,6 @@ module.exports = function(app, passport) {
 					author = results[0].authors;
 				}
 				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
-				//var insert_field_items = [1, "David", results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 
 				var department = req.body.department;
