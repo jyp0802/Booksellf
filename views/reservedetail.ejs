@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Book Detail</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="detail.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+</head>
+<body>
+	<div class="nav-bar">
+		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
+		<div class="for-spacing"></div>
+		<div class="topright">
+			<a href="/login">Log Out</a> |
+			<a href="/mypage">My Page</a> |
+			<a href="/registerbook">Register Book</a> |
+			<a href="/reservebook">Reserve Book</a>
+		</div>
+	</div>
+	<div class="top-menu">
+	</div>
+	<div class="bigbox">
+		<div class="img-half">
+			<% if (book.thumbnail != null) { %>
+			<img src="<%= book.thumbnail %>" class="thumbnail">
+			<% } else { %>
+			<img src="/no_book.png" class="thumbnail">
+			<% } %>
+			<!-- <button class="reg_button">찜하기</button> -->
+		</div>
+		<div class="other-half">
+			<div class="book-title"><%= book.title %></div>
+			<div class="book-subtitle"><%= book.subtitle %></div>
+			<div class="book-author"><%= book.authors %></div>
+			<div class="divTable">
+				<div class="divRow">
+					<div class="divCell col1"> 책 정보 </div>
+					<div class="divCell col2">
+						<div class="infoTable">
+							<div class="divRow">
+								<div class="divCell col3"> 출간일 </div>
+								<div class="divCell col4"><%= book.publishedDate %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 페이지 수 </div>
+								<div class="divCell col4"><%= book.pageCount %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 출판사 </div>
+								<div class="divCell col4"><%= book.publisher %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 언어 </div>
+								<div class="divCell col4"><%= book.language %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> 평점 </div>
+								<div class="divCell col4"><%= book.averageRating %></div>
+							</div>
+							<div class="divRow">
+								<div class="divCell col3"> ISBN </div>
+								<div class="divCell col4"><%= isbn %></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="divRow">
+					<div class="divCell col1"> 책 설명 </div>
+					<div class="divCell col2"><%= book.description %></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

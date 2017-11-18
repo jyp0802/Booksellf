@@ -13,8 +13,8 @@
 		<div class="topright">
 			<a href="/login">Log Out</a> |
 			<a href="/mypage">My Page</a> |
-			<a href="/registerbook">Register Book</a>
-			<!-- <a href="/reserve">reserve</a> -->
+			<a href="/registerbook">Register Book</a> |
+			<a href="/reservebook">Reserve Book</a>
 		</div>
 	</div>
 	<div class="top-menu">
@@ -65,7 +65,7 @@
 			<div class="book_info">
 				<a href="/details?bookid=<%= booklist[x].bookid %>" id="b_title"><%= booklist[x].title %></a>
 				<p><%= booklist[x].uname %></p>
-				<p><%= booklist[x].author %> 저</p>
+				<p><%= booklist[x].author %></p>
 				<p id="b_price"><%= booklist[x].price %>원</p>
 			</div>
 		</div>

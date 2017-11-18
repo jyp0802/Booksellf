@@ -20,11 +20,7 @@ var connection = mysql.createConnection(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
 
 var books = require('google-books-search');
-var book_options = {
-		field: 'isbn',
-		offset: 0,
-		limit: 1
-};
+var book_options = {field: 'isbn', limit: 1};
 
 module.exports = function(app, passport) {
 
@@ -57,10 +53,6 @@ module.exports = function(app, passport) {
 		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err, rows) {
 			res.render('mypage.ejs', {user : req.user, booklist : rows});
 		})
-	});
-
-	app.get('/reserve', isLoggedIn, function(req, res) {
-		res.render('reserve.html');
 	});
 
 	app.get('/registerbook', isLoggedIn, function(req, res) {
@@ -117,6 +109,36 @@ module.exports = function(app, passport) {
 		res.render('confirm.ejs', { t : req.query.t, bookid : req.query.bid });
 	})
 
+	app.get('/reservebook', isLoggedIn, function(req, res){
+		res.render('reservebook.ejs', {status : "none", booklist : {}});
+	})
+
+	app.post('/reserve_search', isLoggedIn, function(req, res){
+		var word = req.body.search_word;
+		var type = req.body.search_type;
+		var search_options = {field: type, types: "books", limit: 12}
+		books.search(word, search_options, function(error, results, apiResponse) {
+			if (!error && results.length > 0) {
+				var booklist = [];
+				for (x in results) {
+					if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
+						var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
+						booklist.push([results[x], isbn13]);
+					}
+				}
+				res.render('reservebook.ejs', {status : "good", booklist : booklist, type : type, word : word});
+			}
+			else
+				res.render('reservebook.ejs', {status : "error", booklist : {}});
+		});
+	});
+
+	app.get('/reserve_details', isLoggedIn, function(req, res) {
+		books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
+			res.render('reservedetail.ejs', {book : results[0], isbn : req.query.isbn});
+		})
+	});
+
 	app.post('/edit', isLoggedIn, function(req, res) {
 		var bookid = req.body.bookid;
 		var status, written, ripped;
@@ -142,8 +164,6 @@ module.exports = function(app, passport) {
 	app.post('/register_book', isLoggedIn, function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error && results.length > 0) {
-				//console.log(results[0].industryIdentifiers[1].identifier); 이거를 제일 먼저 바꾸자
-
 				var status, written, ripped;
 				written = req.body.written == "있음" ? true : false;
 				ripped = req.body.ripped == "있음" ? true : false;
@@ -167,7 +187,9 @@ module.exports = function(app, passport) {
 				else{
 					author = results[0].authors;
 				}
-				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, req.body.isbn, req.body.price, status, written, ripped, results[0].thumbnail];
+				//use ISBN13 for all -> results[0].industryIdentifiers[0].identifier
+				var isbn13 = results[0].industryIdentifiers[0].type == "ISBN_13" ? results[0].industryIdentifiers[0].identifier : results[0].industryIdentifiers[1].identifier;
+				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, status, written, ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 
 				var department = req.body.department;
@@ -199,7 +221,7 @@ module.exports = function(app, passport) {
 						console.log(err);
 					else if (rows.length == 0) {
 						var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
-						var bookinfo_field_items = [req.body.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+						var bookinfo_field_items = [isbn13, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
 						var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
 						connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
 							if (err)

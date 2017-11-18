@@ -57,6 +57,12 @@ html, body {
 	width: 1000px;
 }
 
+.reserve-disp {
+	margin: 30px 100px 30px 100px;
+	display: table;
+	width: 90%;
+}
+
 .items {
 	border: 1px solid #CCCCCC;
 	border-radius: 3px;
