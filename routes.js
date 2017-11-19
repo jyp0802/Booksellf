@@ -30,6 +30,22 @@ function isReserved(isbn13, rows) {
 	return false;
 }
 
+function authorString(authors) {
+	var author = "";
+	if (authors.length>1){
+		for (var i=0; i<authors.length; i++){
+			if (i==authors.length-1) {
+				author += authors[i];
+				break;
+			}
+			author += authors[i]+", ";
+		}
+	}
+	else
+		author = authors;
+	return author;
+}
+
 module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
@@ -126,6 +142,22 @@ module.exports = function(app, passport) {
 	app.get('/reserveDo', isLoggedIn, function(req, res){
 		connection.query("INSERT into BookReservation values (?,?,?)", [req.query.isbn, req.user.id, req.user.email], function(err, rows) {
 			res.redirect('/confirm?t=rsd');
+			connection.query("SELECT * from BookInformation where isbn = ?", [req.query.isbn], function(err, rows) {
+				if (err)
+					console.log(err);
+				else if (rows.length == 0) {
+					books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
+						var author = authorString(results[0].authors);
+						var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+						var bookinfo_field_items = [req.query.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
+						var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
+						connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
+							if (err)
+								console.log(err);
+						});
+					});
+				}
+			});
 		})
 	})
 
@@ -204,19 +236,7 @@ module.exports = function(app, passport) {
 				if (req.body.status == "최하") status = 1;
 
 				var insert_field_string = "uid, uname, title, author, isbn, price, book_status, book_written, book_ripped, thumbnail";
-				var author = "";
-				if (results[0].authors.length>1){
-					for (var i=0; i<results[0].authors.length; i++){
-						if (i==results[0].authors.length-1) {
-							author += results[0].authors[i];
-							break;
-						}
-						author += results[0].authors[i]+", ";
-					}
-				}
-				else{
-					author = results[0].authors;
-				}
+				var author = authorString(results[0].authors);
 				//use ISBN13 for all -> results[0].industryIdentifiers[0].identifier
 				var isbn13 = results[0].industryIdentifiers[0].type == "ISBN_13" ? results[0].industryIdentifiers[0].identifier : results[0].industryIdentifiers[1].identifier;
 				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, status, written, ripped, results[0].thumbnail];
