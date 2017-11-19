@@ -22,6 +22,14 @@ connection.query('USE ' + dbconfig.database);
 var books = require('google-books-search');
 var book_options = {field: 'isbn', limit: 1};
 
+function isReserved(isbn13, rows) {
+	for (y in rows) {
+		if (rows[y].isbn == isbn13)
+			return true;
+	}
+	return false;
+}
+
 module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
@@ -113,20 +121,40 @@ module.exports = function(app, passport) {
 		res.render('reservebook.ejs', {status : "none", booklist : {}});
 	})
 
+	app.get('/reserveDo', isLoggedIn, function(req, res){
+		connection.query("INSERT into BookReservation values (?,?,?)", [req.query.isbn, req.user.id, req.user.email], function(err, rows) {
+			res.redirect('/confirm?t=rsd');
+		})
+	})
+
+	app.get('/reserveCancel', isLoggedIn, function(req, res){
+		connection.query("DELETE FROM BookReservation where isbn = ? and uid = ?", [req.query.isbn, req.user.id], function(err, rows) {
+			if (rows['affectedRows'] == 0)
+				res.redirect('/confirm?t=rscf');
+			else
+				res.redirect('/confirm?t=rsc');
+		})
+	})
+
 	app.post('/reserve_search', isLoggedIn, function(req, res){
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		var search_options = {field: type, types: "books", limit: 12}
 		books.search(word, search_options, function(error, results, apiResponse) {
 			if (!error && results.length > 0) {
-				var booklist = [];
-				for (x in results) {
-					if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
-						var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
-						booklist.push([results[x], isbn13]);
+				connection.query("SELECT * FROM BookReservation where uid = ?", [req.user.id], function(err, rows) {
+					var booklist = [];
+					for (x in results) {
+						if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
+							var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
+							if (isReserved(isbn13, rows))
+								booklist.push([results[x], isbn13, true]); //already reserved
+							else
+								booklist.push([results[x], isbn13, false]); //not reserved yet
+						}
 					}
-				}
-				res.render('reservebook.ejs', {status : "good", booklist : booklist, type : type, word : word});
+					res.render('reservebook.ejs', {status : "good", booklist : booklist, type : type, word : word});
+				});
 			}
 			else
 				res.render('reservebook.ejs', {status : "error", booklist : {}});

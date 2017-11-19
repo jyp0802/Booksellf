@@ -46,6 +46,12 @@
 		<p id="here">수정 할 수 없습니다.</p>
 		<% } else if (t == 'f') { %>
 		<p id="here">없는 책입니다.</p>
+		<% } else if (t == 'rsd') { %>
+		<p id="here">예약이 완료 되었습니다.</p>
+		<% } else if (t == 'rsc') { %>
+		<p id="here">예약이 취소 되었습니다.</p>
+		<% } else if (t == 'rscf') { %>
+		<p id="here">예약 취소 할 수 없습니다.</p>
 		<% } %>
 		<form action="/">
 			<input type="submit" class="confirm_button" value="메인 페이지로"/>

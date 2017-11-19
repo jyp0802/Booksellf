@@ -49,10 +49,17 @@
 				<a href="/reserve_details?isbn=<%= booklist[x][1] %>" id="b_title"><%= booklist[x][0].title %></a>
 				<p><%= booklist[x][0].authors %></p>
 			</div>
-			<form action="/reserve">
-				<input type="hidden" name="bookinfo" value="<%= booklist[x][1] %>"/>
+			<% if (booklist[x][2] == true) { %>
+			<form action="/reserveCancel">
+				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
+			  <input type="submit" value="예약취소"/>
+			</form>
+			<% } else { %>
+			<form action="/reserveDo">
+				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
 			  <input type="submit" value="예약하기"/>
 			</form>
+			<% } %>
 		</div>
 		<% } %>
 		<% if (status == "error") { %>
