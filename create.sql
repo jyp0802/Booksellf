@@ -65,6 +65,7 @@ CREATE TABLE BookReservation (
 	isbn varchar(255) not null,
 	uid int not null,
 	email varchar(255) not null,
+  PRIMARY KEY (isbn, uid),
 	FOREIGN KEY (uid) REFERENCES Users(id) ON DELETE CASCADE
 );
 
