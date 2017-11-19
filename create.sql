@@ -58,3 +58,17 @@ CREATE TABLE BookInformation (
   language varchar(255),
   PRIMARY KEY (isbn)
 );
+
+CREATE TABLE Reservation (
+	isbn varchar(255) not null,
+	uid int not null,
+	email varchar(255) not null,
+	FOREIGN KEY (uid) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Notification (
+	uid int not null,
+	bid int not null,
+	FOREIGN KEY (uid) REFERENCES Users(id) ON DELETE CASCADE,
+	FOREIGN KEY (bid) REFERENCES RegisteredBooks(bookid) ON DELETE CASCADE
+);
