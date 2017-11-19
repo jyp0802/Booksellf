@@ -150,7 +150,7 @@ module.exports = function(app, passport) {
 				else if (rows.length == 0) {
 					books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
 						var author = authorString(results[0].authors);
-						var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+						var bookinfo_field_string = "isbn, title, subtitle, authors, publisher, publishedDate, description, pageCount, thumbnail, averageRating, language";
 						var bookinfo_field_items = [req.query.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
 						var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
 						connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {
@@ -198,9 +198,19 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/reserve_details', isLoggedIn, function(req, res) {
-		books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
-			res.render('reservedetail.ejs', {book : results[0], isbn : req.query.isbn});
-		})
+		if (req.query.saved == "false") {
+			console.log("Google");
+			books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
+				res.render('reservedetail.ejs', {book : results[0], isbn : req.query.isbn});
+			})
+		}
+		else {
+			console.log("MySQL");
+			connection.query("SELECT * FROM BookInformation where isbn = ?", [req.query.isbn], function(err, rows) {
+				res.render('reservedetail.ejs', {book : rows[0], isbn : req.query.isbn});
+			})
+		}
+		
 	});
 
 	app.post('/edit', isLoggedIn, function(req, res) {
@@ -237,7 +247,7 @@ module.exports = function(app, passport) {
 				if (req.body.status == "하") status = 2;
 				if (req.body.status == "최하") status = 1;
 
-				var insert_field_string = "uid, uname, title, author, isbn, price, book_status, book_written, book_ripped, thumbnail";
+				var insert_field_string = "uid, uname, title, authors, isbn, price, book_status, book_written, book_ripped, thumbnail";
 				var author = authorString(results[0].authors);
 				//use ISBN13 for all -> results[0].industryIdentifiers[0].identifier
 				var isbn13 = results[0].industryIdentifiers[0].type == "ISBN_13" ? results[0].industryIdentifiers[0].identifier : results[0].industryIdentifiers[1].identifier;
@@ -272,7 +282,7 @@ module.exports = function(app, passport) {
 					if (err)
 						console.log(err);
 					else if (rows.length == 0) {
-						var bookinfo_field_string = "isbn, title, subtitle, author, publisher, publishedDate, description, pageCount, image, rating, language";
+						var bookinfo_field_string = "isbn, title, subtitle, authors, publisher, publishedDate, description, pageCount, thumbnail, averageRating, language";
 						var bookinfo_field_items = [isbn13, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
 						var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
 						connection.query("INSERT into BookInformation (" + bookinfo_field_string + ") values (" + bookinfo_variable + ")", bookinfo_field_items, function(err, rows) {

@@ -48,7 +48,7 @@
 						<div class="book_info">
 							<a href="/details?bookid=<%= booklist[x].bookid %>" id="b_title"><%= booklist[x].title %></a>
 							<p><%= booklist[x].uname %></p>
-							<p><%= booklist[x].author %> 저</p>
+							<p><%= booklist[x].authors %></p>
 							<p id="b_price"><%= booklist[x].price %>원</p>
 						</div>
 						<form action="/editbook">
@@ -67,10 +67,10 @@
 				<div>
 					<% for (x in reserved_bookinfo) { %>
 					<div class="items" id="col">
-						<img src="<%= reserved_bookinfo[x].image %>" class="book_image">
+						<img src="<%= reserved_bookinfo[x].thumbnail %>" class="book_image">
 						<div class="book_info">
-							<a href="/reserve_details?isbn=<%= reserved_bookinfo[x].isbn %>" id="b_title"><%= reserved_bookinfo[x].title %></a>
-							<p><%= reserved_bookinfo[x].author %> 저</p>
+							<a href="/reserve_details?isbn=<%= reserved_bookinfo[x].isbn %>&saved=true" id="b_title"><%= reserved_bookinfo[x].title %></a>
+							<p><%= reserved_bookinfo[x].authors %></p>
 						</div>
 						<form action="/reserveCancel">
 							<input type="hidden" name="isbn" value="<%= reserved_bookinfo[x].isbn %>"/>

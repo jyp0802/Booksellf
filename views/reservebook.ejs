@@ -46,7 +46,7 @@
 			<img src="/no_book.png" class="book_image">
 			<% } %>
 			<div class="book_info">
-				<a href="/reserve_details?isbn=<%= booklist[x][1] %>" id="b_title"><%= booklist[x][0].title %></a>
+				<a href="/reserve_details?isbn=<%= booklist[x][1] %>&saved=false" id="b_title"><%= booklist[x][0].title %></a>
 				<p><%= booklist[x][0].authors %></p>
 			</div>
 			<% if (booklist[x][2] == true) { %>
