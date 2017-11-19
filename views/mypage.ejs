@@ -72,9 +72,9 @@
 							<a href="/reserve_details?isbn=<%= reserved_bookinfo[x].isbn %>" id="b_title"><%= reserved_bookinfo[x].title %></a>
 							<p><%= reserved_bookinfo[x].author %> 저</p>
 						</div>
-						<form action="/delete">
-							<!-- <input type="hidden" name="bookid" value="<%= reserved_booklist[x].bookid %>"/>
-						  <input type="submit" value="예약취소" onclick="deleteConfirm()" /> -->
+						<form action="/reserveCancel">
+							<input type="hidden" name="isbn" value="<%= reserved_bookinfo[x].isbn %>"/>
+						  <input type="submit" value="예약취소" onclick="deleteConfirm()" />
 						</form>
 					</div>
 					<% } %>

@@ -58,8 +58,10 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/mypage', isLoggedIn, function(req, res) {
-		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err, rows) {
-			res.render('mypage.ejs', {user : req.user, booklist : rows});
+		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err, rows1) {
+			connection.query("SELECT * FROM BookInformation where isbn = (SELECT isbn from BookReservation where uid = ?)", [req.user.id], function(err, rows2){
+				res.render('mypage.ejs', {user : req.user, booklist : rows1, reserved_bookinfo : rows2});
+			})
 		})
 	});
 
