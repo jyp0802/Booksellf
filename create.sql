@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS TempUsers;
 DROP TABLE IF EXISTS RegisteredBooks;
 DROP TABLE IF EXISTS BookInformation;
+DROP TABLE IF EXISTS BookReservation;
+DROP TABLE IF EXISTS Notification;
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE Users (
@@ -59,7 +61,7 @@ CREATE TABLE BookInformation (
   PRIMARY KEY (isbn)
 );
 
-CREATE TABLE Reservation (
+CREATE TABLE BookReservation (
 	isbn varchar(255) not null,
 	uid int not null,
 	email varchar(255) not null,
