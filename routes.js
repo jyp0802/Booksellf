@@ -74,8 +74,10 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/mypage', isLoggedIn, function(req, res) {
-		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err, rows1) {
-			connection.query("SELECT * FROM (SELECT isbn as isbn_1, uid from BookReservation where uid = ?), BookInformation where BookInformation.isbn = isbn_1 )", [req.user.id], function(err, rows2){
+		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err1, rows1) {
+			if (err1) console.log(err1);
+			connection.query("SELECT * FROM (SELECT isbn from BookReservation where uid = ?) as I, BookInformation where BookInformation.isbn = I.isbn", [req.user.id], function(err2, rows2){
+				if (err2) console.log(err2);
 				res.render('mypage.ejs', {user : req.user, booklist : rows1, reserved_bookinfo : rows2});
 			})
 		})
