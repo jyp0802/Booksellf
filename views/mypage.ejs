@@ -63,7 +63,23 @@
 					<% } %>
 				</div>
 			</div>
-			<!-- <div class="innerbox">내가 찜한 책</div> -->
+			<div class="innerbox">내가 예약한 책
+				<div>
+					<% for (x in reserved_bookinfo) { %>
+					<div class="items" id="col">
+						<img src="<%= reserved_bookinfo[x].image %>" class="book_image">
+						<div class="book_info">
+							<a href="/reserve_details?isbn=<%= reserved_bookinfo[x].isbn %>" id="b_title"><%= reserved_bookinfo[x].title %></a>
+							<p><%= reserved_bookinfo[x].author %> 저</p>
+						</div>
+						<form action="/delete">
+							<!-- <input type="hidden" name="bookid" value="<%= reserved_booklist[x].bookid %>"/>
+						  <input type="submit" value="예약취소" onclick="deleteConfirm()" /> -->
+						</form>
+					</div>
+					<% } %>
+				</div>
+			</div>
 		</div>
 	</div>
 
