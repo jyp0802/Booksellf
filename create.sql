@@ -71,6 +71,7 @@ CREATE TABLE BookReservation (
 
 CREATE TABLE Notification (
 	uid int not null,
+  isbn varchar(255) not null,
 	bid int not null,
 	FOREIGN KEY (uid) REFERENCES Users(id) ON DELETE CASCADE,
 	FOREIGN KEY (bid) REFERENCES RegisteredBooks(bookid) ON DELETE CASCADE
