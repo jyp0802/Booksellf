@@ -278,6 +278,26 @@ module.exports = function(app, passport) {
 						res.redirect('/confirm?t=r&bid=' + rows.insertId);
 				});
 
+				connection.query("SELECT uid, email from BookReservation where isbn = ?", [req.body.isbn], function(err, rows) {
+					if (err) {
+						console.log(err);
+						res.redirect('/confirm?t=rf');
+					}
+					else{
+						var notify_field_string = "uid, bid, isbn"
+						var notify_variable = "?,?,?"
+						for (var i=0;i<rows.length;i++){
+							var notify_field_items = [rows[i][0], req.body.bookid, req.body.isbn]
+							connection.query("INSERT into Notification  (" + notify_field_string + ") values (" + notify_variable + ")", notify_field_items, function(err, rows) {
+								if (err)
+									console.log(err);
+							});
+						}
+						//email 보내기
+
+					}
+				});
+
 				connection.query("SELECT * from BookInformation where isbn = ?", [req.body.isbn], function(err, rows) {
 					if (err)
 						console.log(err);
