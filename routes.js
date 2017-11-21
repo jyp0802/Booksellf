@@ -11,9 +11,9 @@ var transporter = nodemailer.createTransport({
 
 var defaultFrom = 'booksellf@yandex.com';
 var defaultSubject = 'Email verification for Booksellf [Do Not Reply]'
-var notifySubject = 'Your reserved book has uploaded! [Do Not Reply]'
+var notifySubject = 'Your reserved book '
 var defaultText = 'Your KAIST email verfication code is [';
-var notifyText = 'go to link www.booksellf.com';
+var notifyText = 'Your reserved book '
 
 var mysql = require('mysql');
 var dbconfig = require('./config/database');
@@ -283,6 +283,7 @@ module.exports = function(app, passport) {
 				var isbn13 = results[0].industryIdentifiers[0].type == "ISBN_13" ? results[0].industryIdentifiers[0].identifier : results[0].industryIdentifiers[1].identifier;
 				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, status, written, ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
+				var title = results[0].title;
 
 				var department = req.body.department;
 				var subject = req.body.subject;
@@ -328,6 +329,8 @@ module.exports = function(app, passport) {
 								for (var i=0;i<rows.length;i++){
 									var notifyrecipient = rows[i].email
 									notifyrecipient += "@kaist.ac.kr";
+									notifySubject += "\"" +title+"\" has uploaded"
+									notifyText += "\"" +title+"\" has uploaded by "+req.user.name+".\n"+ "Check www.bookself.com !"
 									var mail = {
 										from: defaultFrom,
 										to: notifyrecipient,
