@@ -33,7 +33,6 @@ CREATE TABLE RegisteredBooks (
   isbn varchar(255) not null,
   price int not null,
   department varchar(255),
-  subject varchar(255),
   book_photo LONGBLOB,
   book_status smallint not null,
   book_written boolean not null,

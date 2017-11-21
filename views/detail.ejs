@@ -64,19 +64,19 @@
 			<div class="book-author"><%= book_r.authors %></div>
 			<div class="divTable">
 				<div class="divRow">
-					<div class="divCell col1"> Seller </div>
+					<div class="divCell col1">Seller</div>
 					<div class="divCell col2"><%= book_r.uname %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Price </div>
+					<div class="divCell col1">Price</div>
 					<div class="divCell col2"><%= book_r.price %>Won</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Subject </div>
+					<div class="divCell col1">Department</div>
 					<div class="divCell col2"><%= book_r.department %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> State </div>
+					<div class="divCell col1">State</div>
 					<div class="divCell col2">
 						<% if (book_r.book_status == 1) { %>
 							Very Bad
@@ -92,7 +92,7 @@
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Written </div>
+					<div class="divCell col1">Written</div>
 					<div class="divCell col2">
 						<% if (book_r.book_written) { %>
 							O
@@ -102,7 +102,7 @@
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Ripped </div>
+					<div class="divCell col1">Ripped</div>
 					<div class="divCell col2">
 						<% if (book_r.book_ripped) { %>
 							O
@@ -112,50 +112,50 @@
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Others </div>
+					<div class="divCell col1">Others</div>
 					<div class="divCell col2"><%= book_r.book_special %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Memo </div>
+					<div class="divCell col1">Memo</div>
 					<div class="divCell col2"><%= book_r.memo %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Phone </div>
+					<div class="divCell col1">Phone</div>
 					<div class="divCell col2"><%= book_r.contact %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Book Information </div>
+					<div class="divCell col1">Book Information</div>
 					<div class="divCell col2">
 						<div class="infoTable">
 							<div class="divRow">
-								<div class="divCell col3"> Release Date </div>
+								<div class="divCell col3">Release Date</div>
 								<div class="divCell col4"><%= book_i.publishedDate %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> Pages </div>
+								<div class="divCell col3">Pages</div>
 								<div class="divCell col4"><%= book_i.pageCount %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> Publisher </div>
+								<div class="divCell col3">Publisher</div>
 								<div class="divCell col4"><%= book_i.publisher %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> Language </div>
+								<div class="divCell col3">Language</div>
 								<div class="divCell col4"><%= book_i.language %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> Rating </div>
+								<div class="divCell col3">Rating</div>
 								<div class="divCell col4"><%= book_i.averageRating %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> ISBN </div>
+								<div class="divCell col3">ISBN</div>
 								<div class="divCell col4"><%= book_i.isbn %></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> Book discription </div>
+					<div class="divCell col1">Book discription</div>
 					<div class="divCell col2"><%= book_i.description %></div>
 				</div>
 			</div>

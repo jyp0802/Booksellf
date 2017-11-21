@@ -292,16 +292,11 @@ module.exports = function(app, passport) {
 
 	app.post('/edit', isLoggedIn, function(req, res) {
 		var bookid = req.body.bookid;
-		var status, written, ripped;
+		var written, ripped;
 		written = req.body.written == "있음" ? true : false;
 		ripped = req.body.ripped == "있음" ? true : false;
-		if (req.body.status == "최상") status = 5;
-		if (req.body.status == "상") status = 4;
-		if (req.body.status == "중") status = 3;
-		if (req.body.status == "하") status = 2;
-		if (req.body.status == "최하") status = 1;
-		var update_query = "UPDATE RegisteredBooks SET department=?, subject=?, book_photo=?, book_status=?, book_written=?, book_ripped=?, book_special=?, contact=?, price=?, memo=? where bookid = ?";
-		var update_input = [req.body.department, req.body.subject, req.body.book_photo, status, written, ripped, req.body.book_special, req.body.contact, req.body.price, req.body.memo, bookid];
+		var update_query = "UPDATE RegisteredBooks SET department=?, book_photo=?, book_status=?, book_written=?, book_ripped=?, book_special=?, contact=?, price=?, memo=? where bookid = ?";
+		var update_input = [req.body.department, req.body.book_photo, req.body.status, written, ripped, req.body.book_special, req.body.contact, req.body.price, req.body.memo, bookid];
 		connection.query(update_query, update_input, function(err, rows) {
 			if (err) {
 				console.log(err);
@@ -315,20 +310,15 @@ module.exports = function(app, passport) {
 	app.post('/register_book', isLoggedIn, function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error && results.length > 0) {
-				var status, written, ripped;
+				var written, ripped;
 				written = req.body.written == "있음" ? true : false;
 				ripped = req.body.ripped == "있음" ? true : false;
-				if (req.body.status == "최상") status = 5;
-				if (req.body.status == "상") status = 4;
-				if (req.body.status == "중") status = 3;
-				if (req.body.status == "하") status = 2;
-				if (req.body.status == "최하") status = 1;
 
 				var insert_field_string = "uid, uname, title, authors, isbn, price, book_status, book_written, book_ripped, thumbnail";
 				var author = authorString(results[0].authors);
 				//use ISBN13 for all -> results[0].industryIdentifiers[0].identifier
 				var isbn13 = results[0].industryIdentifiers[0].type == "ISBN_13" ? results[0].industryIdentifiers[0].identifier : results[0].industryIdentifiers[1].identifier;
-				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, status, written, ripped, results[0].thumbnail];
+				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, req.body.status, written, ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 				var title = results[0].title;
 
