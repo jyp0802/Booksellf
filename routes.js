@@ -186,7 +186,7 @@ module.exports = function(app, passport) {
 		var word = req.body.search_word;
 		var search_options = {field: 'title', types: "books", limit: 12}
 		books.search(word, search_options, function(error, results, apiResponse) {
-			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(err, notif) {
 				if (error) console.log(error);
 				if (!error && results.length > 0) {
 					var booklist = [];
@@ -249,7 +249,7 @@ module.exports = function(app, passport) {
 		var type = req.body.search_type;
 		var search_options = {field: type, types: "books", limit: 12}
 		books.search(word, search_options, function(error, results, apiResponse) {
-			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(err, notif) {
 				if (error) console.log(error);
 				if (!error && results.length > 0) {
 					connection.query("SELECT * FROM BookReservation where uid = ?", [req.user.id], function(err, rows) {

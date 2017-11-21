@@ -70,15 +70,6 @@
 	height: 100%;
 }
 
-#notificationFooter {
-	background-color: #e9eaed;
-	text-align: center;
-	font-weight: bold;
-	padding: 8px;
-	font-size: 12px;
-	border-top: 1px solid #dddddd;
-}
-
 #notification_count {
 	padding: 3px 7px 3px 7px;
 	background: #cc0000;

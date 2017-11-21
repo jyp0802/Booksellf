@@ -40,7 +40,6 @@
 								<a href="/details?bookid=<%= notif[n].bid %>&n=t"><div class="bookNotice"><%= notif[n].uname %> registered <%= notif[n].title %>.</div></a>
 							<% } %>
 						</div>
-						<div id="notificationFooter"><a href="#">See All</a></div>
 					</div>
 				</li>
 				<li><div id="iconBox"><a href="/mypage"><i id="Icons" class="fa fa-user fa-2x"></i></a><div id="iconText">My Page</div></div></li>
@@ -74,7 +73,7 @@
 					    window.alert("Please insert an ISBN value");
 					    return;
 					  }
-						sendAjax("http://localhost:8080/check_isbn", isbn);
+						sendAjax("http://52.78.3.46:8080/check_isbn", isbn);
 					})
 
 					function sendAjax (url, data) {
@@ -129,11 +128,6 @@
 					</select>
 				</div>
 			</div>
-			<!--<div class="divRow">
-				<div class="divCell col1">사진 첨부</div>
-				<div class="divCell col2"><input type="file" name="book_photo">
-				</div>
-			</div>-->
 			<div class="divRow">
 				<div class="divCell col1">상태</div>
 				<div class="divCell col2">
