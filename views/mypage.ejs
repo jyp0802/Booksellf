@@ -53,11 +53,11 @@
 
 	<div class="outerbox">
 		<div class="midbox">
-			<div class="mypagetitle"> 마이페이지</div>
-			<div class="innerbox">개인정보
+			<div class="mypagetitle"> My page</div>
+			<div class="innerbox">Personal Information
 				<table>
 					<tr>
-						<td>이름</td>
+						<td>Name</td>
 						<td><%= user.name %></td>
 					</tr>
 					<tr>
@@ -65,12 +65,10 @@
 						<td><%= user.email %>@kaist.ac.kr</td>
 					</tr>
 					<tr>
-						<!-- <td>뭘 더 넣지</td> -->
-						<!-- <td>ㅇㅅㅇ</td> -->
 					</tr>
 				</table>
 			</div>
-			<div class="innerbox">내가 등록한 책
+			<div class="innerbox">My registered book
 				<div>
 					<% for (x in booklist) { %>
 					<div class="items" id="col">
@@ -79,21 +77,21 @@
 							<a href="/details?bookid=<%= booklist[x].bookid %>" id="b_title"><%= booklist[x].title %></a>
 							<p><%= booklist[x].uname %></p>
 							<p><%= booklist[x].authors %></p>
-							<p id="b_price"><%= booklist[x].price %>원</p>
+							<p id="b_price"><%= booklist[x].price %>won</p>
 						</div>
 						<form action="/editbook">
 							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
-						  <input type="submit" class="myPageBut" value="수정하기"/>
+						  <input type="submit" class="myPageBut" value="edit"/>
 						</form>
 						<form action="/delete">
 							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
-						  <input type="submit" class="myPageBut" value="삭제하기" onclick="deleteConfirm()" />
+						  <input type="submit" class="myPageBut" value="delete" onclick="deleteConfirm()" />
 						</form>
 					</div>
 					<% } %>
 				</div>
 			</div>
-			<div class="innerbox">내가 예약한 책
+			<div class="innerbox">My reserved Book
 				<div>
 					<% for (x in reserved_bookinfo) { %>
 					<div class="items" id="col">
@@ -104,7 +102,7 @@
 						</div>
 						<form action="/reserveCancel">
 							<input type="hidden" name="isbn" value="<%= reserved_bookinfo[x].isbn %>"/>
-						  <input type="submit" class="myPageBut" value="예약취소" onclick="deleteConfirm()" />
+						  <input type="submit" class="myPageBut" value="cancel" onclick="deleteConfirm()" />
 						</form>
 					</div>
 					<% } %>
