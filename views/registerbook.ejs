@@ -52,7 +52,7 @@
 
 	<form class="bigbox" action="/register_book" method="post">
 		<div class="divTable">
-			<div class="headRow">도서 등록하기</div>
+			<div class="headRow">Register Book</div>
 			<div class="divRow">
 				<div class="divCell col1">ISBN</div>
 				<div class="divCell col2">
@@ -98,88 +98,80 @@
 				
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">분류</div>
+				<div class="divCell col1">Departments</div>
 				<div class="divCell col2">
 					<select name="department" required="required">
-						<option id="없음">없음</option>
-						<option id="물리학과">물리학과</option>
-						<option id="수리과학과">수리과학과</option>
-						<option id="화학과">화학과</option>
-						<option id="생명과학과">생명과학과</option>
-						<option id="전산학부">전산학부</option>
-						<option id="전기및전자공학부">전기및전자공학부</option>
-						<option id="건설및환경공학과">건설및환경공학과</option>
-						<option id="바이오및뇌공학과">바이오및뇌공학과</option>
-						<option id="산업디자인학과">산업디자인학과</option>
-						<option id="산업및시스템공학과">산업및시스템공학과</option>
-						<option id="생명화학공학과">생명화학공학과</option>
-						<option id="원자력및양자공학과">원자력및양자공학과</option>
-						<option id="신소재공학과">신소재공학과</option>
-						<option id="기계공학과">기계공학과</option>
-						<option id="항공우주공학과">항공우주공학과</option>
-					</select>
-					<select name="subject" required="required">
-						<option>없음</option>
-						<option id="subject1">subject1</option>
-						<option id="subject2">subject2</option>
-						<option id="subject3">subject3</option>
-						<option id="subject4">subject4</option>
-						<option id="subject5">subject5</option>
+						<option id="None">None</option>
+						<option id="Physics">Physics</option>
+						<option id="Mathematics">Methematics</option>
+						<option id="Chemistry">Chemistry</option>
+						<option id="Biology">Biology</option>
+						<option id="ComputerScience">ComputerScience</option>
+						<option id="ElectricEng">ElectricEng</option>
+						<option id="CivilEng">CivilEng</option>
+						<option id="BioBrainEng">BioBrainEng</option>
+						<option id="IndustrialDesign">IndustrialDesign</option>
+						<option id="IndustrialSystemEng">IndustrialSystemEng</option>
+						<option id="ChemicalBiomolecularEng">ChemicalBiomolecularEng</option>
+						<option id="NuclearQuantumEng">NuclearQuantumEng</option>
+						<option id="MaterialScienceEng">MaterialScienceEng</option>
+						<option id="MechanicalEng">MechanicalEng</option>
+						<option id="AerospaceEng">AerospaceEng</option>
 					</select>
 				</div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">상태</div>
+				<div class="divCell col1">State</div>
 				<div class="divCell col2">
 					<div class="statusDiv">
-						<img src="book_icon_1.png"><br><input type="radio" value="최상" name="status" required="required"><br>최상
+						<img src="book_icon_1.png"><br><input type="radio" value="5" name="status" required="required"><br>Very Good
 					</div>
 					<div class="statusDiv">
-						<input type="radio" value="상" name="status"><br>상
+						<input type="radio" value="4" name="status"><br>Good
 					</div>
 					<div class="statusDiv">
-						<img src="book_icon_2.png"><br><input type="radio" value="중" name="status" required="required"><br>중
+						<img src="book_icon_2.png"><br><input type="radio" value="3" name="status" required="required"><br>Average
 					</div>
 					<div class="statusDiv">
-						<input type="radio" value="하" name="status"><br>하
+						<input type="radio" value="2" name="status"><br>Bad
 					</div>
 					<div class="statusDiv">
-						<img src="book_icon_3.png"><br><input type="radio" value="최하" name="status" required="required"><br>최하
+						<img src="book_icon_3.png"><br><input type="radio" value="1" name="status" required="required"><br>Very Bad
 					</div>
 				</div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
 				<div class="divCell col2">
-					필기 흔적 <input type="radio" value="있음" name="written" required="required">
-					있음 <input type="radio" value="없음" name="written" required="required">
-					없음</div>
+					Written <input type="radio" value="O" name="written" required="required">
+					O <input type="radio" value="X" name="written" required="required">
+					X </div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
 				<div class="divCell col2">
-					찢어짐 <input type="radio" value="있음" name="ripped" required="required">
-					있음 <input type="radio" value="없음" name="ripped" required="required">
-					없음</div>
+					Ripped <input type="radio" value="O" name="ripped" required="required">
+					O <input type="radio" value="X" name="ripped" required="required">
+					X </div>
 			</div>
 			<div class="divRow">
 				<div class="divCell col1"></div>
-				<div class="divCell col2">특이사항 <input type="text" name="book_special"></div>
+				<div class="divCell col2">Others <input type="text" name="book_special"></div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">연락처</div>
+				<div class="divCell col1">Contact</div>
 				<div class="divCell col2"><input type="text" name="contact"></div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">판매 희망 가격(원)</div>
+				<div class="divCell col1">Price (Won)</div>
 				<div class="divCell col2"><input type="text" name="price" required="required"></div>
 			</div>
 			<div class="divRow">
-				<div class="divCell col1">요청 사항</div>
+				<div class="divCell col1">Memo</div>
 				<div class="divCell col2"><input type="text" name="memo"></div>
 			</div>
 		</div>
-		<input type="submit" class="reg_button" value="등록하기">
+		<input type="submit" class="reg_button" value="Register">
 	</form>
 </body>
 </html>
