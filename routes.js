@@ -219,7 +219,10 @@ module.exports = function(app, passport) {
 					console.log(err);
 				else if (rows.length == 0) {
 					books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
-						var author = authorString(results[0].authors);
+						if (results[0].authors != undefined)
+							var author = authorString(results[0].authors);
+						else
+							var author = "n/a";
 						var bookinfo_field_string = "isbn, title, subtitle, authors, publisher, publishedDate, description, pageCount, thumbnail, averageRating, language";
 						var bookinfo_field_items = [req.query.isbn, results[0].title, results[0].subtitle, author, results[0].publisher, results[0].publishedDate, results[0].description, results[0].pageCount, results[0].thumbnail, results[0].averageRating, results[0].language];
 						var bookinfo_variable = "?,?,?,?,?,?,?,?,?,?,?";
