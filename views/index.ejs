@@ -16,14 +16,8 @@
 			$("#notification_count").fadeOut("slow");
 			return false;
 		});
-		//Document Click
-		$(document).click(function() {
-			$("#notificationContainer").hide();
-		});
-		//Popup Click
-		$("#notificationContainer").click(function() {
-			return false
-		});
+		$(document).click(function() { $("#notificationContainer").hide(); });
+		$("#notificationContainer").click(function() { return true });
 	});
 	</script>
 </head>
@@ -33,35 +27,31 @@
 		<div class="for-spacing"></div>
 		<div class="topright">
 			<ul id="nav">
-
-						
-			<li><div id="iconBox"><a href="/registerbook"><i id="Icons" class="fa fa-book fa-2x"></i></a><div id="iconText">Register</div></div></li>
-			<li><div id="iconBox"><a href="/reservebook"><i id="Icons" class="fa fa-bookmark fa-2x"></i></a><div id="iconText">Reserve</div></div></li>
-
-			<li>
-				<% if (notifcnt > 0) { %><span id="notification_count"><%= notifcnt %></span><% } %>
-			<div id="iconBox"><a href=""><i id="Icons" class="fa fa-exclamation fa-2x notificationLink"></i></a><div id="iconText">Notice</div></div>
-			<div id="notificationContainer"">
-				<div id="notificationTitle">Notifications</div>
-				<div id="notificationsBody" class="notifications">
-					<% for (n in notif) { %>
-						<div class="bookNotice">NAME registered BOOK NAME.</div>
-					<% } %>
-				</div>
-				<div id="notificationFooter"><a href="#">See All</a></div>
-			</div></li>
-
-			<li><div id="iconBox"><a href="/mypage"><i id="Icons" class="fa fa-user fa-2x"></i></a><div id="iconText">My Page</div></div></li>
-			<li><div id="iconBox"><a href="/login"><i id="Icons" class="fa fa-sign-out fa-2x"></i></a><div id="iconText">Log Out</div></div></li>
-		</ul>
-
+				<li><div id="iconBox"><a href="/registerbook"><i id="Icons" class="fa fa-book fa-2x"></i></a><div id="iconText">Register</div></div></li>
+				<li><div id="iconBox"><a href="/reservebook"><i id="Icons" class="fa fa-bookmark fa-2x"></i></a><div id="iconText">Reserve</div></div></li>
+				<li>
+					<% if (notifcnt > 0) { %><span id="notification_count"><%= notifcnt %></span><% } %>
+					<div id="iconBox"><a href=""><i id="Icons" class="fa fa-exclamation fa-2x notificationLink"></i></a><div id="iconText">Notice</div></div>
+					<div id="notificationContainer"">
+						<div id="notificationTitle">Notifications</div>
+						<div id="notificationsBody" class="notifications">
+							<% for (n in notif) { %>
+								<a href="/details?bookid=<%= notif[n].bid %>&n=t"><div class="bookNotice"><%= notif[n].uname %> registered <%= notif[n].title %>.</div></a>
+							<% } %>
+						</div>
+						<div id="notificationFooter"><a href="#">See All</a></div>
+					</div>
+				</li>
+				<li><div id="iconBox"><a href="/mypage"><i id="Icons" class="fa fa-user fa-2x"></i></a><div id="iconText">My Page</div></div></li>
+				<li><div id="iconBox"><a href="/login"><i id="Icons" class="fa fa-sign-out fa-2x"></i></a><div id="iconText">Log Out</div></div></li>
+			</ul>
 		</div>
 	</div>
 	<div class="top-menu">
 		<form class="search-box" action="/search" method="post">
 			<select class="mainSel" name="search_type">
 				<option id="s_title" value="title">Title</option>
-				<option id="s_author" value="author">Author</option>
+				<option id="s_author" value="authors">Author</option>
 				<option id="s_subject" value="subject">Subject</option>
 			</select>
 			<% if (search) { %>

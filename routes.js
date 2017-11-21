@@ -52,10 +52,10 @@ module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
-			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(err1, rows1) {
-				if (err1)
-					console.log(err1);
-				res.render('index.ejs', {booklist : rows, search : false, notif : rows1, notifcnt : rows1.length});
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+				if (error)
+					console.log(error);
+				res.render('index.ejs', {booklist : rows, search : false, notif : notif, notifcnt : notif.length});
 			})
 		})
 	});
@@ -84,26 +84,32 @@ module.exports = function(app, passport) {
 			if (err1) console.log(err1);
 			connection.query("SELECT * FROM (SELECT isbn from BookReservation where uid = ?) as I, BookInformation where BookInformation.isbn = I.isbn", [req.user.id], function(err2, rows2){
 				if (err2) console.log(err2);
-				res.render('mypage.ejs', {user : req.user, booklist : rows1, reserved_bookinfo : rows2});
+				connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+					if (error) console.log(error);
+					res.render('mypage.ejs', {user : req.user, booklist : rows1, reserved_bookinfo : rows2, notif : notif, notifcnt : notif.length});
+				});
 			})
 		})
 	});
 
 	app.get('/registerbook', isLoggedIn, function(req, res) {
-		if (req.query.isbn == undefined)
-			res.render('registerbook.ejs', {state : "none"});
-		else
-			res.render('registerbook.ejs', {state : "title", isbn : req.query.isbn});
+		connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			if (error) console.log(error);
+			if (req.query.isbn == undefined)
+				res.render('registerbook.ejs', {state : "none", notif : notif, notifcnt : notif.length});
+			else
+				res.render('registerbook.ejs', {state : "title", isbn : req.query.isbn, notif : notif, notifcnt : notif.length});
+		});
 	});
 
 	app.post('/search', isLoggedIn, function(req, res){
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
-			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(err1, rows1) {
-				if (err1)
-					console.log(err1);
-				res.render('index.ejs', {booklist : rows, search : true, word : word, type : type, notif : rows1, notifcnt : rows1.length});
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+				if (error)
+					console.log(error);
+				res.render('index.ejs', {booklist : rows, search : true, word : word, type : type, notif : notif, notifcnt : notif.length});
 			})
 		})
 	});
@@ -111,7 +117,11 @@ module.exports = function(app, passport) {
 	app.get('/department', isLoggedIn, function(req,res){
 		var dep = req.query.d;
 		connection.query("SELECT * FROM RegisteredBooks WHERE department = '"+dep+"'", function(err, rows) {
-			res.render('index.ejs', {booklist : rows, search : false});
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+				if (error)
+					console.log(error);
+				res.render('index.ejs', {booklist : rows, search : false, notif : notif, notifcnt : notif.length});
+			})
 		})
 	});
 
@@ -121,10 +131,18 @@ module.exports = function(app, passport) {
 				res.redirect('/confirm?t=f');
 			else {
 				connection.query("SELECT * FROM BookInformation where isbn = ?", [rows1[0].isbn], function(err2, rows2) {
-					res.render('detail.ejs', {book_r : rows1[0], book_i : rows2[0]});
+					connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+						if (error) console.log(error);
+						res.render('detail.ejs', {book_r : rows1[0], book_i : rows2[0], notif : notif, notifcnt : notif.length});
+					});
 				})
 			}
-		})
+		});
+		if (req.query.n == "t") {
+			connection.query("DELETE FROM Notification where uid = ? and bid = ?", [req.user.id, req.query.bookid], function(err, rows) {
+				if (err) console.log(err);
+			});
+		}
 	});
 
 	app.get('/editbook', isLoggedIn, function(req, res) {
@@ -132,8 +150,12 @@ module.exports = function(app, passport) {
 		connection.query("SELECT * FROM RegisteredBooks WHERE bookid = ? and uid = ?", [bid, req.user.id], function(err, rows) {
 			if (rows.length == 0)
 				res.redirect('/confirm?t=ef');
-			else
-				res.render('edit.ejs', {book_r : rows[0]});
+			else {
+				connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+					if (error) console.log(error);
+					res.render('edit.ejs', {book_r : rows[0], notif : notif, notifcnt : notif.length});
+				});
+			}
 		})
 	});
 
@@ -147,35 +169,47 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/confirm', isLoggedIn, function(req, res){
-		res.render('confirm.ejs', { t : req.query.t, bookid : req.query.bid });
-	})
+		connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			if (error) console.log(error);
+			res.render('confirm.ejs', {t : req.query.t, bookid : req.query.bid, notif : notif, notifcnt : notif.length});
+		});
+	});
 
 	app.get('/getbooktitle', isLoggedIn, function(req, res){
-		res.render('getbooktitle.ejs', {status : "none", booklist : {}});
-	})
+		connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			if (error) console.log(error);
+			res.render('getbooktitle.ejs', {status : "none", booklist : {}, notif : notif, notifcnt : notif.length});
+		});
+	});
 
 	app.post('/getbooktitle', isLoggedIn, function(req, res){
 		var word = req.body.search_word;
 		var search_options = {field: 'title', types: "books", limit: 12}
 		books.search(word, search_options, function(error, results, apiResponse) {
-			if (!error && results.length > 0) {
-				var booklist = [];
-				for (x in results) {
-					if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
-						var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
-						booklist.push([results[x], isbn13]); //already reserved
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+				if (error) console.log(error);
+				if (!error && results.length > 0) {
+					var booklist = [];
+					for (x in results) {
+						if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
+							var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
+							booklist.push([results[x], isbn13]); //already reserved
+						}
 					}
+					res.render('getbooktitle.ejs', {status : "good", booklist : booklist, word : word, notif : notif, notifcnt : notif.length});
 				}
-				res.render('getbooktitle.ejs', {status : "good", booklist : booklist, word : word});
-			}
-			else
-				res.render('getbooktitle.ejs', {status : "error", booklist : {}});
+				else
+					res.render('getbooktitle.ejs', {status : "error", booklist : {}, notif : notif, notifcnt : notif.length});
+			});
 		});
-	})
+	});
 
 	app.get('/reservebook', isLoggedIn, function(req, res){
-		res.render('reservebook.ejs', {status : "none", booklist : {}});
-	})
+		connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			if (error) console.log(error);
+			res.render('reservebook.ejs', {status : "none", booklist : {}, notif : notif, notifcnt : notif.length});
+		});
+	});
 
 	app.get('/reserveDo', isLoggedIn, function(req, res){
 		connection.query("INSERT into BookReservation values (?,?,?)", [req.query.isbn, req.user.id, req.user.email], function(err, rows) {
@@ -197,7 +231,7 @@ module.exports = function(app, passport) {
 				}
 			});
 		})
-	})
+	});
 
 	app.get('/reserveCancel', isLoggedIn, function(req, res){
 		connection.query("DELETE FROM BookReservation where isbn = ? and uid = ?", [req.query.isbn, req.user.id], function(err, rows) {
@@ -208,47 +242,52 @@ module.exports = function(app, passport) {
 				res.redirect('/confirm?t=rsc');
 			})
 		})
-	})
+	});
 
 	app.post('/reservebook', isLoggedIn, function(req, res){
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		var search_options = {field: type, types: "books", limit: 12}
 		books.search(word, search_options, function(error, results, apiResponse) {
-			if (!error && results.length > 0) {
-				connection.query("SELECT * FROM BookReservation where uid = ?", [req.user.id], function(err, rows) {
-					var booklist = [];
-					for (x in results) {
-						if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
-							var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
-							if (isReserved(isbn13, rows))
-								booklist.push([results[x], isbn13, true]); //already reserved
-							else
-								booklist.push([results[x], isbn13, false]); //not reserved yet
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+				if (error) console.log(error);
+				if (!error && results.length > 0) {
+					connection.query("SELECT * FROM BookReservation where uid = ?", [req.user.id], function(err, rows) {
+						var booklist = [];
+						for (x in results) {
+							if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
+								var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
+								if (isReserved(isbn13, rows))
+									booklist.push([results[x], isbn13, true]); //already reserved
+								else
+									booklist.push([results[x], isbn13, false]); //not reserved yet
+							}
 						}
-					}
-					res.render('reservebook.ejs', {status : "good", booklist : booklist, type : type, word : word});
-				});
-			}
-			else
-				res.render('reservebook.ejs', {status : "error", booklist : {}});
+						res.render('reservebook.ejs', {status : "good", booklist : booklist, type : type, word : word, notif : notif, notifcnt : notif.length});
+					});
+				}
+				else
+					res.render('reservebook.ejs', {status : "error", booklist : {}, notif : notif, notifcnt : notif.length});
+			});
 		});
 	});
 
 	app.get('/bookdetails', isLoggedIn, function(req, res) {
-		if (req.query.saved == "false") {
-			console.log("Google");
-			books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
-				res.render('reservedetail.ejs', {book : results[0], isbn : req.query.isbn});
-			})
-		}
-		else {
-			console.log("MySQL");
-			connection.query("SELECT * FROM BookInformation where isbn = ?", [req.query.isbn], function(err, rows) {
-				res.render('reservedetail.ejs', {book : rows[0], isbn : req.query.isbn});
-			})
-		}
-		
+		connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
+			if (error) console.log(error);
+			if (req.query.saved == "false") {
+				console.log("Google");
+				books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
+					res.render('reservedetail.ejs', {book : results[0], isbn : req.query.isbn, notif : notif, notifcnt : notif.length});
+				})
+			}
+			else {
+				console.log("MySQL");
+				connection.query("SELECT * FROM BookInformation where isbn = ?", [req.query.isbn], function(err, rows) {
+					res.render('reservedetail.ejs', {book : rows[0], isbn : req.query.isbn, notif : notif, notifcnt : notif.length});
+				})
+			}
+		});
 	});
 
 	app.post('/edit', isLoggedIn, function(req, res) {
@@ -271,7 +310,7 @@ module.exports = function(app, passport) {
 			else
 				res.redirect('/confirm?t=e&bid=' + bookid);
 		})
-	})
+	});
 
 	app.post('/register_book', isLoggedIn, function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
@@ -354,15 +393,10 @@ module.exports = function(app, passport) {
 											console.log('Email sent: ' + info.response);
 									});
 								}
-
 							}
 						});
 					}
-
 				});
-
-				
-
 				connection.query("SELECT * from BookInformation where isbn = ?", [isbn13], function(err, rows) {
 					if (err)
 						console.log(err);
@@ -376,7 +410,6 @@ module.exports = function(app, passport) {
 						});
 					}
 				});
-
 			} else {
 				console.log(error);
 				res.redirect('/confirm?t=rf');
@@ -401,13 +434,13 @@ module.exports = function(app, passport) {
 
 		var recipient = req.body.email;
 
-		connection.query("SELECT * FROM users WHERE email = ?", [recipient], function(err, rows) {
+		connection.query("SELECT * FROM Users WHERE email = ?", [recipient], function(err, rows) {
 			if (err)
 				res.json({'status' : 'bad', 'message' : 'error'});
 			else if (rows.length)
 				res.json({'status' : 'bad', 'message' : 'An account already exists for that email.'});
 			else {
-				connection.query("SELECT * FROM tempusers WHERE email = ?", [recipient], function(err, rows) {
+				connection.query("SELECT * FROM TempUsers WHERE email = ?", [recipient], function(err, rows) {
 					if (err) {
 						res.json({'status' : 'bad', 'message' : 'error'});
 						return;
@@ -415,9 +448,9 @@ module.exports = function(app, passport) {
 					var code = Math.floor((Math.random() * 899999) + 100000);
 					var querytext;
 					if (rows.length)
-						querytext = "UPDATE tempusers SET code = ? WHERE email = ?";
+						querytext = "UPDATE TempUsers SET code = ? WHERE email = ?";
 					else
-						querytext = "INSERT into tempusers (code, email) values (?,?)";
+						querytext = "INSERT into TempUsers (code, email) values (?,?)";
 
 					connection.query(querytext, [code, recipient], function(err, rows) {
 						if (err) {
