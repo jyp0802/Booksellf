@@ -51,7 +51,7 @@
 
 
 		<div class="reserveMidBox">
-		<h3 style="font-size: 20px; text-align: center;">도서 예약하기</h3>
+		<h3 style="font-size: 20px; text-align: center;">Which book would you like to reserve?</h3>
 		<form class="search-box" action="/reservebook" method="post">
 			<select class="Sel" name="search_type">
 				<option id="s_title" value="title">Title</option>
@@ -83,18 +83,18 @@
 				<% if (booklist[x][2] == true) { %>
 				<form action="/reserveCancel">
 					<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-				  <input type="submit" class="reserveButton" value="예약취소"/>
+				  <input type="submit" class="reserveButton" value="Cancel"/>
 				</form>
 				<% } else { %>
 				<form action="/reserveDo">
 					<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-				  <input type="submit" class="reserveButton" value="예약하기"/>
+				  <input type="submit" class="reserveButton" value="Reserve"/>
 				</form>
 				<% } %>
 			</div>
 			<% } %>
 			<% if (status == "error") { %>
-			<h3 style="text-align:center; font-size:16px;">책을 찾을 수 없습니다</h3>
+			<h3 style="text-align:center; font-size:16px;">Cannot find book</h3>
 			<% } %>
 		</div>
 		</div>
