@@ -40,3 +40,12 @@
 td {
 	width: 100px;
 }
+
+.myPageBut {
+	background-color: #caddff;
+	padding: 4px 8px;
+	margin-bottom: 3px;
+	border: none;
+	border-radius: 1px;
+	font-size: 13px;
+}

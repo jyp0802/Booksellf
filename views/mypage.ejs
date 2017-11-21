@@ -59,11 +59,11 @@
 						</div>
 						<form action="/editbook">
 							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
-						  <input type="submit" value="수정하기"/>
+						  <input type="submit" class="myPageBut" value="수정하기"/>
 						</form>
 						<form action="/delete">
 							<input type="hidden" name="bookid" value="<%= booklist[x].bookid %>"/>
-						  <input type="submit" value="삭제하기" onclick="deleteConfirm()" />
+						  <input type="submit" class="myPageBut" value="삭제하기" onclick="deleteConfirm()" />
 						</form>
 					</div>
 					<% } %>
@@ -80,7 +80,7 @@
 						</div>
 						<form action="/reserveCancel">
 							<input type="hidden" name="isbn" value="<%= reserved_bookinfo[x].isbn %>"/>
-						  <input type="submit" value="예약취소" onclick="deleteConfirm()" />
+						  <input type="submit" class="myPageBut" value="예약취소" onclick="deleteConfirm()" />
 						</form>
 					</div>
 					<% } %>
