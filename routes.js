@@ -333,13 +333,12 @@ module.exports = function(app, passport) {
 				var title = results[0].title;
 
 				var department = req.body.department;
-				var subject = req.body.subject;
 				var book_photo = req.body.book_photo;
 				var book_special = req.body.book_special;
 				var contact = req.body.contact;
 				var memo = req.body.memo;
-				var extra_field_string = ["department", "subject", "book_photo", "book_special", "contact", "memo"];
-				var extra_field_items = [department, subject, book_photo, book_special, contact, memo];
+				var extra_field_string = ["department", "book_photo", "book_special", "contact", "memo"];
+				var extra_field_items = [department, book_photo, book_special, contact, memo];
 				for (var i=0; i<extra_field_items.length; i++) {
 					if (extra_field_items[i] != "") {
 						insert_field_items.push(extra_field_items[i]);
