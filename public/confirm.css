@@ -20,6 +20,7 @@
 	margin: 15px;
 	border: none;
 	border-radius: 1px;
-	padding: 4px 28px;
-	width: 170px;
+	padding: 4px;
+	width: 200px;
+	text-align: center;
 }
