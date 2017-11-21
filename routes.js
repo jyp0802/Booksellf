@@ -86,7 +86,10 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/registerbook', isLoggedIn, function(req, res) {
-		res.render('registerbook.ejs');
+		if (req.query.isbn == undefined)
+			res.render('registerbook.ejs', {state : "none"});
+		else
+			res.render('registerbook.ejs', {state : "title", isbn : req.query.isbn});
 	});
 
 	app.post('/search', isLoggedIn, function(req, res){
@@ -139,6 +142,29 @@ module.exports = function(app, passport) {
 		res.render('confirm.ejs', { t : req.query.t, bookid : req.query.bid });
 	})
 
+	app.get('/getbooktitle', isLoggedIn, function(req, res){
+		res.render('getbooktitle.ejs', {status : "none", booklist : {}});
+	})
+
+	app.post('/getbooktitle', isLoggedIn, function(req, res){
+		var word = req.body.search_word;
+		var search_options = {field: 'title', types: "books", limit: 12}
+		books.search(word, search_options, function(error, results, apiResponse) {
+			if (!error && results.length > 0) {
+				var booklist = [];
+				for (x in results) {
+					if (results[x].industryIdentifiers != undefined && results[x].industryIdentifiers.length == 2) {
+						var isbn13 = results[x].industryIdentifiers[0].type == "ISBN_13" ? results[x].industryIdentifiers[0].identifier : results[x].industryIdentifiers[1].identifier;
+						booklist.push([results[x], isbn13]); //already reserved
+					}
+				}
+				res.render('getbooktitle.ejs', {status : "good", booklist : booklist, word : word});
+			}
+			else
+				res.render('getbooktitle.ejs', {status : "error", booklist : {}});
+		});
+	})
+
 	app.get('/reservebook', isLoggedIn, function(req, res){
 		res.render('reservebook.ejs', {status : "none", booklist : {}});
 	})
@@ -176,7 +202,7 @@ module.exports = function(app, passport) {
 		})
 	})
 
-	app.post('/reserve_search', isLoggedIn, function(req, res){
+	app.post('/reservebook', isLoggedIn, function(req, res){
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		var search_options = {field: type, types: "books", limit: 12}
@@ -201,7 +227,7 @@ module.exports = function(app, passport) {
 		});
 	});
 
-	app.get('/reserve_details', isLoggedIn, function(req, res) {
+	app.get('/bookdetails', isLoggedIn, function(req, res) {
 		if (req.query.saved == "false") {
 			console.log("Google");
 			books.search(req.query.isbn, book_options, function(error, results, apiResponse) {

@@ -27,8 +27,13 @@
 			<div class="divRow">
 				<div class="divCell col1">ISBN</div>
 				<div class="divCell col2">
+					<% if (state == "title") { %>
+					<input type="text" name="isbn" required="required" value="<%= isbn %>" readonly>
+					<% } else { %>
 					<input type="text" name="isbn" required="required">
+					<% } %>
 					<input type="button" class="check_isbn_button" id="check_isbn_button" value="Check ISBN">
+					<a style="margin-left: 16px" href="/getbooktitle">Don't know the ISBN?</a>
 					<div class="divCell col2 bookTitle"></div>
 				</div>
 

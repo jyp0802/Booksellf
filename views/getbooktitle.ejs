@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Reserve Book</title>
+	<title>Register by title</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
@@ -20,20 +20,9 @@
 	<div class="top-menu">
 	</div>
 
-	<h3 style="text-align: center;">Which book would you like to reserve?</h3>
-	<form class="search-box" action="/reservebook" method="post">
-		<select name="search_type">
-			<option id="s_title" value="title">Title</option>
-			<option id="s_isbn" value="isbn">ISBN</option>
-		</select>
-		<% if (status == "good") { %>
-		<script>
-			document.getElementById("s_<%= type %>").selected = true;
-		</script>
-		<input type="text" name="search_word" value="<%= word %>" class="search-input">
-		<% } else { %>
+	<h3 style="text-align: center;">What is the title of the book?</h3>
+	<form class="search-box" action="/getbooktitle" method="post">
 		<input type="text" name="search_word" placeholder="Search..." class="search-input">
-		<% } %>
 		<input type="submit" class="search-but" value="Search!">
 	</form>
 
@@ -49,17 +38,10 @@
 				<a href="/bookdetails?isbn=<%= booklist[x][1] %>&saved=false" id="b_title"><%= booklist[x][0].title %></a>
 				<p><%= booklist[x][0].authors %></p>
 			</div>
-			<% if (booklist[x][2] == true) { %>
-			<form action="/reserveCancel">
+			<form action="/registerbook">
 				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-			  <input type="submit" value="예약취소"/>
+			  <input type="submit" value="고르기"/>
 			</form>
-			<% } else { %>
-			<form action="/reserveDo">
-				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-			  <input type="submit" value="예약하기"/>
-			</form>
-			<% } %>
 		</div>
 		<% } %>
 		<% if (status == "error") { %>
