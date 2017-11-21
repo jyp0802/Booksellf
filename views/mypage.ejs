@@ -69,7 +69,7 @@
 					<div class="items" id="col">
 						<img src="<%= reserved_bookinfo[x].thumbnail %>" class="book_image">
 						<div class="book_info">
-							<a href="/reserve_details?isbn=<%= reserved_bookinfo[x].isbn %>&saved=true" id="b_title"><%= reserved_bookinfo[x].title %></a>
+							<a href="/bookdetails?isbn=<%= reserved_bookinfo[x].isbn %>&saved=true" id="b_title"><%= reserved_bookinfo[x].title %></a>
 							<p><%= reserved_bookinfo[x].authors %></p>
 						</div>
 						<form action="/reserveCancel">
