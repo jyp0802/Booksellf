@@ -52,7 +52,11 @@ module.exports = function(app, passport) {
 
 	app.get('/', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks", function(err, rows) {
-			res.render('index.ejs', {booklist : rows, search : false});
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(err1, rows1) {
+				if (err1)
+					console.log(err1);
+				res.render('index.ejs', {booklist : rows, search : false, notif : rows1, notifcnt : rows1.length});
+			})
 		})
 	});
 
@@ -96,7 +100,11 @@ module.exports = function(app, passport) {
 		var word = req.body.search_word;
 		var type = req.body.search_type;
 		connection.query("SELECT * FROM RegisteredBooks WHERE " + type +" LIKE '%" + word +"%'", function(err, rows) {
-			res.render('index.ejs', {booklist : rows, search : true, word : word, type : type});
+			connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(err1, rows1) {
+				if (err1)
+					console.log(err1);
+				res.render('index.ejs', {booklist : rows, search : true, word : word, type : type, notif : rows1, notifcnt : rows1.length});
+			})
 		})
 	});
 

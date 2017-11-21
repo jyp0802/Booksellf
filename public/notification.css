@@ -5,7 +5,7 @@
 
 #nav li {
 	float: left;
-	margin-right: 20px;
+	padding: 0px 8px 0px 8px;
 	font-size: 14px;
 	font-weight:bold;
 }
@@ -25,16 +25,17 @@
 }
 
 #notificationContainer {
-	background-color: #fff;
-	border: 1px solid rgba(100, 100, 100, .4);
+	background-color: rgba(240, 240, 240, 1);
+	border: 1px solid rgba(160, 160, 160, .4);
 	-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
 	overflow: visible;
 	position: absolute;
 	top: 100px;
-	margin-left: -183px;
-	width: 400px;
+	margin-left: -134px;
+	width: 300px;
 	z-index: 1;
 	display: none;
+	text-align: center;
 }
 
 #notificationContainer:before {
@@ -45,9 +46,9 @@
 	height: 0;
 	color: transparent;
 	border: 10px solid black;
-	border-color: transparent transparent white;
+	border-color: transparent transparent rgba(240, 240, 240, 1);
 	margin-top: -20px;
-	margin-left: 188px;
+	margin-left: 138px;
 }
 
 #notificationTitle {
@@ -55,13 +56,18 @@
 	font-weight: bold;
 	padding: 8px;
 	font-size: 13px;
-	background-color: #ffffff;
+	background-color: rgba(240, 240, 240, 1);
 	border-bottom: 1px solid #dddddd;
 }
 
 #notificationsBody {
-	padding: 33px 0px 0px 0px !important;
+	padding: 10px 0px 5px 0px !important;
 	min-height:300px;
+}
+
+.notificationsBody {
+	width: 100%;
+	height: 100%;
 }
 
 #notificationFooter {
