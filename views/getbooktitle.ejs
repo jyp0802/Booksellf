@@ -69,12 +69,12 @@
 			</div>
 			<form action="/registerbook">
 				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-			  <input type="submit" class="reserveButton" value="고르기"/>
+			  <input type="submit" class="reserveButton" value="select"/>
 			</form>
 		</div>
 		<% } %>
 		<% if (status == "error") { %>
-		<h3 style="text-align:center; font-size:16px;">책을 찾을 수 없습니다</h3>
+		<h3 style="text-align:center; font-size:16px;">No books availavle</h3>
 		<% } %>
 	</div>
 </body>
