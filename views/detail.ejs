@@ -94,7 +94,7 @@
 				<div class="divRow">
 					<div class="divCell col1">Written</div>
 					<div class="divCell col2">
-						<% if (book_r.book_written) { %>
+						<% if (book_r.book_written == "Yes") { %>
 							O
 						<% } else { %>
 							X
@@ -104,7 +104,7 @@
 				<div class="divRow">
 					<div class="divCell col1">Ripped</div>
 					<div class="divCell col2">
-						<% if (book_r.book_ripped) { %>
+						<% if (book_r.book_ripped == "Yes") { %>
 							O
 						<% } else { %>
 							X

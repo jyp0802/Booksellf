@@ -276,13 +276,11 @@ module.exports = function(app, passport) {
 		connection.query("SELECT bid, uname, title FROM Notification as N, RegisteredBooks where N.uid = ? and bid = bookid", [req.user.id], function(error, notif) {
 			if (error) console.log(error);
 			if (req.query.saved == "false") {
-				console.log("Google");
 				books.search(req.query.isbn, book_options, function(error, results, apiResponse) {
 					res.render('reservedetail.ejs', {book : results[0], isbn : req.query.isbn, notif : notif, notifcnt : notif.length});
 				})
 			}
 			else {
-				console.log("MySQL");
 				connection.query("SELECT * FROM BookInformation where isbn = ?", [req.query.isbn], function(err, rows) {
 					res.render('reservedetail.ejs', {book : rows[0], isbn : req.query.isbn, notif : notif, notifcnt : notif.length});
 				})
@@ -292,11 +290,8 @@ module.exports = function(app, passport) {
 
 	app.post('/edit', isLoggedIn, function(req, res) {
 		var bookid = req.body.bookid;
-		var written, ripped;
-		written = req.body.written == "있음" ? true : false;
-		ripped = req.body.ripped == "있음" ? true : false;
 		var update_query = "UPDATE RegisteredBooks SET department=?, book_photo=?, book_status=?, book_written=?, book_ripped=?, book_special=?, contact=?, price=?, memo=? where bookid = ?";
-		var update_input = [req.body.department, req.body.book_photo, req.body.status, written, ripped, req.body.book_special, req.body.contact, req.body.price, req.body.memo, bookid];
+		var update_input = [req.body.department, req.body.book_photo, req.body.status, req.body.written, req.body.ripped, req.body.book_special, req.body.contact, req.body.price, req.body.memo, bookid];
 		connection.query(update_query, update_input, function(err, rows) {
 			if (err) {
 				console.log(err);
@@ -310,15 +305,11 @@ module.exports = function(app, passport) {
 	app.post('/register_book', isLoggedIn, function(req, res) {
 		books.search(req.body.isbn, book_options, function(error, results, apiResponse) {
 			if (!error && results.length > 0) {
-				var written, ripped;
-				written = req.body.written == "있음" ? true : false;
-				ripped = req.body.ripped == "있음" ? true : false;
-
 				var insert_field_string = "uid, uname, title, authors, isbn, price, book_status, book_written, book_ripped, thumbnail";
 				var author = authorString(results[0].authors);
 				//use ISBN13 for all -> results[0].industryIdentifiers[0].identifier
 				var isbn13 = results[0].industryIdentifiers[0].type == "ISBN_13" ? results[0].industryIdentifiers[0].identifier : results[0].industryIdentifiers[1].identifier;
-				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, req.body.status, written, ripped, results[0].thumbnail];
+				var insert_field_items = [req.user.id, req.user.name, results[0].title, author, isbn13, req.body.price, req.body.status, req.body.written, req.body.ripped, results[0].thumbnail];
 				var insert_variable = "?,?,?,?,?,?,?,?,?,?";
 				var title = results[0].title;
 
