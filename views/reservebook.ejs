@@ -60,7 +60,7 @@
 				<% if (booklist[x][2] == true) { %>
 				<form action="/reserveCancel">
 					<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-				  <input type="submit" value="예약취소"/>
+				  <input type="submit" class="reserveButton" value="예약취소"/>
 				</form>
 				<% } else { %>
 				<form action="/reserveDo">
