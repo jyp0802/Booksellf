@@ -57,6 +57,22 @@ html, body {
 	border-radius: 1.5px;
 }
 
+.bookNotice {
+	background-color: #dedede;
+	width: 95%;
+	margin: 0px auto 8px auto;
+	padding: 10px;
+	border-radius: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	text-align: left;
+	color: #444444;
+}
+
+#notificationsBody {
+
+}
+
 .sidebar {
 	width: 200px;
 	margin: 0px 10px 0px 50px;
