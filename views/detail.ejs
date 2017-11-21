@@ -56,7 +56,7 @@
 			<% } else { %>
 			<img src="/no_book.png" class="thumbnail">
 			<% } %>
-			<!-- <button class="reg_button">찜하기</button> -->
+
 		</div>
 		<div class="other-half">
 			<div class="book-title"><%= book_i.title %></div>
@@ -64,87 +64,87 @@
 			<div class="book-author"><%= book_r.authors %></div>
 			<div class="divTable">
 				<div class="divRow">
-					<div class="divCell col1"> 판매자 </div>
+					<div class="divCell col1"> Seller </div>
 					<div class="divCell col2"><%= book_r.uname %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 가격 </div>
-					<div class="divCell col2"><%= book_r.price %>원</div>
+					<div class="divCell col1"> Price </div>
+					<div class="divCell col2"><%= book_r.price %>Won</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 과목명 </div>
-					<div class="divCell col2"><%= book_r.department %> <%= book_r.subject %></div>
+					<div class="divCell col1"> Subject </div>
+					<div class="divCell col2"><%= book_r.department %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 상태 </div>
+					<div class="divCell col1"> State </div>
 					<div class="divCell col2">
 						<% if (book_r.book_status == 1) { %>
-							최하
+							Very Bad
 						<% } else if (book_r.book_status == 2) { %>
-							하
+							Bad
 						<% } else if (book_r.book_status == 3) { %>
-							중간
+							Average
 						<% } else if (book_r.book_status == 4) { %>
-							상
+							Good
 						<% } else { %>
-							최상
+							Very Good
 						<% } %>
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 필기 흔적 </div>
+					<div class="divCell col1"> Written </div>
 					<div class="divCell col2">
 						<% if (book_r.book_written) { %>
-							있음
+							O
 						<% } else { %>
-							없음
+							X
 						<% } %>
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 찢어짐 </div>
+					<div class="divCell col1"> Ripped </div>
 					<div class="divCell col2">
 						<% if (book_r.book_ripped) { %>
-							있음
+							O
 						<% } else { %>
-							없음
+							X
 						<% } %>
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 특이사항 </div>
+					<div class="divCell col1"> Others </div>
 					<div class="divCell col2"><%= book_r.book_special %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 메모 </div>
+					<div class="divCell col1"> Memo </div>
 					<div class="divCell col2"><%= book_r.memo %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 연락처 </div>
+					<div class="divCell col1"> Phone </div>
 					<div class="divCell col2"><%= book_r.contact %></div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 책 정보 </div>
+					<div class="divCell col1"> Book Information </div>
 					<div class="divCell col2">
 						<div class="infoTable">
 							<div class="divRow">
-								<div class="divCell col3"> 출간일 </div>
+								<div class="divCell col3"> Release Date </div>
 								<div class="divCell col4"><%= book_i.publishedDate %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> 페이지 수 </div>
+								<div class="divCell col3"> Pages </div>
 								<div class="divCell col4"><%= book_i.pageCount %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> 출판사 </div>
+								<div class="divCell col3"> Publisher </div>
 								<div class="divCell col4"><%= book_i.publisher %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> 언어 </div>
+								<div class="divCell col3"> Language </div>
 								<div class="divCell col4"><%= book_i.language %></div>
 							</div>
 							<div class="divRow">
-								<div class="divCell col3"> 평점 </div>
+								<div class="divCell col3"> Rating </div>
 								<div class="divCell col4"><%= book_i.averageRating %></div>
 							</div>
 							<div class="divRow">
@@ -155,7 +155,7 @@
 					</div>
 				</div>
 				<div class="divRow">
-					<div class="divCell col1"> 책 설명 </div>
+					<div class="divCell col1"> Book discription </div>
 					<div class="divCell col2"><%= book_i.description %></div>
 				</div>
 			</div>
