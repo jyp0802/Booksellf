@@ -3,68 +3,87 @@
 <head>
 	<title>Reserve Book</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="reserve.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
 </head>
 <body>
 	<div class="nav-bar">
 		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
 		<div class="for-spacing"></div>
 		<div class="topright">
-			<a href="/login">Log Out</a> |
+
+			<div id="iconBox"><a href="/login"><i id="Icons" class="fa fa-sign-out fa-2x"></i></a>	
+				<div id="iconText">Log Out</div>
+			</div>
+			<div id="iconBox"><a href="/mypage"><i id="Icons" class="fa fa-home fa-2x"></i></a><div id="iconText">My Page</div></div>
+			<div id="iconBox"><a href="/registerbook"><i id="Icons" class="fa fa-book fa-2x"></i></a><div id="iconText">Register</div></div>
+			<div id="iconBox"><a href="/reservebook"><i id="Icons" class="fa fa-bookmark fa-2x"></i><span class="button__badge">N</span></a><div id="iconText">Reserve</div></div>
+		</div>
+	</div>
+	<div class="top-menu">
+	</div>
+
+<!-- 			<a href="/login">Log Out</a> |
 			<a href="/mypage">My Page</a> |
 			<a href="/registerbook">Register Book</a> |
 			<a href="/reservebook">Reserve Book</a>
 		</div>
 	</div>
 	<div class="top-menu">
-	</div>
+	</div> -->
 
-	<h3 style="text-align: center;">Which book would you like to reserve?</h3>
-	<form class="search-box" action="/reservebook" method="post">
-		<select name="search_type">
-			<option id="s_title" value="title">Title</option>
-			<option id="s_isbn" value="isbn">ISBN</option>
-		</select>
-		<% if (status == "good") { %>
-		<script>
-			document.getElementById("s_<%= type %>").selected = true;
-		</script>
-		<input type="text" name="search_word" value="<%= word %>" class="search-input">
-		<% } else { %>
-		<input type="text" name="search_word" placeholder="Search..." class="search-input">
-		<% } %>
-		<input type="submit" class="search-but" value="Search!">
-	</form>
-
-	<div class="reserve-disp">
-		<% for (x in booklist) { %>
-		<div class="items" id="col">
-			<% if (booklist[x][0].thumbnail != null) { %>
-			<img src="<%= booklist[x][0].thumbnail %>" class="book_image">
+	<form class="reserveBigBox">
+		<!-- <h3 style="text-align: center;">Which book would you like to reserve?</h3> -->
+		<div class="reserveMidBox">
+		<h3 style="font-size: 20px;"">도서 예약하기</h3>
+		<form class="search-box" action="/reservebook" method="post">
+			<select name="search_type">
+				<option id="s_title" value="title">Title</option>
+				<option id="s_isbn" value="isbn">ISBN</option>
+			</select>
+			<% if (status == "good") { %>
+			<script>
+				document.getElementById("s_<%= type %>").selected = true;
+			</script>
+			<input type="text" name="search_word" value="<%= word %>" class="search-input">
 			<% } else { %>
-			<img src="/no_book.png" class="book_image">
+			<input type="text" name="search_word" placeholder="Search..." class="search-input">
 			<% } %>
-			<div class="book_info">
-				<a href="/bookdetails?isbn=<%= booklist[x][1] %>&saved=false" id="b_title"><%= booklist[x][0].title %></a>
-				<p><%= booklist[x][0].authors %></p>
+			<input type="submit" class="search-but" value="Search!">
+		</form>
+
+		<div class="reserve-disp">
+			<% for (x in booklist) { %>
+			<div class="items" id="col">
+				<% if (booklist[x][0].thumbnail != null) { %>
+				<img src="<%= booklist[x][0].thumbnail %>" class="book_image">
+				<% } else { %>
+				<img src="/no_book.png" class="book_image">
+				<% } %>
+				<div class="book_info">
+					<a href="/bookdetails?isbn=<%= booklist[x][1] %>&saved=false" id="b_title"><%= booklist[x][0].title %></a>
+					<p><%= booklist[x][0].authors %></p>
+				</div>
+				<% if (booklist[x][2] == true) { %>
+				<form action="/reserveCancel">
+					<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
+				  <input type="submit" value="예약취소"/>
+				</form>
+				<% } else { %>
+				<form action="/reserveDo">
+					<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
+				  <input type="submit" value="예약하기"/>
+				</form>
+				<% } %>
 			</div>
-			<% if (booklist[x][2] == true) { %>
-			<form action="/reserveCancel">
-				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-			  <input type="submit" value="예약취소"/>
-			</form>
-			<% } else { %>
-			<form action="/reserveDo">
-				<input type="hidden" name="isbn" value="<%= booklist[x][1] %>"/>
-			  <input type="submit" value="예약하기"/>
-			</form>
+			<% } %>
+			<% if (status == "error") { %>
+			<h3>책을 찾을 수 없습니다</h3>
 			<% } %>
 		</div>
-		<% } %>
-		<% if (status == "error") { %>
-		<h3>책을 찾을 수 없습니다</h3>
-		<% } %>
-	</div>
+		</div>
+	</form>
 </body>
 </html>

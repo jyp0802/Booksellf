@@ -1,0 +1,89 @@
+/*.testbox {
+	width: 100px;
+	height: 100px;
+	background: red;
+    position: relative;
+    -webkit-animation-name: example; 
+    -webkit-animation-duration: 3s;    
+    -webkit-animation-fill-mode: forwards; 
+    animation-name: example;
+    animation-duration: 3s;    
+    animation-fill-mode: forwards;
+}*/
+
+@-webkit-keyframes example {
+    from {top: 0px;}
+    to {top: 400px; background-color: blue;}
+}
+
+@keyframes example {
+    from {top: 0px;}
+    to {top: 400px; background-color: blue;}
+}
+
+
+.reserveBigBox {
+    font-family: 'Nanum Gothic', serif;
+    /*border-color: #AAAAAA;*/
+    border: 1px solid #CCCCCC;
+    width: 800px;
+    margin: 30px auto;
+    font-size: 15px;
+    padding: 30px 0px;
+}
+
+.reserveMidBox {
+    width: 90%;
+    margin: auto;
+}
+
+.buttonTest {
+    color: green;
+    display: inline-block; /* Inline elements with width and height. TL;DR they make the icon buttons stack from left-to-right instead of top-to-bottom */
+    position: relative; /* All 'absolute'ly positioned elements are relative to this one */
+    padding: 2px 5px; /* Add some padding so it looks nice */
+}
+
+#Icons {
+    color: gray;
+    display: inline-block;
+    position: relative;
+    padding: 2px 5px;
+}
+
+.button__badge {
+    background-color: #fa3e3e;
+    border-radius: 2px;
+    color: white;
+ 
+    padding: 1px 3px;
+    font-size: 10px;
+  
+    position: absolute; /* Position the badge within the relatively positioned button */
+    top: 32px;
+    right: 65px;
+}
+
+#iconBox {
+    text-align: center;
+    color: gray;
+    display: inline-block;
+    font-size: 12px;
+    padding: 1px;
+}
+
+#iconText {
+    font-size: 8px;
+    font-weight: bold;
+}
+
+.search-but {
+    background-color: #caddff;
+    padding: 4px 4px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 1px;
+    margin: auto;
+    width: 60px;
+    height: 22px;
+}
