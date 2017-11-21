@@ -29,7 +29,7 @@
 		<div class="reserveMidBox">
 		<h3 style="font-size: 20px; text-align: center;">도서 예약하기</h3>
 		<form class="search-box" action="/reservebook" method="post">
-			<select name="search_type">
+			<select class="Sel" name="search_type">
 				<option id="s_title" value="title">Title</option>
 				<option id="s_isbn" value="isbn">ISBN</option>
 			</select>
@@ -41,7 +41,7 @@
 			<% } else { %>
 			<input type="text" name="search_word" placeholder="Search..." class="search-input">
 			<% } %>
-			<input type="submit" class="search-but" value="Search">
+			<input type="submit" class="searchButt" value="Search">
 		</form>
 
 		<div class="reserve-disp">

@@ -51,6 +51,10 @@
     padding: 2px 5px;
 }
 
+.Sel{
+    padding: 4px 1px;
+}
+
 .button__badge {
     background-color: #fa3e3e;
     border-radius: 2px;
@@ -77,15 +81,13 @@
     font-weight: bold;
 }
 
-.search-but {
+.searchButt {
     background-color: #caddff;
     padding: 4px 4px;
-    margin-top: 8px;
     border: none;
     border-radius: 1px;
-    margin: auto;
-    width: 60px;
-    height: 22px;
+    width: 68px;
+    height: 28px;
 }
 
 .reserveButton {
