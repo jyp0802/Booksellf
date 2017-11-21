@@ -26,7 +26,7 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM users WHERE id = ? ",[id], function(err, rows){
+        connection.query("SELECT * FROM Users WHERE id = ? ",[id], function(err, rows){
             done(err, rows[0]);
         });
     });
@@ -47,13 +47,13 @@ module.exports = function(passport) {
         function(req, username, password, done) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM users WHERE email = ?",[username], function(err, rows) {
+            connection.query("SELECT * FROM Users WHERE email = ?",[username], function(err, rows) {
                 if (err)
                     return done(err);
                 if (rows.length)
                     return done(null, false, req.flash('signupMessage', 'An account already exists for that email.'));
                 else {
-                    connection.query("SELECT * FROM tempusers WHERE email = ?",[username], function(err, rows) {
+                    connection.query("SELECT * FROM TempUsers WHERE email = ?",[username], function(err, rows) {
                         if (err)
                             return done(err);
                         if (!rows.length)
@@ -67,8 +67,8 @@ module.exports = function(passport) {
                                     username: username,
                                     password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
                                 };
-                                var deleteQuery = "DELETE FROM tempusers WHERE email = ?";
-                                var insertQuery = "INSERT INTO users (email, name, password) values (?,?,?)";
+                                var deleteQuery = "DELETE FROM TempUsers WHERE email = ?";
+                                var insertQuery = "INSERT INTO Users (email, name, password) values (?,?,?)";
                                 connection.query(deleteQuery, [username], function(err1, rows1) {
                                     connection.query(insertQuery, [newUserMysql.username, name, newUserMysql.password], function(err, rows) {
                                         newUserMysql.id = rows.insertId;
@@ -99,7 +99,7 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) { // callback with email and password from our form
-            connection.query("SELECT * FROM users WHERE email = ?",[email], function(err, rows){
+            connection.query("SELECT * FROM Users WHERE email = ?",[email], function(err, rows){
                 if (err)
                     return done(err);
                 if (!rows.length) {
