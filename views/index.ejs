@@ -4,23 +4,57 @@
 	<title>Welcome to BookSellf!</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="reserve.css">
+	<link rel="stylesheet" type="text/css" href="notification.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script type="text/javascript" >
+	$(document).ready(function() {
+		$(".notificationLink").click(function() {
+			$("#notificationContainer").fadeToggle(300);
+			$("#notification_count").fadeOut("slow");
+			return false;
+		});
+		//Document Click
+		$(document).click(function() {
+			$("#notificationContainer").hide();
+		});
+		//Popup Click
+		$("#notificationContainer").click(function() {
+			return false
+		});
+	});
+	</script>
 </head>
 <body>
 	<div class="nav-bar">
 		<a href="/"><img src="BooksellfLogo.png" class="theLogo"></a>
 		<div class="for-spacing"></div>
 		<div class="topright">
+			<ul id="nav">
 
-			<div id="iconBox"><a href="/login"><i id="Icons" class="fa fa-sign-out fa-2x"></i></a>	
+			<li><div id="iconBox">
+				<a href="/login">
+					<i id="Icons" class="fa fa-sign-out fa-2x"></i>
+				</a>	
 				<div id="iconText">Log Out</div>
-			</div>
-			<div id="iconBox"><a href="/mypage"><i id="Icons" class="fa fa-user fa-2x"></i></a><div id="iconText">My Page</div></div>
-			<div id="iconBox"><a href="/registerbook"><i id="Icons" class="fa fa-book fa-2x"></i></a><div id="iconText">Register</div></div>
-			<div id="iconBox"><a href="/reservebook"><i id="Icons" class="fa fa-bookmark fa-2x"></i><!-- <span class="button__badge">N</span> --></a><div id="iconText">Reserve</div></div>
-			<div id="iconBox"><i id="Icons" class="fa fa-exclamation fa-2x"></i><div id="iconText">Notice</div></div>
+			</div></li>
+			<li><div id="iconBox"><a href="/mypage"><i id="Icons" class="fa fa-user fa-2x"></i></a><div id="iconText">My Page</div></div></li>
+			<li><div id="iconBox"><a href="/registerbook"><i id="Icons" class="fa fa-book fa-2x"></i></a><div id="iconText">Register</div></div></li>
+			<li><div id="iconBox"><a href="/reservebook"><i id="Icons" class="fa fa-bookmark fa-2x"></i></a><div id="iconText">Reserve</div></div></li>
+
+			<li><span id="notification_count">99</span>
+			<div id="iconBox"><a href=""><i id="Icons" class="fa fa-exclamation fa-2x notificationLink"></i></a><div id="iconText">Notice</div></div>
+			<div id="notificationContainer"">
+				<div id="notificationTitle">Notifications</div>
+				<div id="notificationsBody" class="notifications">
+
+				</div>
+				<div id="notificationFooter"><a href="#">See All</a></div>
+			</div></li>
+
+		</ul>
 
 		</div>
 	</div>
