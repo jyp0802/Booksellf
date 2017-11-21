@@ -85,7 +85,7 @@ html, body {
 }
 
 .reserve-disp {
-	margin: 30px 100px 30px 100px;
+	margin: 30px auto 30px auto;
 	display: table;
 	width: 90%;
 }
