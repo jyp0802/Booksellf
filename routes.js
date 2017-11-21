@@ -336,9 +336,11 @@ module.exports = function(app, passport) {
 								//email list는 rows[i][1] 에 있음
 								for (var i=0;i<rows.length;i++){
 									var notifyrecipient = rows[i].email
+									var notifySubject = 'Your reserved book '
+									var notifyText = 'Your reserved book '
 									notifyrecipient += "@kaist.ac.kr";
-									notifySubject += "\"" +title+"\" has uploaded"
-									notifyText += "\"" +title+"\" has uploaded by "+req.user.name+".\n"+ "Check www.bookself.com !"
+									notifySubject += "\"" +title+"\" has been uploaded"
+									notifyText += "\"" +title+"\" has been uploaded by "+req.user.name+".\n"+ "Check www.bookself.com !"
 									var mail = {
 										from: defaultFrom,
 										to: notifyrecipient,
