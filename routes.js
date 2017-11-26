@@ -79,6 +79,15 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
+	app.get('/deleteAccount', function(req, res) {
+		connection.query("DELETE FROM Users WHERE id = ?", [req.user.id], function(err, rows) {
+			console.log(rows);
+			console.log(err);
+			req.logOut();
+			res.redirect('/');
+		})
+	});
+
 	app.get('/mypage', isLoggedIn, function(req, res) {
 		connection.query("SELECT * FROM RegisteredBooks WHERE uid = ?", [req.user.id], function(err1, rows1) {
 			if (err1) console.log(err1);
