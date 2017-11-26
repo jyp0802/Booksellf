@@ -51,7 +51,7 @@
 
 	<h3 style="text-align: center;">What is the title of the book?</h3>
 	<form class="search-box" action="/getbooktitle" method="post">
-		<input type="text" name="search_word" placeholder="Search..." class="search-input">
+		<input type="text" name="search_word" placeholder="Search..." required="required" class="search-input">
 		<input type="submit" class="search-but" value="Search!">
 	</form>
 
@@ -74,7 +74,7 @@
 		</div>
 		<% } %>
 		<% if (status == "error") { %>
-		<h3 style="text-align:center; font-size:16px;">No books availavle</h3>
+		<h3 style="text-align:center; font-size:16px;">No books available</h3>
 		<% } %>
 	</div>
 </body>
